@@ -1,0 +1,20 @@
+---
+import type { LandingCopy } from '../i18n';
+import PrivacyBody from './PrivacyBody.astro';
+
+interface Props {
+  copy: LandingCopy;
+}
+
+const { copy } = Astro.props;
+---
+
+<section class="privacy" id="privacidade" data-privacy aria-labelledby="privacy-title" data-section-trail="main › section#privacidade › h2">
+  <div class="privacy__real">
+    <PrivacyBody copy={copy} theme="light" />
+  </div>
+  <div class="privacy__veil" data-privacy-veil aria-hidden="true">
+    <PrivacyBody copy={copy} theme="dark" decorative />
+  </div>
+  <span class="privacy__scan" data-privacy-scan aria-hidden="true"></span>
+</section>

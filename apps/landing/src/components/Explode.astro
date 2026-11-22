@@ -1,0 +1,88 @@
+---
+import type { LandingCopy } from '../i18n';
+
+interface Props {
+  copy: LandingCopy;
+}
+
+const { copy } = Astro.props;
+const { explode, groups } = copy;
+const targets = [
+  'cor',
+  'cor',
+  'layout',
+  'design-system',
+  'movimento',
+  'tecnologia',
+  'pagina',
+  'utilitarios',
+];
+const mobileIndex: Record<number, number> = { 0: 0, 1: 1, 2: 2, 6: 3 };
+const layers = groups.map((group, index) => ({
+  index,
+  number: String(index + 1).padStart(2, '0'),
+  name: group.name,
+  target: targets[index],
+  mobile: mobileIndex[index],
+}));
+---
+
+<section class="explode" id="camadas" data-explode aria-labelledby="explode-title" data-section-trail="main › section#camadas › h2">
+  <div class="explode__pin" data-explode-pin>
+    <header class="explode__head">
+      <p class="eyebrow">{explode.eyebrow}</p>
+      <h2 id="explode-title" class="explode__title">{explode.title}</h2>
+      <p class="explode__sub">{explode.subtitle}</p>
+    </header>
+
+    <div class="explode__scene" data-explode-scene aria-hidden="true">
+      {
+        layers.map((layer) => (
+          <>
+            <a
+              class:list={['layer', { 'layer--core': layer.mobile !== undefined }]}
+              href={`#${layer.target}`}
+              tabindex="-1"
+              style={`--i:${layer.index};--mi:${layer.mobile ?? 0}`}
+              data-layer
+            >
+              <svg viewBox="0 0 120 120" class="layer__art">
+                {layer.index === 0 && (<><rect x="14" y="14" width="26" height="26"/><rect x="47" y="14" width="26" height="26"/><rect x="80" y="14" width="26" height="26"/><rect x="14" y="80" width="92" height="8"/></>)}
+                {layer.index === 1 && (<><path d="M20 90 44 24h6l24 66M30 66h34"/><path d="M84 90V50m0 0c0-8 20-8 20 8v32"/></>)}
+                {layer.index === 2 && (<><rect x="12" y="12" width="96" height="96"/><rect x="28" y="28" width="64" height="64"/><rect x="44" y="44" width="32" height="32"/></>)}
+                {layer.index === 3 && (<><path d="M40 30 16 60l24 30M80 30l24 30-24 30M68 24 52 96"/></>)}
+                {layer.index === 4 && (<><path d="M12 96C40 96 40 24 60 24s20 72 48 72"/><circle cx="60" cy="24" r="5"/></>)}
+                {layer.index === 5 && (<><rect x="14" y="20" width="40" height="18"/><rect x="62" y="20" width="44" height="18"/><rect x="14" y="52" width="26" height="18"/><rect x="48" y="52" width="58" height="18"/><rect x="14" y="84" width="60" height="18"/></>)}
+                {layer.index === 6 && (<><rect x="14" y="14" width="92" height="30"/><path d="M14 62h92M14 78h70M14 94h52"/></>)}
+                {layer.index === 7 && (<><rect x="14" y="14" width="20" height="20"/><rect x="50" y="14" width="20" height="20"/><rect x="86" y="14" width="20" height="20"/><rect x="14" y="50" width="20" height="20"/><rect x="50" y="50" width="20" height="20"/><rect x="14" y="86" width="20" height="20"/></>)}
+              </svg>
+            </a>
+            <a
+              class:list={['callout', { 'callout--core': layer.mobile !== undefined }]}
+              href={`#${layer.target}`}
+              tabindex="-1"
+              style={`--i:${layer.index};--mi:${layer.mobile ?? 0}`}
+              data-callout
+            >
+              <b>{layer.number}</b>
+              <span>{layer.name}</span>
+            </a>
+          </>
+        ))
+      }
+    </div>
+
+    <ol class="explode__index" aria-label={explode.indexLabel}>
+      {
+        layers.map((layer) => (
+          <li>
+            <a href={`#${layer.target}`}>
+              <b>{layer.number}</b>
+              <span>{layer.name}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>

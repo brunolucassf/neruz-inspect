@@ -1,0 +1,24 @@
+---
+import type { LandingCopy } from '../i18n';
+import { IS_STORE_LIVE, STORE_LINKS } from '../i18n';
+import StoreButton from './StoreButton.astro';
+
+interface Props {
+  copy: LandingCopy;
+}
+
+const { copy } = Astro.props;
+---
+
+<section class="final" id="instalar" data-final aria-labelledby="final-title" data-section-trail="main › section#instalar › h2">
+  <div class="final__lens" data-final-lens>
+    <div class="final__inner" data-final-cta>
+      <h2 id="final-title" class="final__title">{copy.final.title}</h2>
+      <p class="final__sub">{copy.final.subtitle}</p>
+      <div class="final__actions">
+        <StoreButton copy={copy} withMeta />
+        {IS_STORE_LIVE && <a class="btn btn--lg btn--ghost" href={STORE_LINKS.github} rel="noopener" data-wire><span>{copy.cta.viewOnGithub}</span></a>}
+      </div>
+    </div>
+  </div>
+</section>

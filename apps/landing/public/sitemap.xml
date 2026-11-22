@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://inspect.neruz.tech/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://inspect.neruz.tech/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://inspect.neruz.tech/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://inspect.neruz.tech/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inspect.neruz.tech/"/>
+  </url>
+  <url>
+    <loc>https://inspect.neruz.tech/en/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://inspect.neruz.tech/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://inspect.neruz.tech/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://inspect.neruz.tech/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inspect.neruz.tech/"/>
+  </url>
+  <url>
+    <loc>https://inspect.neruz.tech/es/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://inspect.neruz.tech/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://inspect.neruz.tech/en/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://inspect.neruz.tech/es/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inspect.neruz.tech/"/>
+  </url>
+  <url>
+    <loc>https://inspect.neruz.tech/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://inspect.neruz.tech/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://inspect.neruz.tech/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://inspect.neruz.tech/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inspect.neruz.tech/privacy/"/>
+  </url>
+  <url>
+    <loc>https://inspect.neruz.tech/en/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://inspect.neruz.tech/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://inspect.neruz.tech/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://inspect.neruz.tech/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inspect.neruz.tech/privacy/"/>
+  </url>
+  <url>
+    <loc>https://inspect.neruz.tech/es/privacy/</loc>
+    <xhtml:link rel="alternate" hreflang="pt-BR" href="https://inspect.neruz.tech/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://inspect.neruz.tech/en/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="es" href="https://inspect.neruz.tech/es/privacy/"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://inspect.neruz.tech/privacy/"/>
+  </url>
+</urlset>

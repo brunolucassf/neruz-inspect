@@ -1,0 +1,50 @@
+---
+import type { LandingCopy } from '../i18n';
+import { STORE_LINKS } from '../i18n';
+
+interface Props {
+  copy: LandingCopy;
+  theme: 'light' | 'dark';
+  decorative?: boolean;
+}
+
+const { copy, theme, decorative = false } = Astro.props;
+const { privacy } = copy;
+const focusable = decorative ? { tabindex: '-1' } : {};
+---
+
+<div class={`privacy-body privacy-body--${theme}`} aria-hidden={decorative ? 'true' : undefined} inert={decorative}>
+  <div class="privacy-body__main">
+    <p class="eyebrow">{privacy.eyebrow}</p>
+    <h2 class="privacy-body__title" id={decorative ? undefined : 'privacy-title'}>{privacy.title}</h2>
+    <p class="privacy-body__text">{privacy.text}</p>
+    <p class="privacy-body__ask">{privacy.ask}</p>
+    <div class="privacy-body__links">
+      <a class="btn btn--compact privacy-body__btn" href={STORE_LINKS.github} rel="noopener" {...focusable}>
+        <span>{copy.cta.viewOnGithub}</span>
+      </a>
+      <a class="text-link" href={copy.privacyPath} {...focusable}>{privacy.policy}</a>
+    </div>
+    <h3 class="privacy-body__sub">{privacy.proofsTitle}</h3>
+    <ul class="proofs">
+      {privacy.proofs.map((proof) => <li>{proof}</li>)}
+    </ul>
+  </div>
+  <div class="privacy-body__perms">
+    <h3 class="privacy-body__sub">{privacy.permsTitle}</h3>
+    <ul class="perms">
+      {
+        privacy.perms.map((perm) => (
+          <li class="perm">
+            <div class="perm__head">
+              <code>{perm.name}</code>
+              <i class="perm__line" aria-hidden="true"></i>
+              <span class="perm__kind">{perm.kind === 'required' ? privacy.requiredWord : privacy.optionalWord}</span>
+            </div>
+            <p class="perm__why">{perm.why}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>

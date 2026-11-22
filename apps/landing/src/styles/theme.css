@@ -1,0 +1,65 @@
+@font-face {
+  font-family: "Fraunces";
+  src: url("/fonts/Fraunces-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-600.woff2") format("woff2");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --pv-accent: #ff4fd0;
+  --pv-accent-hover: #ff7adb;
+  --pv-accent-text: #ff4fd0;
+  --pv-focus: #ff4fd0;
+  --pv-laser: 0 0 0 1px #ff4fd0;
+  --pv-lamp: rgba(255, 79, 208, 0.08);
+  --ni-magenta-deep: #b0127f;
+  --ni-magenta-light: #c0168a;
+  --ni-gelo: #f4f8fc;
+  --ni-halo: rgba(8, 13, 20, 0.6);
+  --ni-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  --ni-serif: "Fraunces", "Iowan Old Style", Georgia, "Times New Roman", serif;
+  --ni-cyan: #00e5ff;
+  --page-pad: clamp(20px, 5vw, 80px);
+  --page-max: 80rem;
+  --pv-site-max: 80rem;
+}
+
+html {
+  scroll-padding-top: 72px;
+}
+
+@media (min-width: 1920px) {
+  :root {
+    --page-max: 96rem;
+    --pv-site-max: 96rem;
+  }
+}
+
+@media (min-width: 2400px) {
+  html {
+    font-size: 125%;
+  }
+}
+
+@media (min-width: 3200px) {
+  html {
+    font-size: 150%;
+  }
+}

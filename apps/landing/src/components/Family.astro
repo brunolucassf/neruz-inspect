@@ -1,0 +1,27 @@
+---
+import type { LandingCopy } from '../i18n';
+import { STORE_LINKS } from '../i18n';
+
+interface Props {
+  copy: LandingCopy;
+}
+
+const { copy } = Astro.props;
+---
+
+<section class="family" id="familia" aria-label="Neruz Extensions" data-section-trail="main › section#familia › p">
+  <div class="family__marks" aria-hidden="true">
+    <svg viewBox="0 0 200 200" class="family__svg">
+      <g class="family__cyan"><path d="M52 32H128L156 60V136L128 164H52L24 136V60Z" /></g>
+      <g class="family__magenta"><path d="M72 36H148L176 64V140L148 168H72L44 140V64Z" /></g>
+      <path class="family__reg" d="M100 6V26M100 174V194M6 100H26M174 100H194" />
+    </svg>
+  </div>
+  <div class="family__text">
+    <p class="family__copy">{copy.privacy.familyText}</p>
+    <p class="family__links">
+      <a class="text-link" href={STORE_LINKS.pageView} rel="noopener">{copy.privacy.familyLink}</a>
+      <a class="text-link" href={STORE_LINKS.github} rel="noopener">Neruz Inspect · GitHub</a>
+    </p>
+  </div>
+</section>

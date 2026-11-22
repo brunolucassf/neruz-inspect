@@ -1,0 +1,23 @@
+---
+import type { LandingCopy } from '../i18n';
+
+interface Props {
+  copy: LandingCopy;
+}
+
+const { copy } = Astro.props;
+---
+
+<section class="faq" id="faq" aria-labelledby="faq-title" data-section-trail="main › section#faq › h2">
+  <h2 id="faq-title" class="faq__title">{copy.faq.title}</h2>
+  <div class="faq__list">
+    {
+      copy.faq.items.map((item) => (
+        <details class="faq__item">
+          <summary>{item.q}</summary>
+          <p>{item.a}</p>
+        </details>
+      ))
+    }
+  </div>
+</section>

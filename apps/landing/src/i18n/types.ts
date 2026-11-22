@@ -4,37 +4,38 @@ export type Locale = (typeof LOCALES)[number];
 
 export type BrowserId = 'chrome' | 'edge' | 'firefox' | 'brave' | 'opera';
 
-export interface FornoCopy {
-  brand: string;
-  nav: { home: string; menu: string; about: string; contact: string; toggle: string };
-  hero: { title: string; subtitle: string; cta: string };
-  menu: {
-    title: string;
-    more: string;
-    items: { name: string; desc: string; price: string }[];
-  };
-  about: { title: string; body: string };
-  contact: { line: string; cards: string[] };
-  footerNote: string;
-  url: string;
-  regionLabel: string;
+export interface SectionCopy {
+  id: string;
+  layers: string[];
+  title: string;
+  text: string;
+  tools: string[];
+  note?: string;
+}
+
+export interface PrivacyPageCopy {
+  title: string;
+  description: string;
+  heading: string;
+  updated: string;
+  back: string;
+  blocks: { title: string; paragraphs: string[]; items?: string[] }[];
 }
 
 export interface LandingCopy {
   locale: Locale;
   htmlLang: string;
   path: string;
+  privacyPath: string;
   meta: { title: string; description: string; ogDescription: string };
   skipLink: string;
   languageLabel: string;
   languageNames: Record<Locale, string>;
-  header: { signature: string; signatureLabel: string; signatureLogoAlt: string };
   language: { current: string; short: string; selected: string };
-  common: { newTab: string };
-  github: string;
-  brandEyebrow: string;
+  header: { navLabel: string; github: string };
   cta: {
     addTo: Record<BrowserId, string>;
+    addShort: string;
     chooseBrowser: string;
     alsoFor: string;
     browserNotes: Partial<Record<BrowserId, string>>;
@@ -42,102 +43,74 @@ export interface LandingCopy {
     copyLink: string;
     linkCopied: string;
     share: string;
-    viewCode: string;
-    support: string;
+    comingSoon: string;
+    followOnGithub: string;
+    viewOnGithub: string;
   };
   hero: {
     title: string;
     subtitle: string;
-    posterAlt: string;
-    windowWidthLabel: string;
+    micro: string[];
+    stageLabel: string;
     skipIntro: string;
   };
-  sceneOneClick: {
-    stepLabel: string;
+  demo: {
+    nav: string[];
+    title: string;
+    text: string;
+    button: string;
+    swatchLabel: string;
+  };
+  explode: {
+    eyebrow: string;
     title: string;
     subtitle: string;
-    before: string;
-    after: string;
-    compareLabel: string;
-    backgroundLabel: string;
-    backgrounds: string[];
+    indexLabel: string;
+    layerWord: string;
   };
-  studioArt: {
-    title: string;
-    captureTitle: string;
-    modeLabel: string;
-    modes: string[];
-    framedLabel: string;
-    captureLabel: string;
-  };
-  sceneDevices: {
-    stepLabel: string;
-    title: string;
-    subtitle: string;
-    note: string;
-    names: string[];
-  };
-  sceneAuto: {
-    stepLabel: string;
-    title: string;
-    subtitle: string;
-    note: string;
-    recording: string;
-    sections: string[];
-  };
-  sceneFolder: {
-    stepLabel: string;
-    title: string;
-    subtitle: string;
-    note: string;
-    urlListLabel: string;
+  groups: { name: string; desc: string }[];
+  sections: SectionCopy[];
+  visuals: {
     exampleTag: string;
-    counter: string;
-    folderName: string;
-    reportTitle: string;
-    reportLines: string[];
-    pages: { title: string; line: string; url: string }[];
-    visualLabel: string;
+    contrastLabel: string;
+    contrastPass: string;
+    codeTabs: string[];
+    easingLabel: string;
+    speedLabel: string;
+    techChips: string[];
+    techLabel: string;
+    ogTitle: string;
+    ogHost: string;
+    vitals: { name: string; value: string }[];
+    boxLabels: { margin: string; padding: string; content: string };
+    typeLabel: string;
+    utilsChips: string[];
   };
-  sceneLocal: {
-    stepLabel: string;
+  privacy: {
+    eyebrow: string;
     title: string;
-    subtitle: string;
-    note: string;
-    privacyLink: string;
-    codeLink: string;
-    whenLabel: string;
-    laptopLabel: string;
-    cards: { permission: string; title: string; what: string; when: string }[];
-  };
-  sceneOpen: {
-    stepLabel: string;
-    title: string;
-    subtitle: string;
+    text: string;
     ask: string;
-    umbrella: string;
-    contribute: string;
-    license: string;
-    codeLabel: string;
-    outlineWord: string;
+    policy: string;
+    proofsTitle: string;
+    proofs: string[];
+    permsTitle: string;
+    requiredWord: string;
+    optionalWord: string;
+    perms: { name: string; kind: 'required' | 'optional'; why: string }[];
+    familyText: string;
+    familyLink: string;
   };
-  sceneFinal: {
-    stepLabel: string;
-    title: string;
-    subtitle: string;
-    windowTitle: string;
-    widthLabel: string;
-  };
-  ruler: { label: string; counter: string; scenes: { id: string; label: string }[] };
+  faq: { title: string; items: { q: string; a: string }[] };
+  final: { title: string; subtitle: string };
+  trail: { label: string };
   footer: {
     navLabel: string;
-    product: { title: string; installTitle: string; comingSoon: string };
-    project: { title: string; github: string; license: string; issue: string };
     privacy: string;
-    umbrella: string;
-    umbrellaText: string;
-    studio: { title: string; text: string; cta: string; ctaLabel: string };
+    github: string;
+    license: string;
+    family: string;
     credit: string;
   };
-  forno: FornoCopy;
+  privacyPage: PrivacyPageCopy;
 }

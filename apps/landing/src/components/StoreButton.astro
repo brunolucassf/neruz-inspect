@@ -1,6 +1,6 @@
 ---
 import type { LandingCopy } from '../i18n';
-import { BROWSER_NAMES, BROWSER_ORDER, STORE_LINKS } from '../i18n';
+import { BROWSER_NAMES, BROWSER_ORDER, IS_STORE_LIVE, STORE_LINKS } from '../i18n';
 
 interface Props {
   copy: LandingCopy;
@@ -12,105 +12,104 @@ const { copy, compact = false, withMeta = false } = Astro.props;
 const defaultBrowser = 'chrome';
 const buttonClasses = ['btn', compact ? 'btn--compact' : 'btn--lg'];
 const storeData = JSON.stringify({
-  addTo: copy.cta.addTo,
+  addTo: compact
+    ? Object.fromEntries(BROWSER_ORDER.map((id) => [id, copy.cta.addShort]))
+    : copy.cta.addTo,
   notes: copy.cta.browserNotes,
   links: STORE_LINKS,
 });
 ---
 
-<div class:list={['store-cta', { 'store-cta--compact': compact }]} data-store-cta data-store={storeData}>
-  <div class="store-cta__desktop" data-store-desktop>
-    <a
-      class:list={buttonClasses}
-      href={STORE_LINKS[defaultBrowser]}
-      data-store-primary
-      data-wire
-    >
-      <span data-store-label>{copy.cta.addTo[defaultBrowser]}</span>
-      {
-        !compact && (
-          <svg class="btn__arrow" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true">
-            <path d="M4 10h11M11 5.5 15.5 10 11 14.5" />
-          </svg>
-        )
-      }
-    </a>
-    <details class="store-cta__picker" data-store-picker hidden>
-      <summary class:list={buttonClasses} data-wire>
-        {copy.cta.chooseBrowser}
-      </summary>
-      <ul>
-        {
-          BROWSER_ORDER.map((browser) => (
-            <li>
-              <a href={STORE_LINKS[browser]}>{copy.cta.addTo[browser]}</a>
-            </li>
-          ))
-        }
-      </ul>
-    </details>
-    {
-      withMeta && (
-        <div class="store-cta__meta">
-          <p class="store-cta__note" data-store-note hidden />
-          <p class="store-cta__also">
-            <span>{copy.cta.alsoFor}</span>
+{
+  IS_STORE_LIVE ? (
+    <div class:list={['store-cta', { 'store-cta--compact': compact }]} data-store-cta data-store={storeData}>
+      <div class="store-cta__desktop" data-store-desktop>
+        <a class:list={buttonClasses} href={STORE_LINKS[defaultBrowser]} data-store-primary data-wire>
+          <span data-store-label>{compact ? copy.cta.addShort : copy.cta.addTo[defaultBrowser]}</span>
+        </a>
+        <details class="store-cta__picker" data-store-picker hidden>
+          <summary class:list={buttonClasses} data-wire>
+            {copy.cta.chooseBrowser}
+          </summary>
+          <ul>
             {BROWSER_ORDER.map((browser) => (
-              <a href={STORE_LINKS[browser]} data-also-browser={browser}>
-                {BROWSER_NAMES[browser]}
-              </a>
+              <li>
+                <a href={STORE_LINKS[browser]}>{copy.cta.addTo[browser]}</a>
+              </li>
             ))}
-          </p>
-        </div>
-      )
-    }
-  </div>
-  {
-    withMeta && (
-      <div class="store-cta__mobile" data-store-mobile hidden>
-        <p class="store-cta__mobile-label">{copy.cta.mobileInstall}</p>
-        <button
-          type="button"
-          class="btn btn--lg"
-          data-copy-link
-          data-label-copy={copy.cta.copyLink}
-          data-label-share={copy.cta.share}
-          data-wire
-        >
-          {copy.cta.copyLink}
-        </button>
-        <p class="store-cta__status" role="status" aria-live="polite" data-copy-status data-label-done={copy.cta.linkCopied} />
+          </ul>
+        </details>
+        {withMeta && (
+          <div class="store-cta__meta">
+            <p class="store-cta__note" data-store-note hidden />
+            <p class="store-cta__also">
+              <span>{copy.cta.alsoFor}</span>
+              {BROWSER_ORDER.map((browser) => (
+                <a href={STORE_LINKS[browser]} data-also-browser={browser}>
+                  {BROWSER_NAMES[browser]}
+                </a>
+              ))}
+            </p>
+          </div>
+        )}
       </div>
-    )
-  }
-</div>
+      {withMeta && (
+        <div class="store-cta__mobile" data-store-mobile hidden>
+          <p class="store-cta__mobile-label">{copy.cta.mobileInstall}</p>
+          <button
+            type="button"
+            class="btn btn--lg"
+            data-copy-link
+            data-label-copy={copy.cta.copyLink}
+            data-label-share={copy.cta.share}
+            data-wire
+          >
+            {copy.cta.copyLink}
+          </button>
+          <p class="store-cta__status" role="status" aria-live="polite" data-copy-status data-label-done={copy.cta.linkCopied} />
+        </div>
+      )}
+    </div>
+  ) : (
+    <div class:list={['store-cta', 'store-cta--soon', { 'store-cta--compact': compact }]}>
+      <a class:list={buttonClasses} href={STORE_LINKS.github} data-wire>
+        <span>{copy.cta.viewOnGithub}</span>
+      </a>
+      {!compact && <p class="store-cta__soon">{copy.cta.comingSoon}</p>}
+    </div>
+  )
+}
 
 <style>
   .store-cta {
     display: flex;
     flex-direction: column;
-    gap: var(--pv-space-5);
+    gap: var(--pv-space-4);
   }
-
+  .store-cta--compact {
+    display: inline-flex;
+  }
   .store-cta__desktop {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--pv-space-5);
   }
-
+  .store-cta__soon {
+    color: var(--pv-text-2);
+    font-family: var(--ni-mono);
+    font-size: var(--pv-fs-small);
+    letter-spacing: 0.04em;
+  }
   .store-cta__picker {
     position: relative;
   }
-
   .store-cta__picker summary {
     list-style: none;
   }
-
   .store-cta__picker summary::-webkit-details-marker {
     display: none;
   }
-
   .store-cta__picker ul {
     position: absolute;
     top: calc(100% + var(--pv-space-2));
@@ -123,7 +122,6 @@ const storeData = JSON.stringify({
     background: var(--pv-bg-raised);
     box-shadow: var(--pv-shadow-popover);
   }
-
   .store-cta__picker a {
     display: flex;
     align-items: center;
@@ -132,12 +130,10 @@ const storeData = JSON.stringify({
     color: var(--pv-text);
     text-decoration: none;
   }
-
   .store-cta__picker a:focus-visible,
   .store-cta__picker a:hover {
     background: var(--pv-bg-hover);
   }
-
   .store-cta__meta {
     display: grid;
     gap: var(--pv-space-2);
@@ -145,63 +141,47 @@ const storeData = JSON.stringify({
     font-size: var(--pv-fs-small);
     line-height: var(--pv-fs-small-lh);
   }
-
   .store-cta__also {
     display: flex;
     flex-wrap: wrap;
     align-items: center;
     column-gap: var(--pv-space-3);
   }
-
   .store-cta__also a {
     display: inline-flex;
     align-items: center;
     min-height: 32px;
     color: var(--pv-text-2);
     text-underline-offset: 4px;
-    text-decoration-color: var(--pv-line-strong);
   }
-
   .store-cta__also a::before {
-    content: "·";
+    content: '·';
     margin-right: var(--pv-space-3);
     color: var(--pv-text-3);
   }
-
   .store-cta__also a[hidden] {
     display: none;
   }
-
   .store-cta__also span + a::before,
   .store-cta__also span + a[hidden] + a::before {
     content: none;
   }
-
   .store-cta__mobile {
     display: grid;
     justify-items: start;
     gap: var(--pv-space-4);
   }
-
   .store-cta__mobile[hidden],
   .store-cta__desktop[hidden] {
     display: none;
   }
-
   .store-cta__mobile-label {
     color: var(--pv-text-2);
     font-size: var(--pv-fs-small);
   }
-
   .store-cta__status {
     min-height: 1.45em;
     color: var(--pv-success);
     font-size: var(--pv-fs-small);
-  }
-
-  @media (hover: hover) and (pointer: fine) {
-    .store-cta__also a:hover {
-      color: var(--pv-text);
-    }
   }
 </style>

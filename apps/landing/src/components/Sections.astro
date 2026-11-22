@@ -1,0 +1,224 @@
+---
+import type { LandingCopy } from '../i18n';
+
+interface Props {
+  copy: LandingCopy;
+}
+
+const { copy } = Astro.props;
+const { sections, groups, visuals } = copy;
+
+const palette = [
+  { hex: '#B4582F', count: 12 },
+  { hex: '#6F8A5B', count: 8 },
+  { hex: '#1C2620', count: 31 },
+  { hex: '#EEF0E6', count: 44 },
+  { hex: '#DDE3D0', count: 6 },
+];
+
+const tokensCode = `:root {
+  --color-clay: #B4582F;
+  --color-moss: #6F8A5B;
+  --color-ink: #1C2620;
+  --font-title: Fraunces;
+  --space-4: 24px;
+  --radius-m: 6px;
+}`;
+
+const codePanels = [
+  `.btn {
+  padding: 14px 28px;
+  background: #B4582F;
+  color: #fff;
+  border-radius: 6px;
+}`,
+  `px-7 py-3.5 bg-[#B4582F]
+text-white rounded-md`,
+  `.btn {
+  padding: var(--space-4);
+  background: var(--color-clay);
+  border-radius: var(--radius-m);
+}`,
+];
+---
+
+<div class="layers">
+  {
+    sections.map((section) => (
+      <section
+        class={`layer-section layer-section--${section.id}`}
+        id={section.id}
+        aria-labelledby={`${section.id}-title`}
+        data-layer-section
+        data-section-trail={`main › section#${section.id} › h2`}
+      >
+        <div class="layer-section__text">
+          <p class="layer-tag">
+            {section.layers.map((number, tagIndex) => (
+              <span>
+                <b>{number}</b> {groups[Number(number) - 1]?.name}
+                {tagIndex < section.layers.length - 1 && <i aria-hidden="true"> · </i>}
+              </span>
+            ))}
+          </p>
+          <h2 id={`${section.id}-title`} class="layer-section__title">{section.title}</h2>
+          <p class="layer-section__body">{section.text}</p>
+          <ul class="tools">
+            {section.tools.map((tool) => <li>{tool}</li>)}
+          </ul>
+          {section.note && <p class="layer-section__note">{section.note}</p>}
+        </div>
+
+        <div class="viz" data-viz>
+          {section.id === 'cor' && (
+            <div class="viz__stack">
+              <ul class="palette" aria-hidden="true">
+                {palette.map((item) => (
+                  <li>
+                    <span class="palette__chip" style={`--chip:${item.hex}`}></span>
+                    <span class="palette__hex">{item.hex}</span>
+                    <span class="palette__count">×{item.count}</span>
+                  </li>
+                ))}
+              </ul>
+              <div class="contrast" aria-hidden="true">
+                <span class="contrast__sample">Aa</span>
+                <span class="contrast__label">{visuals.contrastLabel}</span>
+                <span class="contrast__value"><b data-count-to="4.8">4,8</b>:1</span>
+                <span class="contrast__badge">{visuals.contrastPass}</span>
+              </div>
+              <div class="specimen" aria-hidden="true">
+                <span class="specimen__glyph">Hg</span>
+                <i class="specimen__line specimen__line--cap"></i>
+                <i class="specimen__line specimen__line--x"></i>
+                <i class="specimen__line specimen__line--base"></i>
+                <span class="specimen__caption">{visuals.typeLabel}</span>
+              </div>
+            </div>
+          )}
+
+          {section.id === 'design-system' && (
+            <div class="viz__stack">
+              <pre class="code" aria-hidden="true" data-type-code><code>{tokensCode}</code></pre>
+            </div>
+          )}
+
+          {section.id === 'componente' && (
+            <div class="viz__stack" data-tabs>
+              <p class="demo-button" aria-hidden="true">{copy.demo.button}</p>
+              <div class="tabs" role="tablist">
+                {visuals.codeTabs.map((tab, tabIndex) => (
+                  <button
+                    type="button"
+                    class="tabs__tab"
+                    role="tab"
+                    id={`tab-${tabIndex}`}
+                    aria-selected={tabIndex === 0 ? 'true' : 'false'}
+                    aria-controls={`panel-${tabIndex}`}
+                    tabindex={tabIndex === 0 ? 0 : -1}
+                  >
+                    {tab}
+                  </button>
+                ))}
+              </div>
+              {codePanels.map((panel, panelIndex) => (
+                <pre
+                  class="code"
+                  role="tabpanel"
+                  id={`panel-${panelIndex}`}
+                  aria-labelledby={`tab-${panelIndex}`}
+                  hidden={panelIndex !== 0}
+                ><code>{panel}</code></pre>
+              ))}
+            </div>
+          )}
+
+          {section.id === 'layout' && (
+            <div class="viz__stack">
+              <div class="box" aria-hidden="true">
+                <span class="box__tag box__tag--margin">{visuals.boxLabels.margin}</span>
+                <div class="box__margin">
+                  <span class="box__tag box__tag--padding">{visuals.boxLabels.padding}</span>
+                  <div class="box__padding">
+                    <div class="box__content">
+                      <span class="box__tag box__tag--content">{visuals.boxLabels.content} · 320 × 184</span>
+                    </div>
+                    <span class="box__cota box__cota--padding"><b>16</b></span>
+                  </div>
+                  <span class="box__cota box__cota--margin"><b>24</b></span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {section.id === 'movimento' && (
+            <div class="viz__stack" data-motion-demo>
+              <p class="viz__caption">{visuals.easingLabel}</p>
+              <div class="easing" aria-hidden="true">
+                <svg viewBox="0 0 240 150" class="easing__svg">
+                  <path class="easing__grid" d="M20 130H220M20 130V20" />
+                  <path class="easing__curve" d="M20 130C90 130 60 20 220 20" pathLength="1" />
+                </svg>
+                <div class="easing__track"><span class="easing__ball" data-ball></span></div>
+              </div>
+              <label class="speed">
+                <span>{visuals.speedLabel}</span>
+                <input type="range" min="0.25" max="1" step="0.25" value="1" data-speed />
+                <output data-speed-out>1×</output>
+              </label>
+            </div>
+          )}
+
+          {section.id === 'tecnologia' && (
+            <div class="viz__stack">
+              <p class="viz__caption">{visuals.techLabel}</p>
+              <ul class="chips">
+                {visuals.techChips.map((chip) => <li>{chip}</li>)}
+              </ul>
+            </div>
+          )}
+
+          {section.id === 'pagina' && (
+            <div class="viz__stack">
+              <div class="og" aria-hidden="true">
+                <div class="og__art"></div>
+                <div class="og__body">
+                  <span class="og__host">{visuals.ogHost}</span>
+                  <b class="og__title">{copy.demo.title}</b>
+                </div>
+              </div>
+              <p class="viz__caption">{visuals.ogTitle}</p>
+              <ul class="vitals">
+                {visuals.vitals.map((vital) => (
+                  <li>
+                    <span>{vital.name}</span>
+                    <b>{vital.value}</b>
+                    <i>{visuals.exampleTag}</i>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {section.id === 'utilitarios' && (
+            <div class="viz__stack">
+              <div class="converter">
+                <label>
+                  <span class="visually-hidden">px</span>
+                  <input type="number" value="24" min="0" max="9999" inputmode="numeric" data-px />
+                </label>
+                <span class="converter__unit">px</span>
+                <span aria-hidden="true">=</span>
+                <output class="converter__out" data-rem>1,5</output>
+                <span class="converter__unit">rem</span>
+              </div>
+              <ul class="chips">
+                {visuals.utilsChips.map((chip) => <li>{chip}</li>)}
+              </ul>
+            </div>
+          )}
+        </div>
+      </section>
+    ))
+  }
+</div>
