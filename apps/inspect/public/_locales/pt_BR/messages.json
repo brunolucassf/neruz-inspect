@@ -1,0 +1,5 @@
+{
+  "extName": { "message": "Neruz Inspect" },
+  "extDescription": { "message": "Pegue cores, descubra fontes, meça espaçamentos e veja a tecnologia por trás de qualquer site." },
+  "commandToggle": { "message": "Mostrar ou esconder a barra do Inspect" }
+}

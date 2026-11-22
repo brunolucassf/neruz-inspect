@@ -1,0 +1,5 @@
+{
+  "extName": { "message": "Neruz Inspect" },
+  "extDescription": { "message": "Pick colors, identify fonts, measure spacing and detect the tech behind any website." },
+  "commandToggle": { "message": "Show or hide the Inspect toolbar" }
+}
