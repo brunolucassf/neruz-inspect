@@ -1,0 +1,17 @@
+.ni-effect {
+  display: grid;
+  gap: 2px;
+  margin-bottom: 8px;
+}
+
+.ni-effect-preview {
+  display: grid;
+  height: 48px;
+  margin: 4px 4px 6px;
+  color: #111827;
+  font-size: 20px;
+  font-weight: 600;
+  place-items: center;
+  background-color: #f4f8fc;
+  border-radius: var(--ni-radius-s);
+}
