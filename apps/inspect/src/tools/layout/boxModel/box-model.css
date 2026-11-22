@@ -1,0 +1,74 @@
+.ni-boxdiagram {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--ni-line);
+  font-family: var(--ni-font-mono);
+  font-size: 11px;
+}
+
+.ni-bd {
+  display: grid;
+  grid-template:
+    "name top ." 16px
+    "left inner right" auto
+    ". bottom ." 16px / 34px 1fr 34px;
+  align-items: center;
+  justify-items: center;
+  color: var(--ni-text-2);
+  border: 1px dashed var(--ni-line-strong);
+  border-radius: 4px;
+}
+
+.ni-bd--margin {
+  background: var(--ni-hl-margin);
+}
+
+.ni-bd--border {
+  background: var(--ni-bg-raised);
+  border-style: solid;
+}
+
+.ni-bd--padding {
+  background: var(--ni-hl-padding);
+}
+
+.ni-bd__name {
+  grid-area: name;
+  justify-self: start;
+  padding-left: 4px;
+  color: var(--ni-text-3);
+  font-size: 9px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.ni-bd__top {
+  grid-area: top;
+}
+
+.ni-bd__left {
+  grid-area: left;
+}
+
+.ni-bd__right {
+  grid-area: right;
+}
+
+.ni-bd__bottom {
+  grid-area: bottom;
+}
+
+.ni-bd__inner {
+  grid-area: inner;
+  justify-self: stretch;
+}
+
+.ni-bd__content {
+  display: grid;
+  min-height: 28px;
+  place-items: center;
+  padding: 4px;
+  color: var(--ni-text);
+  background: var(--ni-hl-content);
+  border: 1px solid var(--ni-hl-line);
+  border-radius: 3px;
+}

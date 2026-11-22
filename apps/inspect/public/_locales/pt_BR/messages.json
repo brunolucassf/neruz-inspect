@@ -1,5 +1,14 @@
 {
-  "extName": { "message": "Neruz Inspect" },
-  "extDescription": { "message": "Pegue cores, descubra fontes, meça espaçamentos e veja a tecnologia por trás de qualquer site." },
-  "commandToggle": { "message": "Mostrar ou esconder a barra do Inspect" }
+  "extName": {
+    "message": "Neruz Inspect"
+  },
+  "extDescription": {
+    "message": "Pegue cores, descubra fontes, meça espaçamentos e veja a tecnologia por trás de qualquer site."
+  },
+  "commandToggle": {
+    "message": "Mostrar ou esconder a barra do Inspect"
+  },
+  "restrictedPage": {
+    "message": "O Neruz Inspect não funciona nesta página"
+  }
 }

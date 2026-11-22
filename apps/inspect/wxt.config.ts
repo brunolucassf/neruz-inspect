@@ -20,6 +20,7 @@ export default defineConfig({
       },
       permissions: ['storage', 'scripting', 'activeTab'],
       optional_permissions: ['clipboardWrite'],
+      optional_host_permissions: ['http://*/*', 'https://*/*'],
       content_security_policy: {
         extension_pages:
           "script-src 'self'; object-src 'self'; base-uri 'none'; form-action 'none'",

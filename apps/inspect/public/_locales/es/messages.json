@@ -1,5 +1,14 @@
 {
-  "extName": { "message": "Neruz Inspect" },
-  "extDescription": { "message": "Toma colores, descubre fuentes, mide espacios y conoce la tecnología detrás de cualquier sitio." },
-  "commandToggle": { "message": "Mostrar u ocultar la barra de Inspect" }
+  "extName": {
+    "message": "Neruz Inspect"
+  },
+  "extDescription": {
+    "message": "Toma colores, descubre fuentes, mide espacios y conoce la tecnología detrás de cualquier sitio."
+  },
+  "commandToggle": {
+    "message": "Mostrar u ocultar la barra de Inspect"
+  },
+  "restrictedPage": {
+    "message": "Neruz Inspect no puede ejecutarse en esta página"
+  }
 }

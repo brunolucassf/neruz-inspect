@@ -4,5 +4,5 @@
     "types": ["vite/client", "chrome"],
     "jsx": "react-jsx"
   },
-  "include": ["wxt.config.ts", "entrypoints", "src"]
+  "include": [".wxt/wxt.d.ts", "wxt.config.ts", "entrypoints", "src"]
 }

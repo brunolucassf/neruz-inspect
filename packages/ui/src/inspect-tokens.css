@@ -1,32 +1,185 @@
 :host,
 :root {
-  --ni-bg: #0b0f14;
-  --ni-bg-raised: #131a22;
-  --ni-bg-hover: #1b2430;
-  --ni-line: #253140;
-  --ni-line-strong: #4a5b70;
-  --ni-text: #f2f6fa;
-  --ni-text-2: #a9b6c4;
-  --ni-text-3: #7f8fa1;
-  --ni-accent: #7cf29a;
-  --ni-accent-hover: #a5f7b9;
-  --ni-on-accent: #0b0f14;
-  --ni-focus: #7cf29a;
-  --ni-danger: #ff5a6a;
+  --ni-bg: #0e1520;
+  --ni-bg-raised: #141d29;
+  --ni-bg-hover: #1b2635;
+  --ni-line: #304256;
+  --ni-line-strong: #64798f;
+  --ni-text: #f4f8fc;
+  --ni-text-2: #a6b5c5;
+  --ni-text-3: #8296ac;
+  --ni-accent: #ff4fd0;
+  --ni-accent-hover: #ff7adb;
+  --ni-on-accent: #080d14;
+  --ni-focus: #ff4fd0;
+  --ni-danger: #ff6b57;
   --ni-warning: #ffc247;
   --ni-success: #3ddc97;
-  --ni-hl-content: rgba(80, 160, 255, 0.28);
-  --ni-hl-padding: rgba(124, 242, 154, 0.28);
-  --ni-hl-margin: rgba(255, 170, 60, 0.28);
-  --ni-hl-line: #ff3d7f;
-  --ni-radius-s: 6px;
-  --ni-radius-m: 10px;
-  --ni-radius-l: 16px;
-  --ni-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
-  --ni-font-ui: "Inter", system-ui, sans-serif;
-  --ni-font-display: "Sora", system-ui, sans-serif;
-  --ni-font-mono: ui-monospace, "SFMono-Regular", Consolas, monospace;
-  --ni-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ni-hl-content: rgba(77, 163, 255, 0.3);
+  --ni-hl-padding: rgba(61, 220, 151, 0.3);
+  --ni-hl-margin: rgba(255, 181, 71, 0.22);
+  --ni-hl-line: #ff4fd0;
+  --ni-radius-s: 2px;
+  --ni-radius-m: 4px;
+  --ni-radius-l: 6px;
+  --ni-shadow:
+    0 0 0 1px rgba(244, 248, 252, 0.1), 0 2px 6px rgba(0, 0, 0, 0.35),
+    0 16px 40px -12px rgba(0, 0, 0, 0.6);
+  --ni-font-ui: "Neruz Inter", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ni-font-display: "Neruz Sora", "Sora", system-ui, sans-serif;
+  --ni-font-mono:
+    "Neruz Mono", ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
+  --ni-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ni-dur-fast: 120ms;
-  --ni-dur: 220ms;
+  --ni-dur: 200ms;
+
+  /* Adicionadas pelo art-director (2026-11-22). Contraste medido em --ni-bg / --ni-bg-raised / --ni-bg-hover. */
+  /* Família Neruz: Noite é a base comum; magenta é a assinatura do Inspect (ciano é do Page View). */
+  --ni-night: #080d14;
+  --ni-magenta: #ff4fd0; /* 6.35 / 5.88 / 5.29:1 como texto; Noite sobre magenta 6.75:1 */
+  --ni-bg-deep: #080d14; /* campos, blocos de código, trilho da lupa */
+  --ni-line-soft: #1f2b3a; /* divisórias entre linhas copiáveis */
+  --ni-accent-text: #ff4fd0;
+  --ni-accent-wash: rgba(
+    255,
+    79,
+    208,
+    0.12
+  ); /* só no varrido do "copiado" e na linha da busca em foco */
+  --ni-numeric: "tnum" 1, "zero" 1;
+
+  /* Camada de destaque: linhas sólidas que acompanham os preenchimentos */
+  --ni-hl-content-line: #4da3ff;
+  --ni-hl-padding-line: #3ddc97;
+  --ni-hl-margin-line: #ffb547;
+  --ni-hl-border-line: #ffe066;
+  --ni-hl-margin-hatch: repeating-linear-gradient(
+    45deg,
+    rgba(255, 181, 71, 0.55) 0 1px,
+    transparent 1px 6px
+  );
+  --ni-hl-gap-hatch: repeating-linear-gradient(
+    -45deg,
+    rgba(185, 140, 255, 0.5) 0 1px,
+    transparent 1px 6px
+  );
+  --ni-hl-grid: #b98cff;
+  --ni-hl-overflow: #ff6b57;
+  --ni-hl-halo: rgba(8, 13, 20, 0.6); /* traço duplo: 1px de cor sobre 3px de halo */
+  --ni-hl-stroke: 1px;
+  --ni-hl-stroke-locked: 2px;
+  --ni-hl-tick: 6px; /* serifa de cota nas pontas das linhas de distância */
+  --ni-hl-cutmark: 10px; /* marcas de corte nos cantos do elemento travado */
+  --ni-hl-label-bg: #080d14;
+  --ni-hl-label-text: #f4f8fc;
+  --ni-hl-label-accent-bg: #ff4fd0;
+  --ni-hl-label-accent-text: #080d14;
+  --ni-hl-label-h: 20px;
+  --ni-hl-label-pad-x: 6px;
+  --ni-hl-label-offset: 8px;
+
+  /* Chanfro 45° (assinatura da família) via clip-path */
+  --ni-cut-s: 4px;
+  --ni-cut-m: 8px;
+  --ni-cut-l: 12px;
+
+  /* Tipografia da interface (px fixos: a página do site pode mudar o rem) */
+  --ni-fs-label: 11px;
+  --ni-fs-label-lh: 16px;
+  --ni-fs-label-ls: 0.08em;
+  --ni-fs-value: 12px;
+  --ni-fs-value-lh: 16px;
+  --ni-fs-body: 13px;
+  --ni-fs-body-lh: 20px;
+  --ni-fs-title: 14px;
+  --ni-fs-title-lh: 20px;
+  --ni-fw-regular: 400;
+  --ni-fw-medium: 500;
+  --ni-fw-semibold: 600;
+
+  /* Barra, bandeja, painel */
+  --ni-z: 2147483647;
+  --ni-bar-h: 44px;
+  --ni-bar-pad: 6px;
+  --ni-bar-btn: 32px;
+  --ni-bar-icon: 16px;
+  --ni-bar-gap: 2px;
+  --ni-bar-edge: 16px;
+  --ni-bar-snap: 12px;
+  --ni-search-w: 168px;
+  --ni-search-w-open: 264px;
+  --ni-tray-w: 288px;
+  --ni-tray-row-h: 36px;
+  --ni-tray-max-h: 420px;
+  --ni-panel-w: 340px;
+  --ni-panel-w-min: 300px;
+  --ni-panel-w-max: 520px;
+  --ni-panel-edge: 12px;
+  --ni-panel-header-h: 44px;
+  --ni-panel-pad-x: 16px;
+  --ni-row-h: 28px;
+  --ni-row-pad-x: 12px;
+  --ni-swatch: 16px;
+  --ni-loupe: 132px;
+  --ni-loupe-cells: 11;
+  --ni-toast-h: 32px;
+
+  /* Movimento (extensão: intensidade 1/5) */
+  --ni-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ni-ease-hover: cubic-bezier(0.2, 0, 0, 1);
+  --ni-ease-cut: cubic-bezier(0.7, 0, 0.2, 1);
+  --ni-dur-press: 100ms;
+  --ni-dur-glide: 80ms;
+  --ni-dur-exit: 120ms;
+  --ni-dur-panel: 260ms;
+  --ni-dur-copied: 900ms;
+  --ni-stagger: 20ms;
+  --ni-motion: 1;
+}
+
+/* Páginas da extensão (relatório, opções) seguem o tema do sistema. A barra e o painel sobre o site ficam sempre escuros. */
+:root[data-theme="light"] {
+  --ni-bg: #f4f8fc;
+  --ni-bg-raised: #ffffff;
+  --ni-bg-hover: #e1e9f1;
+  --ni-bg-deep: #e8eef4;
+  --ni-line: #cbd6e1;
+  --ni-line-soft: #dce5ee;
+  --ni-line-strong: #71849a;
+  --ni-text: #080d14;
+  --ni-text-2: #4a5a6c;
+  --ni-text-3: #55667a;
+  --ni-accent: #c0168a; /* branco sobre ele 5.64:1 */
+  --ni-accent-hover: #a8137a;
+  --ni-on-accent: #ffffff;
+  --ni-accent-text: #b0127f; /* 6.08:1 em #f4f8fc, 6.48:1 em branco */
+  --ni-focus: #b0127f;
+  --ni-danger: #c03a22;
+  --ni-warning: #8a5600;
+  --ni-success: #0b7a4e;
+  --ni-accent-wash: rgba(192, 22, 138, 0.08);
+  --ni-shadow: 0 1px 2px rgba(8, 13, 20, 0.08), 0 8px 24px -8px rgba(8, 13, 20, 0.18);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host,
+  :root {
+    --ni-motion: 0;
+    --ni-dur-glide: 0ms;
+    --ni-dur-panel: 120ms;
+    --ni-stagger: 0ms;
+  }
+}
+
+@media (forced-colors: active) {
+  :host,
+  :root {
+    --ni-cut-s: 0px;
+    --ni-cut-m: 0px;
+    --ni-cut-l: 0px;
+    --ni-line: CanvasText;
+    --ni-line-strong: CanvasText;
+    --ni-focus: Highlight;
+    --ni-hl-line: Highlight;
+  }
 }

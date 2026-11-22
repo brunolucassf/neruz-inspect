@@ -27,7 +27,7 @@
   "files": {
     "includes": [
       "**",
-      
+
       "!docs",
       "!.claude",
       "!.equipe",

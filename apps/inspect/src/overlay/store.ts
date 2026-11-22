@@ -1,16 +1,28 @@
 import { create } from 'zustand';
-import type { ToolId } from '../tools/registry';
+import type { ToolGroup, ToolId } from '../tools/types';
 
 type OverlayState = {
   activeTool: ToolId | null;
-  isPanelOpen: boolean;
-  selectTool: (tool: ToolId | null) => void;
-  togglePanel: () => void;
+  menuGroup: ToolGroup | null;
+  searchQuery: string;
+  selectTool: (tool: ToolId) => void;
+  clearTool: (reopenGroup?: ToolGroup) => void;
+  toggleMenu: (group: ToolGroup) => void;
+  closeMenu: () => void;
+  setSearchQuery: (query: string) => void;
 };
 
 export const useOverlayStore = create<OverlayState>((set) => ({
   activeTool: null,
-  isPanelOpen: false,
-  selectTool: (tool) => set({ activeTool: tool, isPanelOpen: tool !== null }),
-  togglePanel: () => set((state) => ({ isPanelOpen: !state.isPanelOpen })),
+  menuGroup: null,
+  searchQuery: '',
+  selectTool: (tool) => set({ activeTool: tool, menuGroup: null, searchQuery: '' }),
+  clearTool: (reopenGroup) => set({ activeTool: null, menuGroup: reopenGroup ?? null }),
+  toggleMenu: (group) =>
+    set((state) => ({
+      menuGroup: state.menuGroup === group ? null : group,
+      searchQuery: '',
+    })),
+  closeMenu: () => set({ menuGroup: null }),
+  setSearchQuery: (query) => set({ searchQuery: query, menuGroup: null }),
 }));

@@ -1,8 +1,11 @@
 import { createRoot, type Root } from 'react-dom/client';
 import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root';
 import { defineContentScript } from 'wxt/utils/define-content-script';
+import { notifyOverlayState } from '../../src/lib/bridge';
+import { clearHighlights } from '../../src/lib/highlight';
+import { OVERLAY_HOST_TAG } from '../../src/lib/picker';
+import { initSettings } from '../../src/lib/settings';
 import { OverlayApp } from '../../src/overlay/OverlayApp';
-import './overlay.css';
 
 const MOUNT_FLAG = '__neruzInspectOverlay__';
 
@@ -17,13 +20,14 @@ export default defineContentScript({
     const existing = host[MOUNT_FLAG];
     if (existing) {
       existing.remove();
-      host[MOUNT_FLAG] = undefined;
       return;
     }
 
+    const stopSettingsSync = await initSettings();
+
     let root: Root | undefined;
     const ui = await createShadowRootUi(ctx, {
-      name: 'neruz-inspect',
+      name: OVERLAY_HOST_TAG,
       position: 'overlay',
       zIndex: 2147483647,
       onMount(container) {
@@ -33,11 +37,16 @@ export default defineContentScript({
       },
       onRemove() {
         root?.unmount();
+        clearHighlights();
+        stopSettingsSync();
         host[MOUNT_FLAG] = undefined;
+        void notifyOverlayState(false);
       },
     });
 
     ui.mount();
     host[MOUNT_FLAG] = { remove: () => ui.remove() };
+    ctx.onInvalidated(() => ui.remove());
+    void notifyOverlayState(true);
   },
 });
