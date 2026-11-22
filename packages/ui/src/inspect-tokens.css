@@ -1,0 +1,32 @@
+:host,
+:root {
+  --ni-bg: #0b0f14;
+  --ni-bg-raised: #131a22;
+  --ni-bg-hover: #1b2430;
+  --ni-line: #253140;
+  --ni-line-strong: #4a5b70;
+  --ni-text: #f2f6fa;
+  --ni-text-2: #a9b6c4;
+  --ni-text-3: #7f8fa1;
+  --ni-accent: #7cf29a;
+  --ni-accent-hover: #a5f7b9;
+  --ni-on-accent: #0b0f14;
+  --ni-focus: #7cf29a;
+  --ni-danger: #ff5a6a;
+  --ni-warning: #ffc247;
+  --ni-success: #3ddc97;
+  --ni-hl-content: rgba(80, 160, 255, 0.28);
+  --ni-hl-padding: rgba(124, 242, 154, 0.28);
+  --ni-hl-margin: rgba(255, 170, 60, 0.28);
+  --ni-hl-line: #ff3d7f;
+  --ni-radius-s: 6px;
+  --ni-radius-m: 10px;
+  --ni-radius-l: 16px;
+  --ni-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  --ni-font-ui: "Inter", system-ui, sans-serif;
+  --ni-font-display: "Sora", system-ui, sans-serif;
+  --ni-font-mono: ui-monospace, "SFMono-Regular", Consolas, monospace;
+  --ni-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ni-dur-fast: 120ms;
+  --ni-dur: 220ms;
+}
