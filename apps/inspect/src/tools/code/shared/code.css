@@ -1,0 +1,115 @@
+.ni-codeblock {
+  display: grid;
+  gap: 6px;
+}
+
+.ni-codeblock__pre {
+  max-height: 220px;
+  margin: 0;
+  padding: 8px 10px;
+  overflow: auto;
+  color: var(--ni-text);
+  font-family: var(--ni-font-mono);
+  font-size: 11px;
+  line-height: 1.5;
+  white-space: pre;
+  background: var(--ni-bg-deep);
+  border: 1px solid var(--ni-line);
+  border-radius: var(--ni-radius-s);
+  tab-size: 2;
+}
+
+.ni-codeblock__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ni-stack {
+  display: grid;
+  gap: 8px;
+  padding: 10px 12px;
+}
+
+.ni-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.ni-check {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ni-text-2);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.ni-check input {
+  accent-color: var(--ni-accent);
+}
+
+.ni-field {
+  display: grid;
+  grid-template-columns: 76px 1fr;
+  align-items: center;
+  gap: 8px;
+  min-height: 30px;
+  color: var(--ni-text-2);
+  font-size: 12px;
+}
+
+.ni-field__controls {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ni-input {
+  width: 100%;
+  min-width: 0;
+  height: 28px;
+  padding: 0 8px;
+  color: var(--ni-text);
+  font: inherit;
+  font-family: var(--ni-font-mono);
+  font-size: 12px;
+  background: var(--ni-bg-deep);
+  border: 1px solid var(--ni-line-strong);
+  border-radius: var(--ni-radius-s);
+}
+
+.ni-input:focus-visible {
+  outline: 2px solid var(--ni-focus);
+  outline-offset: 1px;
+}
+
+.ni-color-input {
+  flex: none;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--ni-line-strong);
+  border-radius: var(--ni-radius-s);
+  cursor: pointer;
+}
+
+.ni-button--toggled {
+  color: var(--ni-on-accent);
+  background: var(--ni-accent);
+  border-color: var(--ni-accent);
+}
+
+.ni-note {
+  margin: 0;
+  color: var(--ni-text-3);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.ni-note--warning {
+  color: var(--ni-text);
+}
