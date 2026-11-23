@@ -17,7 +17,7 @@ const MESSAGES: Record<string, string> = {
   'color.eyedropper.name': 'Conta-gotas',
   'color.eyedropper.desc': 'Pega a cor de qualquer pixel',
   'color.eyedropper.keywords': 'cor, pixel, picker, hex',
-  'layout.boxModel.name': 'Modelo de caixa',
+  'layout.boxModel.name': 'Caixa do elemento',
   'layout.boxModel.desc': 'Mostra margem, padding e borda',
   'layout.boxModel.keywords': 'margin, padding, espaçamento',
 };

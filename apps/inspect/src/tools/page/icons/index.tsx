@@ -4,7 +4,7 @@ import { useT } from '../../../lib/i18n';
 import { Badge, EmptyState, PanelSection } from '../../../ui';
 import type { ToolModule } from '../../types';
 import { downloadAssetUrl, downloadInlineSvg } from '../assets/assetDownload';
-import { fileNameFromUrl } from '../shared/format';
+import { fileNameFromUrl, toFileSlug } from '../shared/format';
 import { ScanView } from '../shared/ScanView';
 import { useElementFocus } from '../shared/useElementFocus';
 import { useScan } from '../shared/useScan';
@@ -45,9 +45,7 @@ const IconTile = ({ icon, onFocus }: { icon: PageIcon; onFocus: (icon: PageIcon)
           type="button"
           className="ni-icon-button"
           aria-label={t('page.assets.download', { name: icon.name })}
-          onClick={() =>
-            downloadInlineSvg(icon.markup, icon.name.replace(/[^\w.-]+/g, '-') || 'icon')
-          }
+          onClick={() => downloadInlineSvg(icon.markup, toFileSlug(icon.name) || 'icon')}
         >
           <Download size={14} aria-hidden="true" />
         </button>

@@ -1,12 +1,12 @@
 import { Eraser, RefreshCw, TextCursorInput } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useT } from '../../../lib/i18n';
 import { toast } from '../../../lib/toast';
 import { Badge, CopyRow, PanelSection } from '../../../ui';
 import type { ToolModule } from '../../types';
 import '../utils.css';
 import { type FakePerson, generatePerson } from './fakeData';
-import { clearFilled, type FillReport, fillForms } from './fill';
+import { clearFilled, type FillReport, fillForms, unmarkFilled } from './fill';
 
 const TEST_KINDS = new Set(['cpf', 'cnpj']);
 
@@ -46,6 +46,15 @@ const FormFillPanel = () => {
   const [includePasswords, setIncludePasswords] = useState(false);
   const [overwrite, setOverwrite] = useState(false);
   const [report, setReport] = useState<FillReport | null>(null);
+  const reportRef = useRef<FillReport | null>(null);
+  reportRef.current = report;
+
+  useEffect(
+    () => () => {
+      if (reportRef.current) unmarkFilled(reportRef.current.filled);
+    },
+    [],
+  );
 
   const runFill = (nextPerson: FakePerson): void => {
     if (report) clearFilled(report.filled);

@@ -52,13 +52,17 @@ const writeText = async (text: string): Promise<boolean> => {
   }
 };
 
-export const copyText = async (text: string, label: string): Promise<boolean> => {
+export const copyText = async (
+  text: string,
+  label: string,
+  { remember = true }: { remember?: boolean } = {},
+): Promise<boolean> => {
   const copied = await writeText(text);
   if (!copied) {
     toast(t('core.copy.failed'), 'error');
     return false;
   }
   toast(t('core.copy.done', { label }), 'success');
-  void pushHistory({ text, label, at: Date.now() }).catch(() => undefined);
+  if (remember) void pushHistory({ text, label, at: Date.now() }).catch(() => undefined);
   return true;
 };

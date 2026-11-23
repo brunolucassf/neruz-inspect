@@ -11,6 +11,7 @@ EQUIPE-FONTE-DEV-V4/
 node_modules/
 .output/
 .output-test/
+apps/inspect/.output-e2e/
 .wxt/
 .astro/
 dist/

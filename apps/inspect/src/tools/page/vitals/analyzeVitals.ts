@@ -1,3 +1,4 @@
+import { isOverlayElement } from '../../../lib/picker';
 import { computeCls, computeInp, type ResourceSummary, summarizeResources } from './vitalsMath';
 
 type LayoutShiftSource = { node: Node | null };
@@ -100,12 +101,14 @@ export const createVitalsCollector = (onChange: () => void): VitalsCollector => 
     'event',
     (entries) => {
       for (const entry of entries as EventEntry[]) {
+        const target = toElement(entry.target);
+        if (isOverlayElement(target)) continue;
         if (entry.interactionId > 0 && interactions.length < MAX_EVENTS) {
           interactions.push({
             interactionId: entry.interactionId,
             duration: entry.duration,
             name: entry.name,
-            target: toElement(entry.target),
+            target,
           });
         }
       }

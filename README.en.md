@@ -26,16 +26,16 @@ It is **free**, **open source (MIT)** and runs **in your browser**. No account, 
 
 ## Tools
 
-| Group | Tools |
-| --- | --- |
-| **Color** | Eyedropper · Page palette · Contrast checker · Color converter · Gradients & shadows · Color blindness |
-| **Typography** | Font finder · Page fonts · Font tester · Type scale |
-| **Layout** | Ruler · Box model · Grid & Flexbox · Overflow finder · Z-index map · Breakpoints · Outlines · Design overlay |
-| **Code** | Copy styles · Copy component · Extract design system · Live edit |
-| **Motion** | Motion inspector · Page toggles |
-| **Tech** | Tech stack · Pixels & tags · Cookies & storage · JSON viewer |
-| **Page** | SEO & meta tags · Structured data · Robots & sitemap · Link checker · Assets · Icons & favicons · Core Web Vitals · Accessibility · PDF report *(in development)* |
-| **Utilities** | Unit converter · Lorem ipsum · Form filler · QR code · Copy history |
+| Group          | Tools                                                                                                                                                             |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Color**      | Eyedropper · Page palette · Contrast checker · Color converter · Gradients & shadows · Color blindness                                                            |
+| **Typography** | Font finder · Page fonts · Font tester · Type scale                                                                                                               |
+| **Layout**     | Ruler · Box model · Grid & Flexbox · Overflow finder · Z-index map · Breakpoints · Outlines · Design overlay                                                      |
+| **Code**       | Copy styles · Copy component · Extract design system · Live edit                                                                                                  |
+| **Motion**     | Motion inspector · Page toggles                                                                                                                                   |
+| **Tech**       | Tech stack · Pixels & tags · Cookies & storage · JSON viewer                                                                                                      |
+| **Page**       | SEO & meta tags · Structured data · Robots & sitemap · Link checker · Assets · Icons & favicons · Core Web Vitals · Accessibility · PDF report _(in development)_ |
+| **Utilities**  | Unit converter · Lorem ipsum · Form filler · QR code · Copy history                                                                                               |
 
 Each group has an icon on the toolbar. Click it to see its tools, or press `/` and search by name or keyword.
 
@@ -54,23 +54,23 @@ Nothing leaves your browser. The extension has no server of its own, asks for no
 
 The only connections are the ones you ask for: checking links or downloading files from other sites, and loading a Google font when you pick one in "Font tester".
 
-| Permission | Why |
-| --- | --- |
-| `storage` (required) | Save language, color format, unit and copy history, only in this browser |
-| `activeTab` (required) | Give temporary access only to the current tab, when you click the icon or use the shortcut |
-| `scripting` (required) | Inject the extension's own script into that tab to read styles, fonts, tags and page data |
-| `clipboardWrite` (optional) | Copy values to the clipboard, requested when you copy |
+| Permission                                          | Why                                                                                                          |
+| --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `storage` (required)                                | Save language, color format, unit and copy history, only in this browser                                     |
+| `activeTab` (required)                              | Give temporary access only to the current tab, when you click the icon or use the shortcut                   |
+| `scripting` (required)                              | Inject the extension's own script into that tab to read styles, fonts, tags and page data                    |
+| `clipboardWrite` (optional)                         | Copy values to the clipboard, requested when you copy                                                        |
 | Access to `http://*/*` and `https://*/*` (optional) | Check links and download files from other domains. Requested only with your click, and removable in settings |
 
 We don't ask for access to all sites, the list of tabs, cookies, the browser debugger, or to intercept network traffic (`webRequest`). Minimum permissions are the rule: anything a tool doesn't need is not requested.
 
 ## Install
 
-| Browser | Where |
-| --- | --- |
+| Browser              | Where                          |
+| -------------------- | ------------------------------ |
 | Chrome, Brave, Opera | Chrome Web Store (coming soon) |
-| Edge | Edge Add-ons (coming soon) |
-| Firefox 128+ | Firefox Add-ons (coming soon) |
+| Edge                 | Edge Add-ons (coming soon)     |
+| Firefox 128+         | Firefox Add-ons (coming soon)  |
 
 ### Load unpacked, from the build
 
@@ -101,26 +101,27 @@ pnpm build:landing      # builds the presentation site
 pnpm lint && pnpm typecheck && pnpm test
 ```
 
-| Script | What it does |
-| --- | --- |
-| `dev:ext`, `dev:ext:firefox` | Runs the extension in development mode (WXT) |
-| `build:ext`, `build:ext:firefox` | Builds the extension package for each browser |
-| `dev:landing`, `build:landing` | Runs or builds the presentation site (Astro) |
-| `lint` | Checks the code with Biome |
-| `typecheck` | Runs the type check in every package |
-| `test` | Runs the tests with Vitest |
+| Script                           | What it does                                                                                                    |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| `dev:ext`, `dev:ext:firefox`     | Runs the extension in development mode (WXT)                                                                    |
+| `build:ext`, `build:ext:firefox` | Builds the extension package for each browser                                                                   |
+| `dev:landing`, `build:landing`   | Runs or builds the presentation site (Astro)                                                                    |
+| `lint`                           | Checks the code with Biome                                                                                      |
+| `typecheck`                      | Runs the type check in every package                                                                            |
+| `test`                           | Runs the tests with Vitest                                                                                      |
+| `test:e2e`                       | Builds with `VITE_NI_E2E=true` (open shadow root for tests only; closed in production) and drives real Chromium |
 
 ### Monorepo structure
 
-| Folder | Contents |
-| --- | --- |
-| `apps/inspect` | Extension (WXT, React, TypeScript) |
-| `apps/landing` | Presentation site (Astro, Three.js, GSAP, Lenis) |
-| `packages/core` | Shared messaging and async utilities |
-| `packages/i18n` | pt-BR, en and es locales and translator |
-| `packages/ui` | Design tokens, buttons and graphic components |
-| `packages/config` | Base TypeScript configuration |
-| `docs` | Architecture, decisions and visual assets |
+| Folder            | Contents                                         |
+| ----------------- | ------------------------------------------------ |
+| `apps/inspect`    | Extension (WXT, React, TypeScript)               |
+| `apps/landing`    | Presentation site (Astro, Three.js, GSAP, Lenis) |
+| `packages/core`   | Shared messaging and async utilities             |
+| `packages/i18n`   | pt-BR, en and es locales and translator          |
+| `packages/ui`     | Design tokens, buttons and graphic components    |
+| `packages/config` | Base TypeScript configuration                    |
+| `docs`            | Architecture, decisions and visual assets        |
 
 Stack: pnpm workspaces, WXT 0.21.5, React 19.3.1, Zustand 5.1.0, Valibot 1.5.0, lucide-react 1.72.0, TypeScript 6.0.3, Biome 2.6.7, Vitest 4.1.12. The landing uses Astro 7.4.11, GSAP 3.15.1, Lenis 1.3.27 and Three.js 0.187.0.
 

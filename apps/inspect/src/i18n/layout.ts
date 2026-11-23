@@ -2,7 +2,7 @@ import type { GroupMessages } from '../tools/types';
 
 export default {
   'pt-BR': {
-    'layout.boxModel.name': 'Modelo de caixa',
+    'layout.boxModel.name': 'Caixa do elemento',
     'layout.boxModel.desc': 'Passe o mouse e veja conteúdo, padding e margin. Clique para travar.',
     'layout.boxModel.keywords':
       'box model, margin, padding, border, borda, espaçamento, tamanho, raio, display',

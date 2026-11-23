@@ -1,4 +1,4 @@
-import { ExternalLink, Layers, RefreshCw } from 'lucide-react';
+import { Copy, ExternalLink, Layers, RefreshCw } from 'lucide-react';
 import { type CSSProperties, useEffect, useState } from 'react';
 import { fetchViaBackground, runProbe } from '../../../lib/bridge';
 import { copyText } from '../../../lib/clipboard';
@@ -108,6 +108,7 @@ const TechStackPanel = () => {
     return <EmptyState kind="loading" title={t('tech.techStack.loading')} />;
   }
 
+  const rescanLabel = t('tech.techStack.rescan');
   const rescan = (
     <button
       type="button"
@@ -115,7 +116,7 @@ const TechStackPanel = () => {
       onClick={() => setScanId(scanId + 1)}
     >
       <RefreshCw size={13} aria-hidden="true" />
-      {t('tech.techStack.rescan')}
+      {rescanLabel}
     </button>
   );
 
@@ -151,13 +152,23 @@ const TechStackPanel = () => {
         {state.list.length > 0 ? (
           <button
             type="button"
-            className="ni-button"
+            className="ni-icon-button"
+            aria-label={t('tech.techStack.copy')}
+            title={t('tech.techStack.copy')}
             onClick={() => void copyText(plainText, t('tech.techStack.copyLabel'))}
           >
-            {t('tech.techStack.copy')}
+            <Copy size={14} aria-hidden="true" />
           </button>
         ) : null}
-        {rescan}
+        <button
+          type="button"
+          className="ni-icon-button"
+          aria-label={rescanLabel}
+          title={rescanLabel}
+          onClick={() => setScanId(scanId + 1)}
+        >
+          <RefreshCw size={14} aria-hidden="true" />
+        </button>
       </div>
       {groups.length === 0 ? (
         <EmptyState title={t('tech.techStack.empty.title')} hint={t('tech.techStack.empty.hint')} />

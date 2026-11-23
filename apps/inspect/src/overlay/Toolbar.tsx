@@ -116,9 +116,9 @@ export const Toolbar = ({ searchRef, onClose }: ToolbarProps) => {
   useEffect(() => {
     const keepInsideViewport = (): void => {
       const bar = barRef.current;
-      const current = useSettingsStore.getState().toolbarPosition;
+      const current = savedPosition;
       if (!bar || !current) return;
-      const { width, height } = bar.getBoundingClientRect();
+      const { offsetWidth: width, offsetHeight: height } = bar;
       const clamped = clampPosition(current, { width, height }, getViewport());
       if (clamped.x !== current.x || clamped.y !== current.y) {
         void updateSettings({ toolbarPosition: clamped });
@@ -127,12 +127,12 @@ export const Toolbar = ({ searchRef, onClose }: ToolbarProps) => {
     keepInsideViewport();
     window.addEventListener('resize', keepInsideViewport);
     return () => window.removeEventListener('resize', keepInsideViewport);
-  }, []);
+  }, [savedPosition]);
 
   const moveTo = (point: Point): void => {
     const bar = barRef.current;
     if (!bar) return;
-    const { width, height } = bar.getBoundingClientRect();
+    const { offsetWidth: width, offsetHeight: height } = bar;
     const clamped = clampPosition(point, { width, height }, getViewport());
     latestDrag.current = clamped;
     setDragPosition(clamped);

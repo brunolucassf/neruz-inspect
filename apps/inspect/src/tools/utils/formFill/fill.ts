@@ -219,6 +219,10 @@ export const fillForms = (
   return report;
 };
 
+export const unmarkFilled = (records: readonly FilledRecord[]): void => {
+  for (const { element } of records) element.removeAttribute(TEST_MARK_ATTRIBUTE);
+};
+
 export const clearFilled = (records: readonly FilledRecord[]): number => {
   let restored = 0;
   for (const { element, kind, previous } of records) {

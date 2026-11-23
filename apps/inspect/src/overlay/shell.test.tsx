@@ -10,7 +10,7 @@ it('renders the boxModel panel with credits and a tool list', () => {
   const tool = getTool('boxModel');
   if (!tool) throw new Error('boxModel is not registered');
   const panel = renderToString(<Panel tool={tool} />);
-  expect(panel).toContain('Modelo de caixa');
+  expect(panel).toContain('Caixa do elemento');
   expect(panel).toContain('https://fontedev.com');
   expect(panel).toContain('Nenhum elemento selecionado');
   const entries = buildSearchIndex([tool], t);

@@ -163,6 +163,8 @@ export default {
     'page.assets.alertCount': 'Alertas: {n}',
     'page.assets.truncated': 'Página grande: o resultado pode estar incompleto.',
     'page.assets.measure': 'Medir o peso de {n} arquivos',
+    'page.assets.measure_one': 'Medir o peso de {n} arquivo',
+    'page.assets.measure_other': 'Medir o peso de {n} arquivos',
     'page.assets.measuring': 'Medindo…',
     'page.assets.permissionNote':
       'Arquivos de outros domínios dependem da permissão de acesso a outros sites (Opções). Sem ela, abrimos o arquivo em uma nova aba.',
@@ -239,6 +241,10 @@ export default {
     'page.a11y.clean.hint':
       'Analisamos {n} elementos. Isso não garante que a página seja acessível.',
     'page.a11y.sheetsSkipped':
+      '{n} folhas de estilo de outro domínio não puderam ser lidas na checagem de foco.',
+    'page.a11y.sheetsSkipped_one':
+      '{n} folha de estilo de outro domínio não pôde ser lida na checagem de foco.',
+    'page.a11y.sheetsSkipped_other':
       '{n} folhas de estilo de outro domínio não puderam ser lidas na checagem de foco.',
     'page.a11y.noElement': 'Página inteira',
     'page.a11y.highlightAll': 'Destacar todos',
@@ -428,6 +434,8 @@ export default {
     'page.assets.alertCount': 'Alerts: {n}',
     'page.assets.truncated': 'Large page: results may be incomplete.',
     'page.assets.measure': 'Measure the weight of {n} files',
+    'page.assets.measure_one': 'Measure the weight of {n} file',
+    'page.assets.measure_other': 'Measure the weight of {n} files',
     'page.assets.measuring': 'Measuring…',
     'page.assets.permissionNote':
       'Files on other domains depend on permission to access other sites (Options). Without it, we open the file in a new tab.',
@@ -503,6 +511,10 @@ export default {
     'page.a11y.clean.hint':
       "We scanned {n} elements. That doesn't guarantee the page is accessible.",
     'page.a11y.sheetsSkipped':
+      "{n} stylesheets from other domains couldn't be read for the focus check.",
+    'page.a11y.sheetsSkipped_one':
+      "{n} stylesheet from another domain couldn't be read for the focus check.",
+    'page.a11y.sheetsSkipped_other':
       "{n} stylesheets from other domains couldn't be read for the focus check.",
     'page.a11y.noElement': 'Whole page',
     'page.a11y.highlightAll': 'Highlight all',
@@ -696,6 +708,8 @@ export default {
     'page.assets.alertCount': 'Alertas: {n}',
     'page.assets.truncated': 'Página grande: el resultado puede estar incompleto.',
     'page.assets.measure': 'Medir el peso de {n} archivos',
+    'page.assets.measure_one': 'Medir el peso de {n} archivo',
+    'page.assets.measure_other': 'Medir el peso de {n} archivos',
     'page.assets.measuring': 'Midiendo…',
     'page.assets.permissionNote':
       'Los archivos de otros dominios dependen del permiso de acceso a otros sitios (Opciones). Sin él, abrimos el archivo en una pestaña nueva.',
@@ -773,6 +787,10 @@ export default {
     'page.a11y.clean.hint':
       'Analizamos {n} elementos. Eso no garantiza que la página sea accesible.',
     'page.a11y.sheetsSkipped':
+      '{n} hojas de estilo de otro dominio no se pudieron leer en la revisión del foco.',
+    'page.a11y.sheetsSkipped_one':
+      '{n} hoja de estilo de otro dominio no se pudo leer en la revisión del foco.',
+    'page.a11y.sheetsSkipped_other':
       '{n} hojas de estilo de otro dominio no se pudieron leer en la revisión del foco.',
     'page.a11y.noElement': 'Toda la página',
     'page.a11y.highlightAll': 'Resaltar todos',

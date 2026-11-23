@@ -19,6 +19,11 @@ export const OverlayApp = ({ onClose }: OverlayAppProps) => {
   const tool = activeTool ? getTool(activeTool) : undefined;
 
   useEffect(() => {
+    const getFocusedElement = (): Element | null => {
+      const root = rootRef.current?.getRootNode();
+      const insideOverlay = root instanceof ShadowRoot ? root.activeElement : null;
+      return insideOverlay ?? document.activeElement;
+    };
     const handleKey = (event: KeyboardEvent): void => {
       const state = useOverlayStore.getState();
       if (event.key === 'Escape') {
@@ -34,7 +39,7 @@ export const OverlayApp = ({ onClose }: OverlayAppProps) => {
         return;
       }
       const isPlainSlash = event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey;
-      if (isPlainSlash && !isEditableTarget(event.composedPath()[0] ?? null)) {
+      if (isPlainSlash && !isEditableTarget(getFocusedElement())) {
         event.preventDefault();
         event.stopImmediatePropagation();
         searchRef.current?.focus();

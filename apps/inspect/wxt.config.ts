@@ -1,9 +1,12 @@
 import { defineConfig } from 'wxt';
 
+declare const process: { env: Record<string, string | undefined> };
+
 const GECKO_ID = 'neruz-inspect@fontedev.com';
 
 export default defineConfig({
   manifestVersion: 3,
+  outDir: process.env.NI_OUT_DIR ?? '.output',
   manifest: ({ browser }) => {
     const isFirefox = browser === 'firefox';
     return {

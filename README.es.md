@@ -26,16 +26,16 @@ Es **gratis**, **de código abierto (MIT)** y funciona **en tu navegador**. Sin 
 
 ## Herramientas
 
-| Grupo | Herramientas |
-| --- | --- |
-| **Color** | Cuentagotas · Paleta de la página · Revisar contraste · Conversor de color · Degradados y sombras · Daltonismo |
-| **Tipografía** | Qué fuente es · Fuentes de la página · Probar fuente · Escala tipográfica |
-| **Layout** | Regla · Caja del elemento · Grid y Flexbox · Scroll horizontal · Mapa de capas · Breakpoints · Contornos · Superponer diseño |
-| **Código** | Copiar estilos · Copiar componente · Extraer design system · Editar en vivo |
-| **Movimiento** | Inspector de movimiento · Interruptores |
-| **Tecnología** | Tecnologías del sitio · Píxeles y etiquetas · Cookies y storage · Visor de JSON |
-| **Página** | SEO y meta tags · Datos estructurados · Robots y sitemap · Enlaces · Imágenes y archivos · Íconos y favicons · Rendimiento · Accesibilidad · Informe en PDF *(en desarrollo)* |
-| **Utilidades** | Conversor de unidades · Lorem ipsum · Llenar formularios · Código QR · Historial de copias |
+| Grupo          | Herramientas                                                                                                                                                                  |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Color**      | Cuentagotas · Paleta de la página · Revisar contraste · Conversor de color · Degradados y sombras · Daltonismo                                                                |
+| **Tipografía** | Qué fuente es · Fuentes de la página · Probar fuente · Escala tipográfica                                                                                                     |
+| **Layout**     | Regla · Caja del elemento · Grid y Flexbox · Scroll horizontal · Mapa de capas · Breakpoints · Contornos · Superponer diseño                                                  |
+| **Código**     | Copiar estilos · Copiar componente · Extraer design system · Editar en vivo                                                                                                   |
+| **Movimiento** | Inspector de movimiento · Interruptores                                                                                                                                       |
+| **Tecnología** | Tecnologías del sitio · Píxeles y etiquetas · Cookies y storage · Visor de JSON                                                                                               |
+| **Página**     | SEO y meta tags · Datos estructurados · Robots y sitemap · Enlaces · Imágenes y archivos · Íconos y favicons · Rendimiento · Accesibilidad · Informe en PDF _(en desarrollo)_ |
+| **Utilidades** | Conversor de unidades · Lorem ipsum · Llenar formularios · Código QR · Historial de copias                                                                                    |
 
 Cada grupo tiene un ícono en la barra. Haz clic para ver sus herramientas, o presiona `/` y busca por nombre o por una palabra clave.
 
@@ -54,23 +54,23 @@ Nada sale de tu navegador. La extensión no tiene servidor propio, no pide cuent
 
 Las únicas conexiones son las que tú pides: revisar enlaces o descargar archivos de otros sitios, y cargar una fuente de Google cuando eliges una en "Probar fuente".
 
-| Permiso | Para qué |
-| --- | --- |
-| `storage` (obligatorio) | Guardar idioma, formato de color, unidad e historial de copias, solo en este navegador |
-| `activeTab` (obligatorio) | Dar acceso temporal solo a la pestaña actual, cuando haces clic en el ícono o usas el atajo |
-| `scripting` (obligatorio) | Colocar el script de la propia extensión en esa pestaña para leer estilos, fuentes, etiquetas y datos de la página |
-| `clipboardWrite` (opcional) | Copiar valores al portapapeles, pedido cuando copias |
+| Permiso                                          | Para qué                                                                                                           |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
+| `storage` (obligatorio)                          | Guardar idioma, formato de color, unidad e historial de copias, solo en este navegador                             |
+| `activeTab` (obligatorio)                        | Dar acceso temporal solo a la pestaña actual, cuando haces clic en el ícono o usas el atajo                        |
+| `scripting` (obligatorio)                        | Colocar el script de la propia extensión en esa pestaña para leer estilos, fuentes, etiquetas y datos de la página |
+| `clipboardWrite` (opcional)                      | Copiar valores al portapapeles, pedido cuando copias                                                               |
 | Acceso a `http://*/*` y `https://*/*` (opcional) | Revisar enlaces y descargar archivos de otros dominios. Se pide solo con un clic tuyo y se puede quitar en ajustes |
 
 No pedimos acceso a todos los sitios, a la lista de pestañas, a cookies, al depurador del navegador ni para interceptar la red (`webRequest`). El permiso mínimo es la regla: lo que una herramienta no necesita no se pide.
 
 ## Instalar
 
-| Navegador | Dónde |
-| --- | --- |
+| Navegador            | Dónde                     |
+| -------------------- | ------------------------- |
 | Chrome, Brave, Opera | Chrome Web Store (pronto) |
-| Edge | Edge Add-ons (pronto) |
-| Firefox 128+ | Firefox Add-ons (pronto) |
+| Edge                 | Edge Add-ons (pronto)     |
+| Firefox 128+         | Firefox Add-ons (pronto)  |
 
 ### Cargar sin comprimir, desde el build
 
@@ -101,26 +101,27 @@ pnpm build:landing      # genera el sitio de presentación
 pnpm lint && pnpm typecheck && pnpm test
 ```
 
-| Script | Qué hace |
-| --- | --- |
-| `dev:ext`, `dev:ext:firefox` | Ejecuta la extensión en modo desarrollo (WXT) |
-| `build:ext`, `build:ext:firefox` | Genera el paquete de la extensión para cada navegador |
-| `dev:landing`, `build:landing` | Ejecuta o genera el sitio de presentación (Astro) |
-| `lint` | Revisa el código con Biome |
-| `typecheck` | Ejecuta la comprobación de tipos en todos los paquetes |
-| `test` | Ejecuta las pruebas con Vitest |
+| Script                           | Qué hace                                                                                                              |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| `dev:ext`, `dev:ext:firefox`     | Ejecuta la extensión en modo desarrollo (WXT)                                                                         |
+| `build:ext`, `build:ext:firefox` | Genera el paquete de la extensión para cada navegador                                                                 |
+| `dev:landing`, `build:landing`   | Ejecuta o genera el sitio de presentación (Astro)                                                                     |
+| `lint`                           | Revisa el código con Biome                                                                                            |
+| `typecheck`                      | Ejecuta la comprobación de tipos en todos los paquetes                                                                |
+| `test`                           | Ejecuta las pruebas con Vitest                                                                                        |
+| `test:e2e`                       | Compila con `VITE_NI_E2E=true` (shadow root abierto solo para las pruebas; cerrado en producción) y usa Chromium real |
 
 ### Estructura del monorepo
 
-| Carpeta | Contenido |
-| --- | --- |
-| `apps/inspect` | Extensión (WXT, React, TypeScript) |
-| `apps/landing` | Sitio de presentación (Astro, Three.js, GSAP, Lenis) |
-| `packages/core` | Mensajería y utilidades asíncronas compartidas |
-| `packages/i18n` | Idiomas pt-BR, en y es y traductor |
-| `packages/ui` | Tokens de diseño, botones y componentes gráficos |
-| `packages/config` | Configuración base de TypeScript |
-| `docs` | Arquitectura, decisiones y recursos visuales |
+| Carpeta           | Contenido                                            |
+| ----------------- | ---------------------------------------------------- |
+| `apps/inspect`    | Extensión (WXT, React, TypeScript)                   |
+| `apps/landing`    | Sitio de presentación (Astro, Three.js, GSAP, Lenis) |
+| `packages/core`   | Mensajería y utilidades asíncronas compartidas       |
+| `packages/i18n`   | Idiomas pt-BR, en y es y traductor                   |
+| `packages/ui`     | Tokens de diseño, botones y componentes gráficos     |
+| `packages/config` | Configuración base de TypeScript                     |
+| `docs`            | Arquitectura, decisiones y recursos visuales         |
 
 Stack: pnpm workspaces, WXT 0.21.5, React 19.3.1, Zustand 5.1.0, Valibot 1.5.0, lucide-react 1.72.0, TypeScript 6.0.3, Biome 2.6.7, Vitest 4.1.12. La landing usa Astro 7.4.11, GSAP 3.15.1, Lenis 1.3.27 y Three.js 0.187.0.
 

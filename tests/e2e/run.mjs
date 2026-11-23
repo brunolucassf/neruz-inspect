@@ -29,8 +29,11 @@ const page = await context.newPage();
 page.setDefaultTimeout(6000);
 
 let consoleErrors = [];
+const isExpectedBrokenLinkLog = (message) =>
+  message.text().includes('status of 404') && message.location().url.endsWith('/missing.html');
 page.on('console', (m) => {
-  if (m.type() === 'error') consoleErrors.push(`console.error: ${m.text().slice(0, 300)}`);
+  if (m.type() === 'error' && !isExpectedBrokenLinkLog(m))
+    consoleErrors.push(`console.error: ${m.text().slice(0, 300)}`);
 });
 page.on('pageerror', (e) => consoleErrors.push(`pageerror: ${e.message.slice(0, 300)}`));
 worker.on('console', (m) => {
@@ -222,8 +225,8 @@ const behave = async (name, fn) => {
 if (!only) {
   await behave('toggle liga/desliga (injetar 2x remove; 3x volta)', async () => {
     await openFixture();
-    await injectAndWait();
     const before = await fingerprint(page);
+    await injectAndWait();
     await toggleOverlay();
     await sleep(500);
     if ((await page.locator('neruz-inspect').count()) !== 0)

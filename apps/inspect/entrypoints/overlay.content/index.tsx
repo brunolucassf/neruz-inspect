@@ -3,14 +3,14 @@ import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root';
 import { defineContentScript } from 'wxt/utils/define-content-script';
 import { notifyOverlayState } from '../../src/lib/bridge';
 import { clearHighlights } from '../../src/lib/highlight';
+import { OVERLAY_MOUNT_FLAG, type OverlayHandle } from '../../src/lib/overlayMountFlag';
 import { OVERLAY_HOST_TAG } from '../../src/lib/picker';
 import { initSettings } from '../../src/lib/settings';
 import { OverlayApp } from '../../src/overlay/OverlayApp';
 
-const MOUNT_FLAG = '__neruzInspectOverlay__';
+const SHADOW_MODE = import.meta.env.VITE_NI_E2E === 'true' ? 'open' : 'closed';
 
-type OverlayHandle = { remove: () => void };
-type FlaggedWindow = Window & { [MOUNT_FLAG]?: OverlayHandle };
+type FlaggedWindow = Window & { [OVERLAY_MOUNT_FLAG]?: OverlayHandle };
 
 export default defineContentScript({
   registration: 'runtime',
@@ -18,7 +18,7 @@ export default defineContentScript({
   cssInjectionMode: 'ui',
   async main(ctx) {
     const host = window as FlaggedWindow;
-    const existing = host[MOUNT_FLAG];
+    const existing = host[OVERLAY_MOUNT_FLAG];
     if (existing) {
       existing.remove();
       return;
@@ -29,25 +29,25 @@ export default defineContentScript({
     let root: Root | undefined;
     const ui = await createShadowRootUi(ctx, {
       name: OVERLAY_HOST_TAG,
+      mode: SHADOW_MODE,
       position: 'overlay',
       zIndex: 2147483647,
       onMount(container) {
         root = createRoot(container);
-        root.render(<OverlayApp onClose={() => host[MOUNT_FLAG]?.remove()} />);
+        root.render(<OverlayApp onClose={() => host[OVERLAY_MOUNT_FLAG]?.remove()} />);
         return root;
       },
       onRemove() {
         root?.unmount();
         clearHighlights();
         stopSettingsSync();
-        host[MOUNT_FLAG] = undefined;
+        host[OVERLAY_MOUNT_FLAG] = undefined;
         void notifyOverlayState(false);
       },
     });
 
     ui.mount();
-    host[MOUNT_FLAG] = { remove: () => ui.remove() };
-    ctx.onInvalidated(() => ui.remove());
+    host[OVERLAY_MOUNT_FLAG] = { remove: () => ui.remove() };
     void notifyOverlayState(true);
   },
 });

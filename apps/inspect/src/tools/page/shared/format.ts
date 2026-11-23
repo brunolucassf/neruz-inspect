@@ -25,3 +25,9 @@ export const fileNameFromUrl = (url: string, fallback: string): string => {
     return fallback;
   }
 };
+
+export const toFileSlug = (name: string): string =>
+  name
+    .normalize('NFD')
+    .replace(/\p{M}+/gu, '')
+    .replace(/[^\w.-]+/g, '-');

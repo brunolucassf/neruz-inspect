@@ -29,6 +29,7 @@
       "**",
 
       "!docs",
+      "!tests/fixtures",
       "!.claude",
       "!.equipe",
       "!_entrada",

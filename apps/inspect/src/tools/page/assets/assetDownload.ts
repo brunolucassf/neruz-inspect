@@ -2,7 +2,7 @@ import { fetchViaBackground } from '../../../lib/bridge';
 import { downloadBlob, downloadText } from '../../../lib/download';
 import { t } from '../../../lib/i18n';
 import { toast } from '../../../lib/toast';
-import { fileNameFromUrl } from '../shared/format';
+import { fileNameFromUrl, toFileSlug } from '../shared/format';
 import { isSameOrigin } from '../shared/readers';
 
 const SVG_MIME = 'image/svg+xml';
@@ -32,7 +32,18 @@ const fetchSvgViaBackground = async (url: string): Promise<Blob | null> => {
   }
 };
 
+const OPENABLE_PROTOCOLS = new Set(['http:', 'https:', 'blob:']);
+
+const isOpenableUrl = (url: string): boolean => {
+  try {
+    return OPENABLE_PROTOCOLS.has(new URL(url, location.href).protocol);
+  } catch {
+    return false;
+  }
+};
+
 const openInNewTab = (url: string): void => {
+  if (!isOpenableUrl(url)) return;
   window.open(url, '_blank', 'noopener,noreferrer');
   toast(t('page.assets.openedTab'), 'info');
 };
@@ -60,7 +71,7 @@ export const downloadAllInlineSvgs = async (
 ): Promise<void> => {
   const used = new Set<string>();
   for (const [index, svg] of svgs.entries()) {
-    let name = svg.name.replace(/[^\w.-]+/g, '-');
+    let name = toFileSlug(svg.name);
     if (used.has(name)) name = `${index + 1}-${name}`;
     used.add(name);
     downloadInlineSvg(svg.markup, name);

@@ -1,3 +1,4 @@
+import { spawnSync } from 'node:child_process';
 import { cpSync, existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { dirname, join, resolve } from 'node:path';
@@ -5,7 +6,8 @@ import { fileURLToPath } from 'node:url';
 import { chromium } from 'playwright';
 
 export const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
-export const BUILD_DIR = join(ROOT, 'apps', 'inspect', '.output', 'chrome-mv3');
+export const E2E_OUT_DIR = '.output-e2e';
+export const BUILD_DIR = join(ROOT, 'apps', 'inspect', E2E_OUT_DIR, 'chrome-mv3');
 export const TEST_BUILD_DIR = join(ROOT, 'apps', 'inspect', '.output-test', 'chrome-mv3');
 export const SHOTS_DIR = join(ROOT, '.equipe', 'relatorios', 'qa');
 
@@ -17,10 +19,21 @@ export const TEST_HOSTS = [
   'https://developer.mozilla.org/*',
 ];
 
-/** Copia o build e acrescenta host_permissions de teste (activeTab não vale em automação). */
+/** Constrói com o shadow root aberto (VITE_NI_E2E) para os testes entrarem nele, copia e acrescenta host_permissions de teste. */
+const buildForE2e = () => {
+  const result = spawnSync('pnpm', ['--filter', '@neruz/inspect', 'build'], {
+    cwd: ROOT,
+    stdio: 'inherit',
+    shell: true,
+    env: { ...process.env, VITE_NI_E2E: 'true', NI_OUT_DIR: E2E_OUT_DIR },
+  });
+  if (result.status !== 0) throw new Error('Falha ao construir a extensão para o E2E.');
+};
+
 export const prepareTestBuild = () => {
+  buildForE2e();
   if (!existsSync(join(BUILD_DIR, 'manifest.json'))) {
-    throw new Error(`Build não encontrado em ${BUILD_DIR}. Rode "pnpm build:ext" antes.`);
+    throw new Error(`Build de teste não encontrado em ${BUILD_DIR}.`);
   }
   rmSync(TEST_BUILD_DIR, { recursive: true, force: true });
   mkdirSync(dirname(TEST_BUILD_DIR), { recursive: true });
@@ -56,16 +69,16 @@ export const getTabId = (worker, urlPattern) =>
     return tabs[0]?.id;
   }, urlPattern);
 
-/** Liga/desliga o overlay injetando o content script a partir do service worker. */
+/** Liga/desliga o overlay pelo mesmo caminho do ícone da barra (gancho existe só no build E2E). */
 export const injectOverlay = (worker, tabId) =>
-  worker.evaluate(
-    (id) =>
-      chrome.scripting
-        .executeScript({ target: { tabId: id }, files: ['/content-scripts/overlay.js'] })
-        .then(() => 'ok')
-        .catch((error) => `erro: ${error.message}`),
-    tabId,
-  );
+  worker.evaluate(async (id) => {
+    try {
+      await globalThis.niToggleOverlay(await chrome.tabs.get(id));
+      return 'ok';
+    } catch (error) {
+      return `erro: ${error.message}`;
+    }
+  }, tabId);
 
 /** Impressão digital do DOM do site (sem o host do overlay) para provar que nada sobrou. */
 export const fingerprint = (page) =>

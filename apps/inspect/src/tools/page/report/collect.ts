@@ -1,4 +1,5 @@
 import { captureTab, fetchViaBackground, runProbe } from '../../../lib/bridge';
+import { OVERLAY_HOST_TAG } from '../../../lib/picker';
 import { scanPage as scanDesignTokens } from '../../code/designTokens/scan';
 import { buildDesignTokens } from '../../code/designTokens/tokens';
 import { analyzeTags, buildTagsProbeArgs, type TagsProbeResult } from '../../tech/tagsPixels/tags';
@@ -84,9 +85,26 @@ export const shrinkCapture = async (dataUrl: string): Promise<string | null> => 
   }
 };
 
+const waitForPaint = (): Promise<void> =>
+  new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+
+const captureWithoutOverlay = async (): Promise<string> => {
+  const host = document.querySelector<HTMLElement>(OVERLAY_HOST_TAG);
+  const previousVisibility = host?.style.visibility ?? '';
+  if (host) {
+    host.style.visibility = 'hidden';
+    await waitForPaint();
+  }
+  try {
+    return await captureTab();
+  } finally {
+    if (host) host.style.visibility = previousVisibility;
+  }
+};
+
 const collectThumbnail = async (): Promise<string | null> => {
   try {
-    return await shrinkCapture(await captureTab());
+    return await shrinkCapture(await captureWithoutOverlay());
   } catch {
     return null;
   }

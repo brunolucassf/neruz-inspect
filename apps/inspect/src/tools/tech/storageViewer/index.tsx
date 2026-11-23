@@ -142,7 +142,7 @@ const EntryRow = ({ area, entry, onRemoved }: RowProps) => {
               className="ni-icon-button"
               aria-label={t('core.copy.aria', { label: displayName })}
               title={t('core.copy.aria', { label: displayName })}
-              onClick={() => void copyText(entry.value, displayName)}
+              onClick={() => void copyText(entry.value, displayName, { remember: false })}
             >
               <Copy size={14} aria-hidden="true" />
             </button>

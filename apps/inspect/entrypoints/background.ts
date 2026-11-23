@@ -4,6 +4,10 @@ import { handleRuntimeMessage } from '../src/background/routes';
 import { clearBadge, toggleOverlay } from '../src/background/toggle';
 
 export default defineBackground(() => {
+  if (import.meta.env.VITE_NI_E2E === 'true') {
+    Object.assign(globalThis, { niToggleOverlay: toggleOverlay });
+  }
+
   browser.action.onClicked.addListener((tab) => {
     void toggleOverlay(tab);
   });

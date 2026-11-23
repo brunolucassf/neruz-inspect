@@ -1,4 +1,5 @@
 import { browser } from 'wxt/browser';
+import { OVERLAY_MOUNT_FLAG } from '../lib/overlayMountFlag';
 import { isRestrictedUrl } from './restricted';
 
 const OVERLAY_SCRIPT = '/content-scripts/overlay.js';
@@ -25,6 +26,22 @@ export const showRestrictedWarning = async (tabId: number): Promise<void> => {
   setTimeout(() => void clearBadge(tabId), WARNING_VISIBLE_MS);
 };
 
+const removeMountedOverlay = async (tabId: number): Promise<boolean> => {
+  const [result] = await browser.scripting.executeScript({
+    target: { tabId },
+    args: [OVERLAY_MOUNT_FLAG],
+    func: (flag: string): boolean => {
+      const handle = (window as unknown as Record<string, { remove?: () => void } | undefined>)[
+        flag
+      ];
+      if (!handle?.remove) return false;
+      handle.remove();
+      return true;
+    },
+  });
+  return result?.result === true;
+};
+
 export const toggleOverlay = async (tab: { id?: number; url?: string }): Promise<void> => {
   if (tab.id === undefined) return;
   if (isRestrictedUrl(tab.url)) {
@@ -32,6 +49,7 @@ export const toggleOverlay = async (tab: { id?: number; url?: string }): Promise
     return;
   }
   try {
+    if (await removeMountedOverlay(tab.id)) return;
     await browser.scripting.executeScript({ target: { tabId: tab.id }, files: [OVERLAY_SCRIPT] });
   } catch {
     await showRestrictedWarning(tab.id);
