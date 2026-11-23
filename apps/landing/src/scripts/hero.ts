@@ -92,7 +92,10 @@ export function initHero(): HeroController | null {
   const measure = () => {
     stageRect = stage.getBoundingClientRect();
     pageRect = page.getBoundingClientRect();
-    state.radius = Math.min(parseFloat(getComputedStyle(stage).getPropertyValue('--lr')) || 100, stageRect.width * 0.2);
+    state.radius = Math.min(
+      parseFloat(getComputedStyle(stage).getPropertyValue('--lr')) || 100,
+      stageRect.width * 0.2,
+    );
     stage.style.setProperty('--lr', `${state.radius}px`);
   };
 
@@ -131,7 +134,13 @@ export function initHero(): HeroController | null {
     }
     const movingX = isMotion ? stepSpring(springX, delta) : false;
     const movingY = isMotion ? stepSpring(springY, delta) : false;
-    if (!hasPointer && !isPlayingIntro && isMotion && now - lastInput > IDLE_MS && now >= nextTourAt) {
+    if (
+      !hasPointer &&
+      !isPlayingIntro &&
+      isMotion &&
+      now - lastInput > IDLE_MS &&
+      now >= nextTourAt
+    ) {
       const target = tourTarget();
       if (target) {
         springX.target = target.x;
@@ -142,7 +151,8 @@ export function initHero(): HeroController | null {
     }
     render();
     const isTouring = !hasPointer && isMotion && Number.isFinite(nextTourAt);
-    if ((movingX || movingY || isPlayingIntro || isTouring) && isVisible) requestAnimationFrame(frame);
+    if ((movingX || movingY || isPlayingIntro || isTouring) && isVisible)
+      requestAnimationFrame(frame);
     else isRunning = false;
   };
 
@@ -229,10 +239,14 @@ export function initHero(): HeroController | null {
     }
     render();
   }).observe(stage);
-  window.addEventListener('scroll', () => {
-    stageRect = stage.getBoundingClientRect();
-    pageRect = page.getBoundingClientRect();
-  }, { passive: true });
+  window.addEventListener(
+    'scroll',
+    () => {
+      stageRect = stage.getBoundingClientRect();
+      pageRect = page.getBoundingClientRect();
+    },
+    { passive: true },
+  );
 
   new IntersectionObserver(([entry]) => {
     isVisible = entry.isIntersecting;

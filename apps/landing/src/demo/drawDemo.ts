@@ -1,4 +1,11 @@
-import { DEMO_COLORS, DEMO_HEIGHT, DEMO_RECTS, DEMO_SWATCHES, DEMO_WIDTH, type DemoRect } from './layout';
+import {
+  DEMO_COLORS,
+  DEMO_HEIGHT,
+  DEMO_RECTS,
+  DEMO_SWATCHES,
+  DEMO_WIDTH,
+  type DemoRect,
+} from './layout';
 
 export interface DemoTexts {
   nav: string[];
@@ -17,7 +24,9 @@ export function readDemoTexts(stage: ParentNode): DemoTexts {
   const root = stage.querySelector('.demo') ?? stage;
   const read = (selector: string) => root.querySelector(selector)?.textContent?.trim() ?? '';
   return {
-    nav: [...root.querySelectorAll('.demo__links li')].map((item) => item.textContent?.trim() ?? ''),
+    nav: [...root.querySelectorAll('.demo__links li')].map(
+      (item) => item.textContent?.trim() ?? '',
+    ),
     title: read('.demo__title'),
     text: read('.demo__text'),
     button: read('.demo__button'),
@@ -38,7 +47,13 @@ function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number
   return lines;
 }
 
-function drawLines(ctx: CanvasRenderingContext2D, lines: string[], x: number, y: number, lineHeight: number): void {
+function drawLines(
+  ctx: CanvasRenderingContext2D,
+  lines: string[],
+  x: number,
+  y: number,
+  lineHeight: number,
+): void {
   for (const [index, line] of lines.entries()) ctx.fillText(line, x, y + index * lineHeight);
 }
 
@@ -64,7 +79,8 @@ function drawFinished(ctx: CanvasRenderingContext2D, texts: DemoTexts): void {
   ctx.font = `500 15px ${SANS}`;
   const links = DEMO_RECTS.links;
   const widths = texts.nav.map((item) => ctx.measureText(item).width);
-  const gap = (links.w - widths.reduce((sum, width) => sum + width, 0)) / Math.max(1, texts.nav.length - 1);
+  const gap =
+    (links.w - widths.reduce((sum, width) => sum + width, 0)) / Math.max(1, texts.nav.length - 1);
   let cursor = links.x;
   texts.nav.forEach((item, index) => {
     ctx.fillText(item, cursor, links.y + 19);
@@ -72,10 +88,22 @@ function drawFinished(ctx: CanvasRenderingContext2D, texts: DemoTexts): void {
   });
 
   ctx.font = `600 54px ${SERIF}`;
-  drawLines(ctx, wrapLines(ctx, texts.title, DEMO_RECTS.title.w), DEMO_RECTS.title.x, DEMO_RECTS.title.y + 44, 58);
+  drawLines(
+    ctx,
+    wrapLines(ctx, texts.title, DEMO_RECTS.title.w),
+    DEMO_RECTS.title.x,
+    DEMO_RECTS.title.y + 44,
+    58,
+  );
 
   ctx.font = `400 17px ${SANS}`;
-  drawLines(ctx, wrapLines(ctx, texts.text, DEMO_RECTS.text.w), DEMO_RECTS.text.x, DEMO_RECTS.text.y + 19, 26);
+  drawLines(
+    ctx,
+    wrapLines(ctx, texts.text, DEMO_RECTS.text.w),
+    DEMO_RECTS.text.x,
+    DEMO_RECTS.text.y + 19,
+    26,
+  );
 
   ctx.fillStyle = DEMO_COLORS.clay;
   roundedPath(ctx, DEMO_RECTS.button, 6);
@@ -83,14 +111,27 @@ function drawFinished(ctx: CanvasRenderingContext2D, texts: DemoTexts): void {
   ctx.fillStyle = DEMO_COLORS.onClay;
   ctx.font = `600 17px ${SANS}`;
   ctx.textAlign = 'center';
-  ctx.fillText(texts.button, DEMO_RECTS.button.x + DEMO_RECTS.button.w / 2, DEMO_RECTS.button.y + 32);
+  ctx.fillText(
+    texts.button,
+    DEMO_RECTS.button.x + DEMO_RECTS.button.w / 2,
+    DEMO_RECTS.button.y + 32,
+  );
   ctx.textAlign = 'left';
 
   const chipSize = 64;
   const colors = [DEMO_COLORS.clay, DEMO_COLORS.moss, DEMO_COLORS.ink];
   colors.forEach((color, index) => {
     ctx.fillStyle = color;
-    roundedPath(ctx, { x: DEMO_RECTS.swatches.x + index * (chipSize + 24), y: DEMO_RECTS.swatches.y, w: chipSize, h: chipSize }, 5);
+    roundedPath(
+      ctx,
+      {
+        x: DEMO_RECTS.swatches.x + index * (chipSize + 24),
+        y: DEMO_RECTS.swatches.y,
+        w: chipSize,
+        h: chipSize,
+      },
+      5,
+    );
     ctx.fill();
   });
 
@@ -106,7 +147,11 @@ function drawFinished(ctx: CanvasRenderingContext2D, texts: DemoTexts): void {
   ctx.ellipse(146, 392, 96, 14, 0, 0, Math.PI * 2);
   ctx.fill();
   ctx.fillStyle = DEMO_COLORS.clay;
-  ctx.fill(new Path2D('M118 96h56v34c44 22 64 62 64 112 0 56-34 100-92 100s-92-44-92-100c0-50 20-90 64-112Z'));
+  ctx.fill(
+    new Path2D(
+      'M118 96h56v34c44 22 64 62 64 112 0 56-34 100-92 100s-92-44-92-100c0-50 20-90 64-112Z',
+    ),
+  );
   ctx.strokeStyle = DEMO_COLORS.paper;
   ctx.lineWidth = 4;
   ctx.stroke(new Path2D('M96 252c28 14 72 14 100 0'));
@@ -136,7 +181,15 @@ function hatch(ctx: CanvasRenderingContext2D, rect: DemoRect): void {
   ctx.strokeRect(rect.x + 0.5, rect.y + 0.5, rect.w - 1, rect.h - 1);
 }
 
-function tag(ctx: CanvasRenderingContext2D, text: string, x: number, y: number, background: string, color: string, bold = false): void {
+function tag(
+  ctx: CanvasRenderingContext2D,
+  text: string,
+  x: number,
+  y: number,
+  background: string,
+  color: string,
+  bold = false,
+): void {
   ctx.font = `${bold ? 600 : 400} 11px ${MONO}`;
   const width = ctx.measureText(text).width + 10;
   ctx.fillStyle = background;
@@ -162,10 +215,22 @@ function drawProofOverlay(ctx: CanvasRenderingContext2D): void {
   for (const rect of hatched) hatch(ctx, rect);
   ctx.strokeStyle = MAGENTA;
   ctx.lineWidth = 1;
-  ctx.strokeRect(DEMO_RECTS.swatches.x + 0.5, DEMO_RECTS.swatches.y + 0.5, DEMO_RECTS.swatches.w - 1, 63);
+  ctx.strokeRect(
+    DEMO_RECTS.swatches.x + 0.5,
+    DEMO_RECTS.swatches.y + 0.5,
+    DEMO_RECTS.swatches.w - 1,
+    63,
+  );
 
   DEMO_SWATCHES.forEach((swatch, index) => {
-    tag(ctx, swatch.hex, DEMO_RECTS.swatches.x + index * 88, DEMO_RECTS.swatches.y + 72, NIGHT, '#F4F8FC');
+    tag(
+      ctx,
+      swatch.hex,
+      DEMO_RECTS.swatches.x + index * 88,
+      DEMO_RECTS.swatches.y + 72,
+      NIGHT,
+      '#F4F8FC',
+    );
   });
 
   const cotas: { x: number; y: number; w: number; h: number; label: string }[] = [
@@ -180,14 +245,34 @@ function drawProofOverlay(ctx: CanvasRenderingContext2D): void {
     ctx.lineTo(cota.x + cota.w, cota.y + cota.h);
     ctx.stroke();
     const labelWidth = ctx.measureText(cota.label).width + 10;
-    tag(ctx, cota.label, cota.x + cota.w / 2 - labelWidth / 2 + 2, cota.y + cota.h / 2 - 8, MAGENTA, NIGHT, true);
+    tag(
+      ctx,
+      cota.label,
+      cota.x + cota.w / 2 - labelWidth / 2 + 2,
+      cota.y + cota.h / 2 - 8,
+      MAGENTA,
+      NIGHT,
+      true,
+    );
   });
 
   tag(ctx, 'Fraunces 600 · 54/58', 48, 84, NIGHT, MAGENTA);
-  tag(ctx, '560 × 180', DEMO_RECTS.title.x + DEMO_RECTS.title.w - 76, DEMO_RECTS.title.y + DEMO_RECTS.title.h + 4, NIGHT, '#A6B5C5');
+  tag(
+    ctx,
+    '560 × 180',
+    DEMO_RECTS.title.x + DEMO_RECTS.title.w - 76,
+    DEMO_RECTS.title.y + DEMO_RECTS.title.h + 4,
+    NIGHT,
+    '#A6B5C5',
+  );
 }
 
-export function drawDemoTexture(canvas: HTMLCanvasElement, texts: DemoTexts, proof: boolean, scale: number): void {
+export function drawDemoTexture(
+  canvas: HTMLCanvasElement,
+  texts: DemoTexts,
+  proof: boolean,
+  scale: number,
+): void {
   canvas.width = DEMO_WIDTH * scale;
   canvas.height = DEMO_HEIGHT * scale;
   const ctx = canvas.getContext('2d');

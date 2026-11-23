@@ -1,0 +1,272 @@
+.ni-tech-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--ni-line);
+}
+
+.ni-tech-bar__spacer {
+  flex: 1;
+  min-width: 0;
+}
+
+.ni-tech-bar__status {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ni-text-3);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ni-tech-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ni-tech-field {
+  width: 100%;
+  min-width: 0;
+  height: 28px;
+  padding: 0 8px;
+  color: var(--ni-text);
+  font: inherit;
+  font-size: 12px;
+  background: var(--ni-bg-deep);
+  border: 1px solid var(--ni-line-strong);
+  border-radius: var(--ni-radius-s);
+}
+
+textarea.ni-tech-field {
+  height: auto;
+  padding: 6px 8px;
+  font-family: var(--ni-font-mono);
+  line-height: 1.4;
+  resize: vertical;
+}
+
+.ni-tech-field:focus-visible,
+.ni-tech-button:focus-visible,
+.ni-tech-link:focus-visible {
+  outline: 2px solid var(--ni-focus);
+  outline-offset: 1px;
+}
+
+.ni-tech-list {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ni-tech-item {
+  display: grid;
+  grid-template-columns: 28px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  padding: 4px 2px 4px 4px;
+  border-radius: var(--ni-radius-s);
+  animation: ni-tech-enter 160ms var(--ni-ease) both;
+  animation-delay: calc(var(--ni-tech-index, 0) * 30ms);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ni-tech-item:hover {
+    background: var(--ni-bg-hover);
+  }
+}
+
+.ni-tech-avatar {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  place-items: center;
+  color: var(--ni-text);
+  font-size: 11px;
+  font-weight: 700;
+  background: hsl(var(--ni-tech-hue, 200) 42% 24%);
+  border: 1px solid hsl(var(--ni-tech-hue, 200) 42% 42%);
+  border-radius: var(--ni-radius-m);
+}
+
+.ni-tech-main {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ni-tech-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  color: var(--ni-text);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ni-tech-evidence {
+  overflow: hidden;
+  color: var(--ni-text-3);
+  font-family: var(--ni-font-mono);
+  font-size: 10px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ni-tech-details {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.ni-tech-link {
+  display: inline-grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  color: var(--ni-text-2);
+  border-radius: var(--ni-radius-s);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ni-tech-link:hover {
+    color: var(--ni-text);
+    background: var(--ni-bg-hover);
+  }
+}
+
+.ni-tech-card {
+  display: grid;
+  gap: 6px;
+  padding: 8px;
+  background: var(--ni-bg-raised);
+  border: 1px solid var(--ni-line);
+  border-radius: var(--ni-radius-m);
+}
+
+.ni-tech-card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.ni-tech-card__title {
+  margin: 0;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ni-tech-events {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ni-tech-event {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 22px;
+  color: var(--ni-text);
+  font-family: var(--ni-font-mono);
+  font-size: 11px;
+}
+
+.ni-tech-event__name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ni-tech-event--muted {
+  color: var(--ni-text-3);
+}
+
+.ni-tech-event--new {
+  animation: ni-tech-flash 900ms var(--ni-ease) both;
+}
+
+.ni-tech-muted {
+  margin: 0;
+  color: var(--ni-text-3);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.ni-tech-pre {
+  max-height: 180px;
+  margin: 4px 0 0;
+  padding: 6px 8px;
+  overflow: auto;
+  color: var(--ni-text-2);
+  font-family: var(--ni-font-mono);
+  font-size: 11px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-all;
+  background: var(--ni-bg-deep);
+  border: 1px solid var(--ni-line);
+  border-radius: var(--ni-radius-s);
+}
+
+@keyframes ni-tech-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes ni-tech-flash {
+  from {
+    background: var(--ni-accent-wash);
+  }
+
+  to {
+    background: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ni-tech-item {
+    animation-name: ni-tech-fade;
+  }
+
+  @keyframes ni-tech-fade {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+}
+
+.ni-tech-event details {
+  width: 100%;
+  min-width: 0;
+}
+
+.ni-tech-event summary {
+  min-width: 0;
+  cursor: pointer;
+}
+
+.ni-tech-event summary:focus-visible {
+  outline: 2px solid var(--ni-focus);
+  outline-offset: 1px;
+}

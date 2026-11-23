@@ -1,0 +1,59 @@
+.ni-store-tabs {
+  padding: 8px 12px 12px;
+}
+
+.ni-store-note {
+  padding: 0 2px 8px;
+}
+
+.ni-store-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ni-store-row {
+  border-bottom: 1px solid var(--ni-line-soft);
+}
+
+.ni-store-row__line {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 36px;
+}
+
+.ni-store-row__text {
+  display: grid;
+  flex: 1;
+  min-width: 0;
+}
+
+.ni-store-row__name {
+  overflow: hidden;
+  color: var(--ni-text);
+  font-family: var(--ni-font-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ni-store-row__value {
+  overflow: hidden;
+  color: var(--ni-text-3);
+  font-family: var(--ni-font-mono);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ni-store-danger {
+  color: var(--ni-danger);
+  border-color: var(--ni-danger);
+}
+
+.ni-store-row .ni-tech-pre {
+  margin: 0 0 8px 28px;
+}

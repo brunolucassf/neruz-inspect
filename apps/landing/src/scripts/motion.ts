@@ -39,7 +39,10 @@ function initExplode(): void {
 }
 
 function initCountUp(): void {
-  const format = new Intl.NumberFormat(locale, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  const format = new Intl.NumberFormat(locale, {
+    minimumFractionDigits: 1,
+    maximumFractionDigits: 1,
+  });
   for (const node of document.querySelectorAll<HTMLElement>('[data-count-to]')) {
     const target = Number(node.dataset.countTo);
     const counter = { value: 0 };
@@ -101,7 +104,8 @@ function initEasingCurve(): void {
     trigger: demo,
     start: 'top bottom',
     end: 'bottom top',
-    onToggle: (self) => demo.style.setProperty('--ball-state', self.isActive ? 'running' : 'paused'),
+    onToggle: (self) =>
+      demo.style.setProperty('--ball-state', self.isActive ? 'running' : 'paused'),
   });
 }
 

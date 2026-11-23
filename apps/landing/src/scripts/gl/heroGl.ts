@@ -71,7 +71,10 @@ function makeTexture(canvas: HTMLCanvasElement, maxAnisotropy: number): CanvasTe
   return texture;
 }
 
-export async function createHeroGl(canvas: HTMLCanvasElement, controller: HeroController): Promise<boolean> {
+export async function createHeroGl(
+  canvas: HTMLCanvasElement,
+  controller: HeroController,
+): Promise<boolean> {
   await Promise.all([
     document.fonts.load('600 54px Fraunces'),
     document.fonts.load('400 17px Inter'),
@@ -83,7 +86,12 @@ export async function createHeroGl(canvas: HTMLCanvasElement, controller: HeroCo
 
   let renderer: WebGLRenderer;
   try {
-    renderer = new WebGLRenderer({ canvas, alpha: true, antialias: true, powerPreference: 'low-power' });
+    renderer = new WebGLRenderer({
+      canvas,
+      alpha: true,
+      antialias: true,
+      powerPreference: 'low-power',
+    });
   } catch {
     return false;
   }
@@ -110,7 +118,11 @@ export async function createHeroGl(canvas: HTMLCanvasElement, controller: HeroCo
     uScan: { value: -1 },
     uDpr: { value: dpr },
   };
-  const material = new ShaderMaterial({ uniforms, vertexShader: VERTEX_SHADER, fragmentShader: FRAGMENT_SHADER });
+  const material = new ShaderMaterial({
+    uniforms,
+    vertexShader: VERTEX_SHADER,
+    fragmentShader: FRAGMENT_SHADER,
+  });
   const mesh = new Mesh(new PlaneGeometry(PLANE_WIDTH, PLANE_HEIGHT), material);
   const scene = new Scene();
   scene.add(mesh);
@@ -129,7 +141,10 @@ export async function createHeroGl(canvas: HTMLCanvasElement, controller: HeroCo
     uniforms.uSize.value.set(width, height);
     camera.aspect = width / height;
     const tan = Math.tan((FOV * Math.PI) / 360);
-    const distance = Math.max(PLANE_HEIGHT / (0.86 * 2 * tan), PLANE_WIDTH / (0.9 * 2 * tan * camera.aspect));
+    const distance = Math.max(
+      PLANE_HEIGHT / (0.86 * 2 * tan),
+      PLANE_WIDTH / (0.9 * 2 * tan * camera.aspect),
+    );
     camera.position.set(0, 0, distance);
     camera.updateProjectionMatrix();
     mesh.updateMatrixWorld();
@@ -146,7 +161,11 @@ export async function createHeroGl(canvas: HTMLCanvasElement, controller: HeroCo
       return { x: hit.uv.x * DEMO_WIDTH, y: (1 - hit.uv.y) * DEMO_HEIGHT };
     },
     fromDesign(designX, designY): Point | null {
-      projected.set((designX / DEMO_WIDTH - 0.5) * PLANE_WIDTH, (0.5 - designY / DEMO_HEIGHT) * PLANE_HEIGHT, 0);
+      projected.set(
+        (designX / DEMO_WIDTH - 0.5) * PLANE_WIDTH,
+        (0.5 - designY / DEMO_HEIGHT) * PLANE_HEIGHT,
+        0,
+      );
       mesh.localToWorld(projected);
       projected.project(camera);
       return { x: ((projected.x + 1) / 2) * width, y: ((1 - projected.y) / 2) * height };

@@ -1,0 +1,250 @@
+.ni-ut-body {
+  display: grid;
+  gap: 10px;
+  padding: 10px 12px 12px;
+}
+
+.ni-ut-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.ni-ut-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+}
+
+.ni-ut-label {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+  color: var(--ni-text-3);
+  font-size: 11px;
+}
+
+.ni-ut-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--ni-text-2);
+  font-size: 12px;
+}
+
+.ni-ut-field {
+  width: 100%;
+  min-width: 0;
+  height: 28px;
+  padding: 0 8px;
+  color: var(--ni-text);
+  font: inherit;
+  font-size: 12px;
+  background: var(--ni-bg-deep);
+  border: 1px solid var(--ni-line-strong);
+  border-radius: var(--ni-radius-s);
+}
+
+textarea.ni-ut-field {
+  height: auto;
+  padding: 6px 8px;
+  line-height: 1.45;
+  resize: vertical;
+}
+
+input[type="color"].ni-ut-field {
+  padding: 2px;
+  cursor: pointer;
+}
+
+.ni-ut-field:focus-visible,
+.ni-ut-check input:focus-visible {
+  outline: 2px solid var(--ni-focus);
+  outline-offset: 1px;
+}
+
+.ni-ut-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.ni-ut-button:focus-visible {
+  outline: 2px solid var(--ni-focus);
+  outline-offset: 1px;
+}
+
+.ni-ut-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.ni-ut-button:disabled:active {
+  transform: none;
+}
+
+.ni-ut-muted {
+  margin: 0;
+  color: var(--ni-text-3);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.ni-ut-output {
+  max-height: 260px;
+  margin: 0;
+  padding: 8px;
+  overflow: auto;
+  color: var(--ni-text);
+  font-family: var(--ni-font-ui);
+  font-size: 12px;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  background: var(--ni-bg-deep);
+  border: 1px solid var(--ni-line);
+  border-radius: var(--ni-radius-s);
+}
+
+.ni-ut-qr {
+  display: grid;
+  place-items: center;
+  padding: 12px;
+  background: var(--ni-bg-deep);
+  border: 1px solid var(--ni-line);
+  border-radius: var(--ni-radius-m);
+  animation: ni-ut-enter 160ms var(--ni-ease) both;
+}
+
+.ni-ut-qr svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.ni-ut-table-button {
+  padding: 2px 4px;
+  color: var(--ni-text);
+  font: inherit;
+  font-family: var(--ni-font-mono);
+  font-size: 12px;
+  background: transparent;
+  border: 0;
+  border-radius: var(--ni-radius-s);
+  cursor: pointer;
+}
+
+.ni-ut-table-button:active {
+  transform: scale(0.97);
+}
+
+.ni-ut-table-button:focus-visible {
+  outline: 2px solid var(--ni-focus);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ni-ut-table-button:hover {
+    background: var(--ni-bg-hover);
+  }
+}
+
+.ni-ut-list {
+  display: grid;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ni-ut-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 40px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--ni-line-soft);
+}
+
+.ni-ut-item__text {
+  display: grid;
+  flex: 1;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ni-ut-item__value {
+  overflow: hidden;
+  color: var(--ni-text);
+  font-family: var(--ni-font-mono);
+  font-size: 12px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ni-ut-item__meta {
+  overflow: hidden;
+  color: var(--ni-text-3);
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ni-ut-result {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ni-ut-result li {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 22px;
+  font-size: 11px;
+}
+
+.ni-ut-result__kind {
+  color: var(--ni-text-3);
+}
+
+.ni-ut-result__value {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--ni-text);
+  font-family: var(--ni-font-mono);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@keyframes ni-ut-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ni-ut-qr {
+    animation-name: ni-ut-fade;
+  }
+
+  .ni-ut-table-button:active {
+    transform: none;
+  }
+
+  @keyframes ni-ut-fade {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+}

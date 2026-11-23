@@ -1,6 +1,6 @@
-import { canUseWebGl, isMotion } from './env';
 import { initDomTrail } from './domTrail';
-import { initHero, type HeroController } from './hero';
+import { canUseWebGl, isMotion } from './env';
+import { type HeroController, initHero } from './hero';
 import { initInspectOverlay } from './inspectOverlay';
 import { initLanguageMenus } from './languageMenu';
 import { initStoreCta } from './storeCta';

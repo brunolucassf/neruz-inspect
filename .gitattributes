@@ -1,1 +1,5 @@
+* text=auto eol=lf
+*.png binary
+*.woff2 binary
+*.ico binary
 graphify-out/graph.json merge=graphify
