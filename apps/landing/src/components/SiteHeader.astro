@@ -15,9 +15,8 @@ const { copy, showStore = true, kind = 'home' } = Astro.props;
 
 <header class="site-header" data-header>
   <div class="site-header__inner">
-    <a class="brand" href={copy.path} aria-label="Neruz Inspect">
-      <img src="/favicon.svg" width="32" height="32" alt="" />
-      <span class="brand__name">NERUZ <span aria-hidden="true">/</span> INSPECT</span>
+    <a class="brand brand--horizontal" href={copy.path} aria-label="Neruz Inspect">
+      <img src="/brand/neruz-inspect-horizontal.svg" width="180" height="48" alt="" />
     </a>
     <nav class="site-header__nav" aria-label={copy.header.navLabel}>
       <a class="text-link site-header__github" href={STORE_LINKS.github} rel="noopener">{copy.header.github}</a>

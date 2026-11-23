@@ -72,6 +72,11 @@ main:focus {
 }
 
 .brand img {
+  width: auto;
+  height: 40px;
+}
+
+.brand--symbol img {
   width: 32px;
   height: 32px;
 }
@@ -384,8 +389,9 @@ main:focus {
   margin-top: 0.8cqw;
   padding: 0 0.4cqw;
   width: max-content;
-  background: #080d14;
-  color: #f4f8fc;
+  background: var(--ni-label-bg);
+  color: var(--ni-label-text);
+  border: 1px solid var(--ni-keyline-outer);
   font-family: var(--ni-mono);
   font-size: max(9px, 1.15cqw);
   line-height: 1.5;
@@ -410,8 +416,9 @@ main:focus {
   left: 50%;
   transform: translate(-50%, -50%);
   padding: 0 0.5cqw;
-  background: #ff4fd0;
-  color: #080d14;
+  background: var(--ni-label-bg);
+  color: var(--ni-label-text);
+  border: 1px solid var(--ni-keyline-outer);
   font-family: var(--ni-mono);
   font-size: max(9px, 1.2cqw);
   font-weight: 600;
@@ -421,8 +428,9 @@ main:focus {
 .demo__font-tag {
   display: block;
   width: max-content;
-  background: #080d14;
-  color: #ff4fd0;
+  background: var(--ni-label-bg);
+  color: var(--ni-label-text);
+  border: 1px solid var(--ni-keyline-outer);
   font-family: var(--ni-mono);
   font-size: max(9px, 1.2cqw);
   line-height: 1.6;
@@ -1081,31 +1089,33 @@ main:focus {
   position: relative;
   padding: 36px;
   background:
-    repeating-linear-gradient(45deg, rgba(255, 181, 71, 0.55) 0 1px, transparent 1px 6px),
-    rgba(255, 181, 71, 0.1);
-  outline: 1px solid var(--pv-warning);
+    repeating-linear-gradient(45deg, transparent 0 7px, rgba(251, 191, 36, 0.55) 7px 8px),
+    var(--ni-overlay-margin);
+  outline: 1px solid var(--ni-overlay-margin-stroke);
 }
 
 .box__padding {
   position: relative;
   padding: 24px;
-  background: rgba(61, 220, 151, 0.3);
-  outline: 1px solid var(--pv-success);
+  background: var(--ni-overlay-padding);
+  outline: 1px solid var(--ni-overlay-padding-stroke);
 }
 
 .box__content {
   display: grid;
   place-items: center;
   min-height: 96px;
-  background: rgba(77, 163, 255, 0.3);
-  outline: 1px solid #4da3ff;
+  background: var(--ni-overlay-content);
+  outline: 1px solid var(--ni-overlay-content-stroke);
 }
 
 .box__tag {
   position: absolute;
   z-index: 2;
   padding: 0 6px;
-  background: #080d14;
+  background: var(--ni-label-bg);
+  color: var(--ni-label-text);
+  border: 1px solid var(--ni-keyline-outer);
   font-family: var(--ni-mono);
   font-size: 0.6875rem;
   line-height: 1.6;
@@ -1114,18 +1124,18 @@ main:focus {
 .box__tag--margin {
   top: 4px;
   left: 8px;
-  color: var(--pv-warning);
+  border-color: var(--ni-overlay-margin-stroke);
 }
 
 .box__tag--padding {
   top: 4px;
   left: 4px;
-  color: var(--pv-success);
+  border-color: var(--ni-overlay-padding-stroke);
 }
 
 .box__tag--content {
   position: static;
-  color: #4da3ff;
+  border-color: var(--ni-overlay-content-stroke);
 }
 
 .box__cota {
@@ -1137,8 +1147,9 @@ main:focus {
 .box__cota b {
   position: absolute;
   padding: 0 5px;
-  background: var(--pv-accent);
-  color: #080d14;
+  background: var(--ni-label-bg);
+  color: var(--ni-label-text);
+  border: 1px solid var(--ni-keyline-outer);
   font-family: var(--ni-mono);
   font-size: 0.6875rem;
   font-weight: 600;
@@ -1584,11 +1595,6 @@ main:focus {
   color: var(--pv-text-2);
 }
 
-.privacy__veil .btn {
-  --fill: var(--pv-accent);
-  color: var(--pv-on-accent);
-}
-
 .privacy__scan {
   position: absolute;
   left: 0;
@@ -1614,30 +1620,20 @@ main:focus {
 
 @media (min-width: 768px) {
   .family {
-    grid-template-columns: 240px minmax(0, 1fr);
+    grid-template-columns: 260px minmax(0, 1fr);
     gap: 64px;
   }
 }
 
+.family__marks {
+  display: flex;
+  gap: 24px;
+}
+
 .family__svg {
-  width: 200px;
-  height: 200px;
-  fill: none;
-  stroke-width: 2;
-  overflow: visible;
-}
-
-.family__cyan path {
-  stroke: var(--ni-cyan);
-}
-
-.family__magenta path {
-  stroke: var(--pv-accent);
-}
-
-.family__reg {
-  stroke: var(--pv-text-3);
-  stroke-width: 1;
+  width: 104px;
+  height: 104px;
+  flex: none;
 }
 
 .family__copy {

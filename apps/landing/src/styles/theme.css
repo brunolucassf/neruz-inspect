@@ -16,6 +16,14 @@
 
 @font-face {
   font-family: "JetBrains Mono";
+  src: url("/fonts/JetBrainsMono-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "JetBrains Mono";
   src: url("/fonts/JetBrainsMono-600.woff2") format("woff2");
   font-weight: 600;
   font-style: normal;
@@ -24,15 +32,37 @@
 
 :root {
   --pv-accent: #ff4fd0;
-  --pv-accent-hover: #ff7adb;
+  --pv-accent-hover: #ad137c;
   --pv-accent-text: #ff4fd0;
   --pv-focus: #ff4fd0;
   --pv-laser: 0 0 0 1px #ff4fd0;
   --pv-lamp: rgba(255, 79, 208, 0.08);
+  --pv-success: #5ce6a8;
+  --pv-warning: #ffd166;
+  --pv-danger: #ff6b57;
+  --ni-info: #78b7ff;
+  --ni-button: #c0168a;
+  --ni-button-hover: #ad137c;
+  --ni-on-button: #ffffff;
   --ni-magenta-deep: #b0127f;
-  --ni-magenta-light: #c0168a;
   --ni-gelo: #f4f8fc;
   --ni-halo: rgba(8, 13, 20, 0.6);
+  --ni-radius-sm: 4px;
+  --ni-radius-control: 8px;
+  --ni-radius-panel: 12px;
+  --ni-chamfer: 8px;
+  --ni-shadow: 0 16px 48px rgba(0, 0, 0, 0.32);
+  --ni-overlay-content: rgba(96, 165, 250, 0.16);
+  --ni-overlay-content-stroke: #60a5fa;
+  --ni-overlay-padding: rgba(74, 222, 128, 0.16);
+  --ni-overlay-padding-stroke: #4ade80;
+  --ni-overlay-margin: rgba(251, 191, 36, 0.16);
+  --ni-overlay-margin-stroke: #fbbf24;
+  --ni-measure: #ff4fd0;
+  --ni-label-bg: #080d14;
+  --ni-label-text: #f4f8fc;
+  --ni-keyline-outer: #ffffff;
+  --ni-keyline-inner: #080d14;
   --ni-mono: "JetBrains Mono", ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
   --ni-serif: "Fraunces", "Iowan Old Style", Georgia, "Times New Roman", serif;
   --ni-cyan: #00e5ff;
@@ -43,6 +73,22 @@
 
 html {
   scroll-padding-top: 72px;
+}
+
+.btn:not(.btn--ghost) {
+  --fill: var(--ni-button);
+  color: var(--ni-on-button);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:not(.btn--ghost):hover::before {
+    background: var(--ni-button-hover);
+  }
+}
+
+.brand--horizontal img {
+  height: 48px;
+  width: auto;
 }
 
 @media (min-width: 1920px) {
