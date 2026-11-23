@@ -320,7 +320,7 @@ export const en: LandingCopy = {
       {
         title: 'What the extension does',
         paragraphs: [
-          'When you click the icon (or press Alt+Shift+I), the toolbar opens on the current tab and reads the page itself to show colors, fonts, spacing and more. That reading happens only on your computer. Nothing is sent to any server, because there is no server.',
+          'When you click the icon (or press Alt+Shift+I), the toolbar opens on the current tab and reads the page itself to show colors, fonts, spacing and more. That reading happens only on your computer. Nothing is sent to any server, because there is no server. The one exception is the Font tester: when you pick a font, it is downloaded from Google Fonts.',
         ],
       },
       {
@@ -329,7 +329,7 @@ export const en: LandingCopy = {
         items: [
           'your preferences (language, color format, unit)',
           'the toolbar position per site',
-          'the copy history, if you turn that option on',
+          'your last 50 copies, which you can see and clear in the Copy history tool',
         ],
       },
       {

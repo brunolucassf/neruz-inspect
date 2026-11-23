@@ -336,7 +336,7 @@ export const pt: LandingCopy = {
       {
         title: 'O que a extensão faz',
         paragraphs: [
-          'Quando você clica no ícone (ou usa Alt+Shift+I), a barra abre na aba atual e lê a própria página para mostrar cores, fontes, medidas e outras informações. Essa leitura acontece só no seu computador. Nada é enviado para servidor algum, porque não existe servidor.',
+          'Quando você clica no ícone (ou usa Alt+Shift+I), a barra abre na aba atual e lê a própria página para mostrar cores, fontes, medidas e outras informações. Essa leitura acontece só no seu computador. Nada é enviado para servidor algum, porque não existe servidor. A única exceção é a ferramenta Testar fonte: quando você escolhe uma fonte, ela é baixada do Google Fonts.',
         ],
       },
       {
@@ -345,7 +345,7 @@ export const pt: LandingCopy = {
         items: [
           'suas preferências (idioma, formato de cor, unidade)',
           'a posição da barra por site',
-          'o histórico de cópias, se você ligar essa opção',
+          'as últimas 50 cópias, que você vê e apaga na ferramenta Histórico de cópias',
         ],
       },
       {
