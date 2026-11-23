@@ -1,0 +1,81 @@
+.ni-rp {
+  display: grid;
+  gap: 10px;
+  padding: 10px 12px 14px;
+}
+
+.ni-rp__group {
+  display: grid;
+  gap: 2px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.ni-rp__legend {
+  margin-bottom: 4px;
+  padding: 0;
+  color: var(--ni-text-3);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.ni-rp__check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  color: var(--ni-text);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.ni-rp__check input {
+  accent-color: var(--ni-accent);
+}
+
+.ni-rp__field {
+  display: grid;
+  gap: 4px;
+}
+
+.ni-rp__label {
+  color: var(--ni-text-2);
+  font-size: 12px;
+}
+
+.ni-rp__input {
+  width: 100%;
+  min-width: 0;
+  height: 30px;
+  padding: 0 8px;
+  color: var(--ni-text);
+  font: inherit;
+  font-size: 12px;
+  background: var(--ni-bg-deep);
+  border: 1px solid var(--ni-line-strong);
+  border-radius: var(--ni-radius-s);
+  box-sizing: border-box;
+}
+
+.ni-rp__input:focus-visible {
+  outline: 2px solid var(--ni-focus);
+  outline-offset: 1px;
+}
+
+.ni-rp__generate {
+  height: 34px;
+}
+
+.ni-rp__progress {
+  display: grid;
+  gap: 4px;
+}
+
+.ni-rp__error {
+  margin: 0;
+  color: var(--ni-danger);
+  font-size: 12px;
+}

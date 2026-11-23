@@ -1,32 +1,26 @@
 import { useEffect, useState } from 'react';
 import { browser } from 'wxt/browser';
+import { downloadText } from '../lib/download';
 import { useLocale, useT } from '../lib/i18n';
 import { STORAGE_KEYS } from '../lib/storage-keys';
 import { Credits } from '../overlay/Credits';
+import { isReportData, type ReportData } from '../tools/page/report/reportTypes';
 import { EmptyState } from '../ui';
+import { ReportDocument } from './ReportDocument';
 import './report.css';
 
 const HOST_PERMISSIONS = { origins: ['http://*/*', 'https://*/*'] };
 
-type StoredReport = { data: Record<string, unknown>; openedAt: number };
-
-const isStoredReport = (value: unknown): value is StoredReport =>
-  typeof value === 'object' &&
-  value !== null &&
-  'data' in value &&
-  'openedAt' in value &&
-  typeof value.openedAt === 'number' &&
-  typeof value.data === 'object' &&
-  value.data !== null;
-
-type LoadState = { status: 'loading' } | { status: 'ready'; report: StoredReport | null };
+type LoadState = { status: 'loading' } | { status: 'ready'; report: ReportData | null };
 
 const useStoredReport = (): LoadState => {
   const [state, setState] = useState<LoadState>({ status: 'loading' });
   useEffect(() => {
     void browser.storage.session.get(STORAGE_KEYS.report).then((stored) => {
       const value: unknown = stored[STORAGE_KEYS.report];
-      setState({ status: 'ready', report: isStoredReport(value) ? value : null });
+      const data =
+        typeof value === 'object' && value !== null ? (value as { data?: unknown }).data : null;
+      setState({ status: 'ready', report: isReportData(data) ? data : null });
     });
   }, []);
   return state;
@@ -69,63 +63,72 @@ const PermissionRequest = () => {
   );
 };
 
+const safeFileName = (host: string): string =>
+  `neruz-inspect-${host.replace(/[^a-z0-9.-]+/gi, '-') || 'report'}`;
+
 export const ReportApp = () => {
   const t = useT();
   const locale = useLocale();
   const load = useStoredReport();
+  const report = load.status === 'ready' ? load.report : null;
 
   useEffect(() => {
     document.documentElement.lang = locale;
-    document.title = `${t('core.report.title')} · Neruz Inspect`;
-  }, [locale, t]);
+    document.title = report
+      ? `${t('page.report.doc.pageLabel', { host: report.host })} · Neruz Inspect`
+      : `${t('core.report.title')} · Neruz Inspect`;
+  }, [locale, t, report]);
 
-  const report = load.status === 'ready' ? load.report : null;
-  const generatedAt = report
-    ? new Intl.DateTimeFormat(locale, { dateStyle: 'long', timeStyle: 'short' }).format(
-        report.openedAt,
-      )
-    : '';
-  const source = typeof report?.data.url === 'string' ? report.data.url : '';
+  if (load.status === 'loading') {
+    return (
+      <main className="ni-report">
+        <EmptyState kind="loading" title={t('core.state.loading')} />
+      </main>
+    );
+  }
+
+  if (!report) {
+    return (
+      <main className="ni-report">
+        <EmptyState title={t('core.state.empty')} hint={t('core.report.empty')} />
+        <Credits />
+      </main>
+    );
+  }
 
   return (
     <main className="ni-report">
-      <header className="ni-report__header">
+      <div className="ni-report__toolbar">
         <div>
-          <h1>{t('core.report.title')}</h1>
-          {report ? <p>{t('core.report.generatedAt', { date: generatedAt })}</p> : null}
-          {source ? (
-            <p>
-              {t('core.report.source')}: <code>{source}</code>
-            </p>
-          ) : null}
+          <p className="ni-report__toolbar-title">{t('core.report.title')}</p>
+          <p>{t('page.report.printHint')}</p>
         </div>
-        <button
-          type="button"
-          className="ni-button ni-button--primary"
-          onClick={() => window.print()}
-        >
-          {t('core.report.print')}
-        </button>
-      </header>
+        <div className="ni-report__actions">
+          <button
+            type="button"
+            className="ni-button ni-button--primary"
+            onClick={() => window.print()}
+          >
+            {t('page.report.print')}
+          </button>
+          <button
+            type="button"
+            className="ni-button"
+            onClick={() =>
+              downloadText(
+                JSON.stringify(report, null, 2),
+                `${safeFileName(report.host)}.json`,
+                'application/json',
+              )
+            }
+          >
+            {t('page.report.doc.downloadJson')}
+          </button>
+        </div>
+      </div>
 
-      {load.status === 'loading' ? (
-        <EmptyState kind="loading" title={t('core.state.loading')} />
-      ) : report ? (
-        <>
-          <p className="ni-report__note">{t('core.report.placeholder')}</p>
-          {Object.entries(report.data).map(([section, value]) => (
-            <section key={section} className="ni-report__section">
-              <h2>{section}</h2>
-              <pre>{JSON.stringify(value, null, 2)}</pre>
-            </section>
-          ))}
-        </>
-      ) : (
-        <EmptyState title={t('core.state.empty')} hint={t('core.report.empty')} />
-      )}
-
+      <ReportDocument data={report} />
       <PermissionRequest />
-      <Credits />
     </main>
   );
 };

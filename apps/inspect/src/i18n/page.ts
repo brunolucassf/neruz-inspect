@@ -1,3 +1,4 @@
+import { reportMessages } from '../tools/page/report/messages';
 import type { GroupMessages } from '../tools/types';
 
 export default {
@@ -263,6 +264,7 @@ export default {
       'Regras :focus que removem o contorno sem outro indicador. Confira navegando com Tab.',
     'page.a11y.hint.ariaInvalid': 'Papéis, atributos ou referências ARIA que não existem.',
     'page.a11y.hint.tabindexPositive': 'Valores acima de 0 bagunçam a ordem natural do Tab.',
+    ...reportMessages['pt-BR'],
   },
   en: {
     'page.common.rescan': 'Scan again',
@@ -527,6 +529,7 @@ export default {
       ':focus rules that remove the outline without another indicator. Check by tabbing through the page.',
     'page.a11y.hint.ariaInvalid': "ARIA roles, attributes or references that don't exist.",
     'page.a11y.hint.tabindexPositive': 'Values above 0 break the natural Tab order.',
+    ...reportMessages.en,
   },
   es: {
     'page.common.rescan': 'Analizar de nuevo',
@@ -798,5 +801,6 @@ export default {
     'page.a11y.hint.ariaInvalid': 'Roles, atributos o referencias ARIA que no existen.',
     'page.a11y.hint.tabindexPositive':
       'Los valores mayores que 0 alteran el orden natural del Tab.',
+    ...reportMessages.es,
   },
 } satisfies GroupMessages;
