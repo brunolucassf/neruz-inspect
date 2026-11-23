@@ -1,62 +1,96 @@
+/* Neruz Inspect: tokens da extensão (kit oficial v1 + direção v2, 2026-11-22).
+   Pares de texto medidos em Noite #080D14, Concha #0B111A, Grafite #141D29 e Hover #1B2635 (todos >= 4.5:1). */
 :host,
 :root {
-  --ni-bg: #0e1520;
+  /* Neutros do kit */
+  --ni-night: #080d14;
+  --ni-graphite: #141d29;
+  --ni-linha: #304256;
+  --ni-gelo: #f4f8fc;
+  --ni-nevoa: #a6b5c5;
+  --ni-magenta: #ff4fd0; /* assinatura: 6.75 em Noite, 5.88 em Grafite, 5.29 em Hover */
+
+  /* Superfícies em camadas: concha escura, lâminas Grafite, poço Noite */
+  --ni-surface-0: #0b111a; /* concha da barra e do painel */
+  --ni-surface-1: #141d29; /* lâminas (cartões, grupos de linhas) */
+  --ni-surface-2: #1b2635; /* hover, controles elevados */
+  --ni-surface-3: #223042; /* pressionado, trilho de segmentado */
+  --ni-surface-well: #080d14; /* campos, código, miniaturas */
+  --ni-surface-sheen: radial-gradient(
+    120% 80% at 0% 0%,
+    rgba(255, 79, 208, 0.07) 0%,
+    rgba(255, 79, 208, 0) 55%
+  ); /* luz de mesa no topo da concha, opaca por baixo */
+
+  /* Nomes existentes (mantidos; valores ajustados ao kit) */
+  --ni-bg: #0b111a;
   --ni-bg-raised: #141d29;
   --ni-bg-hover: #1b2635;
-  --ni-line: #304256;
-  --ni-line-strong: #64798f;
+  --ni-bg-deep: #080d14;
+  --ni-line: rgba(166, 181, 197, 0.12); /* hairline decorativa */
+  --ni-line-soft: rgba(166, 181, 197, 0.07); /* divisória entre linhas */
+  --ni-line-strong: #304256; /* Linha do kit: bordas de controle */
   --ni-text: #f4f8fc;
   --ni-text-2: #a6b5c5;
-  --ni-text-3: #8296ac;
-  --ni-accent: #ff4fd0;
+  --ni-text-3: #8296ac; /* 4.65:1 no pior fundo (#202C3C) */
+  --ni-accent: #ff4fd0; /* texto, indicador, medida; nunca fundo de texto branco */
   --ni-accent-hover: #ff7adb;
-  --ni-on-accent: #080d14;
+  --ni-on-accent: #080d14; /* Noite sobre magenta vivo 6.75:1 (switch, toggle) */
+  --ni-accent-text: #ff4fd0;
+  --ni-accent-wash: rgba(255, 79, 208, 0.12);
   --ni-focus: #ff4fd0;
   --ni-danger: #ff6b57;
-  --ni-warning: #ffc247;
-  --ni-success: #3ddc97;
-  --ni-hl-content: rgba(77, 163, 255, 0.3);
-  --ni-hl-padding: rgba(61, 220, 151, 0.3);
-  --ni-hl-margin: rgba(255, 181, 71, 0.22);
-  --ni-hl-line: #ff4fd0;
-  --ni-radius-s: 2px;
-  --ni-radius-m: 4px;
-  --ni-radius-l: 6px;
-  --ni-shadow:
-    0 0 0 1px rgba(244, 248, 252, 0.1), 0 2px 6px rgba(0, 0, 0, 0.35),
-    0 16px 40px -12px rgba(0, 0, 0, 0.6);
-  --ni-font-ui: "Neruz Inter", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --ni-font-display: "Neruz Sora", "Sora", system-ui, sans-serif;
-  --ni-font-mono:
-    "Neruz Mono", ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas, monospace;
-  --ni-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --ni-dur-fast: 120ms;
-  --ni-dur: 200ms;
-
-  /* Adicionadas pelo art-director (2026-11-22). Contraste medido em --ni-bg / --ni-bg-raised / --ni-bg-hover. */
-  /* Família Neruz: Noite é a base comum; magenta é a assinatura do Inspect (ciano é do Page View). */
-  --ni-night: #080d14;
-  --ni-magenta: #ff4fd0; /* 6.35 / 5.88 / 5.29:1 como texto; Noite sobre magenta 6.75:1 */
-  --ni-bg-deep: #080d14; /* campos, blocos de código, trilho da lupa */
-  --ni-line-soft: #1f2b3a; /* divisórias entre linhas copiáveis */
-  --ni-accent-text: #ff4fd0;
-  --ni-accent-wash: rgba(
-    255,
-    79,
-    208,
-    0.12
-  ); /* só no varrido do "copiado" e na linha da busca em foco */
+  --ni-warning: #ffd166;
+  --ni-success: #5ce6a8;
   --ni-numeric: "tnum" 1, "zero" 1;
 
-  /* Camada de destaque: linhas sólidas que acompanham os preenchimentos */
-  --ni-hl-content-line: #4da3ff;
-  --ni-hl-padding-line: #3ddc97;
-  --ni-hl-margin-line: #ffb547;
+  /* Aliases do kit (tokens.css oficial) */
+  --ni-signature: #ff4fd0;
+  --ni-background: #080d14;
+  --ni-surface: #141d29;
+  --ni-border: #304256;
+  --ni-text-secondary: #a6b5c5;
+  --ni-accent-button: #c0168a; /* branco 5.64:1 */
+  --ni-on-accent-button: #ffffff;
+  --ni-button-hover: #ad137c; /* branco 6.64:1 */
+  --ni-error: #ff6b57;
+  --ni-info: #78b7ff;
+
+  /* Estados: texto na cor sobre lavagem 14% em Grafite (>= 4.9:1) */
+  --ni-success-wash: rgba(92, 230, 168, 0.12);
+  --ni-success-line: rgba(92, 230, 168, 0.32);
+  --ni-warning-wash: rgba(255, 209, 102, 0.12);
+  --ni-warning-line: rgba(255, 209, 102, 0.32);
+  --ni-danger-wash: rgba(255, 107, 87, 0.12);
+  --ni-danger-line: rgba(255, 107, 87, 0.32);
+  --ni-info-wash: rgba(120, 183, 255, 0.12);
+  --ni-info-line: rgba(120, 183, 255, 0.32);
+  --ni-accent-line: rgba(255, 79, 208, 0.36);
+
+  /* Destaques sobre a página (kit) */
+  --ni-overlay-content: rgba(96, 165, 250, 0.16);
+  --ni-overlay-content-stroke: #60a5fa;
+  --ni-overlay-padding: rgba(74, 222, 128, 0.16);
+  --ni-overlay-padding-stroke: #4ade80;
+  --ni-overlay-margin: rgba(251, 191, 36, 0.16);
+  --ni-overlay-margin-stroke: #fbbf24;
+  --ni-measure: #ff4fd0;
+  --ni-label-bg: #080d14;
+  --ni-label-text: #f4f8fc;
+  --ni-keyline-outer: #ffffff;
+  --ni-keyline-inner: #080d14;
+  --ni-hl-content: rgba(96, 165, 250, 0.16);
+  --ni-hl-padding: rgba(74, 222, 128, 0.16);
+  --ni-hl-margin: rgba(251, 191, 36, 0.16);
+  --ni-hl-line: #ff4fd0;
+  --ni-hl-content-line: #60a5fa;
+  --ni-hl-padding-line: #4ade80;
+  --ni-hl-margin-line: #fbbf24;
   --ni-hl-border-line: #ffe066;
   --ni-hl-margin-hatch: repeating-linear-gradient(
     45deg,
-    rgba(255, 181, 71, 0.55) 0 1px,
-    transparent 1px 6px
+    transparent 0 7px,
+    rgba(251, 191, 36, 0.55) 7px 8px
   );
   --ni-hl-gap-hatch: repeating-linear-gradient(
     -45deg,
@@ -65,11 +99,11 @@
   );
   --ni-hl-grid: #b98cff;
   --ni-hl-overflow: #ff6b57;
-  --ni-hl-halo: rgba(8, 13, 20, 0.6); /* traço duplo: 1px de cor sobre 3px de halo */
+  --ni-hl-halo: rgba(8, 13, 20, 0.6);
   --ni-hl-stroke: 1px;
   --ni-hl-stroke-locked: 2px;
-  --ni-hl-tick: 6px; /* serifa de cota nas pontas das linhas de distância */
-  --ni-hl-cutmark: 10px; /* marcas de corte nos cantos do elemento travado */
+  --ni-hl-tick: 6px;
+  --ni-hl-cutmark: 10px;
   --ni-hl-label-bg: #080d14;
   --ni-hl-label-text: #f4f8fc;
   --ni-hl-label-accent-bg: #ff4fd0;
@@ -78,62 +112,107 @@
   --ni-hl-label-pad-x: 6px;
   --ni-hl-label-offset: 8px;
 
-  /* Chanfro 45° (assinatura da família) via clip-path */
+  /* Raios do kit: 4 / 8 / 12. Chanfro 45° nos cantos TL e BR (como o símbolo) via corner-shape: bevel */
+  --ni-radius-s: 4px;
+  --ni-radius-m: 8px;
+  --ni-radius-l: 12px;
+  --ni-radius-sm: 4px;
+  --ni-radius-control: 8px;
+  --ni-radius-panel: 12px;
+  --ni-radius-pill: 999px;
+  --ni-chamfer: 8px;
+  --ni-chamfer-l: 12px;
   --ni-cut-s: 4px;
   --ni-cut-m: 8px;
   --ni-cut-l: 12px;
 
-  /* Tipografia da interface (px fixos: a página do site pode mudar o rem) */
+  /* Elevação: anel duplo (claro dentro, Noite fora) lê sobre site claro e escuro */
+  --ni-shell-border: rgba(244, 248, 252, 0.1);
+  --ni-shell-highlight: inset 0 1px 0 rgba(244, 248, 252, 0.06);
+  --ni-shadow:
+    0 0 0 1px rgba(8, 13, 20, 0.85), 0 4px 12px rgba(0, 0, 0, 0.24),
+    0 16px 48px rgba(0, 0, 0, 0.32);
+  --ni-shadow-raised: 0 1px 2px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(244, 248, 252, 0.04);
+  --ni-shadow-pop:
+    0 0 0 1px rgba(8, 13, 20, 0.85), 0 8px 24px rgba(0, 0, 0, 0.4),
+    0 24px 64px rgba(0, 0, 0, 0.36);
+  --ni-glow-accent: 0 6px 18px -6px rgba(192, 22, 138, 0.7);
+
+  /* Tipografia: nomes únicos registrados por FontFace (nunca colidem com as fontes do site) */
+  --ni-font-ui: "Neruz Inter", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --ni-font-display: "Neruz Sora", "Sora", system-ui, sans-serif;
+  --ni-font-mono:
+    "Neruz Mono", "JetBrains Mono", ui-monospace, "Cascadia Mono", "SF Mono", Menlo, Consolas,
+    monospace;
+  --ni-fs-eyebrow: 11px;
+  --ni-fs-eyebrow-ls: 0.12em;
   --ni-fs-label: 11px;
   --ni-fs-label-lh: 16px;
   --ni-fs-label-ls: 0.08em;
   --ni-fs-value: 12px;
-  --ni-fs-value-lh: 16px;
+  --ni-fs-value-lh: 18px;
   --ni-fs-body: 13px;
   --ni-fs-body-lh: 20px;
   --ni-fs-title: 14px;
   --ni-fs-title-lh: 20px;
+  --ni-fs-heading: 19px;
+  --ni-fs-heading-lh: 24px;
+  --ni-fs-stat: 22px;
   --ni-fw-regular: 400;
   --ni-fw-medium: 500;
   --ni-fw-semibold: 600;
+  --ni-fw-bold: 700;
 
-  /* Barra, bandeja, painel */
+  /* Barra, painel, folha */
   --ni-z: 2147483647;
-  --ni-bar-h: 44px;
+  --ni-bar-h: 52px;
   --ni-bar-pad: 6px;
-  --ni-bar-btn: 32px;
+  --ni-bar-btn: 40px;
   --ni-bar-icon: 16px;
   --ni-bar-gap: 2px;
   --ni-bar-edge: 16px;
   --ni-bar-snap: 12px;
-  --ni-search-w: 168px;
+  --ni-search-w: 196px;
   --ni-search-w-open: 264px;
-  --ni-tray-w: 288px;
-  --ni-tray-row-h: 36px;
-  --ni-tray-max-h: 420px;
-  --ni-panel-w: 340px;
-  --ni-panel-w-min: 300px;
+  --ni-tray-w: 304px;
+  --ni-tray-row-h: 44px;
+  --ni-tray-max-h: 440px;
+  --ni-panel-w: 368px;
+  --ni-panel-w-min: 320px;
   --ni-panel-w-max: 520px;
   --ni-panel-edge: 12px;
-  --ni-panel-header-h: 44px;
+  --ni-panel-header-h: 88px;
   --ni-panel-pad-x: 16px;
-  --ni-row-h: 28px;
+  --ni-section-gap: 20px;
+  --ni-row-h: 36px;
   --ni-row-pad-x: 12px;
+  --ni-control-h: 32px;
+  --ni-button-h: 40px;
+  --ni-thumb: 44px;
   --ni-swatch: 16px;
   --ni-loupe: 132px;
   --ni-loupe-cells: 11;
-  --ni-toast-h: 32px;
+  --ni-toast-h: 36px;
+  --ni-sheet-max-h: 64dvh;
+  --ni-sheet-peek: 40dvh;
+  --ni-sheet-radius: 16px;
 
-  /* Movimento (extensão: intensidade 1/5) */
+  /* Movimento (extensão: intensidade 2/5, sempre a serviço da leitura) */
+  --ni-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ni-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ni-ease-hover: cubic-bezier(0.2, 0, 0, 1);
   --ni-ease-cut: cubic-bezier(0.7, 0, 0.2, 1);
+  --ni-ease-slide: cubic-bezier(0.32, 0.72, 0, 1);
+  --ni-dur-fast: 120ms;
+  --ni-dur: 200ms;
   --ni-dur-press: 100ms;
   --ni-dur-glide: 80ms;
-  --ni-dur-exit: 120ms;
-  --ni-dur-panel: 260ms;
-  --ni-dur-copied: 900ms;
-  --ni-stagger: 20ms;
+  --ni-dur-exit: 140ms;
+  --ni-dur-slide: 280ms;
+  --ni-dur-panel: 320ms;
+  --ni-dur-copied: 1200ms;
+  --ni-dur-pulse: 2400ms;
+  --ni-stagger: 24ms;
   --ni-motion: 1;
 }
 
@@ -143,21 +222,33 @@
   --ni-bg-raised: #ffffff;
   --ni-bg-hover: #e1e9f1;
   --ni-bg-deep: #e8eef4;
-  --ni-line: #cbd6e1;
-  --ni-line-soft: #dce5ee;
+  --ni-surface-0: #f4f8fc;
+  --ni-surface-1: #ffffff;
+  --ni-surface-2: #e1e9f1;
+  --ni-surface-3: #d6dfe8;
+  --ni-surface-well: #e8eef4;
+  --ni-line: #d6dfe8;
+  --ni-line-soft: #e4ebf2;
   --ni-line-strong: #71849a;
   --ni-text: #080d14;
-  --ni-text-2: #4a5a6c;
-  --ni-text-3: #55667a;
-  --ni-accent: #c0168a; /* branco sobre ele 5.64:1 */
-  --ni-accent-hover: #a8137a;
+  --ni-text-2: #304256;
+  --ni-text-3: #4a5a6c;
+  --ni-accent: #c0168a;
+  --ni-accent-hover: #ad137c;
   --ni-on-accent: #ffffff;
-  --ni-accent-text: #b0127f; /* 6.08:1 em #f4f8fc, 6.48:1 em branco */
+  --ni-accent-text: #b0127f;
   --ni-focus: #b0127f;
-  --ni-danger: #c03a22;
-  --ni-warning: #8a5600;
-  --ni-success: #0b7a4e;
+  --ni-danger: #b93424;
+  --ni-error: #b93424;
+  --ni-warning: #806000;
+  --ni-success: #166849;
+  --ni-info: #245fa6;
+  --ni-background: #ffffff;
+  --ni-surface: #f4f8fc;
+  --ni-border: #d6dfe8;
+  --ni-text-secondary: #304256;
   --ni-accent-wash: rgba(192, 22, 138, 0.08);
+  --ni-shell-border: #d6dfe8;
   --ni-shadow: 0 1px 2px rgba(8, 13, 20, 0.08), 0 8px 24px -8px rgba(8, 13, 20, 0.18);
 }
 
@@ -166,7 +257,8 @@
   :root {
     --ni-motion: 0;
     --ni-dur-glide: 0ms;
-    --ni-dur-panel: 120ms;
+    --ni-dur-slide: 0ms;
+    --ni-dur-panel: 140ms;
     --ni-stagger: 0ms;
   }
 }
@@ -177,6 +269,8 @@
     --ni-cut-s: 0px;
     --ni-cut-m: 0px;
     --ni-cut-l: 0px;
+    --ni-chamfer: 0px;
+    --ni-chamfer-l: 0px;
     --ni-line: CanvasText;
     --ni-line-strong: CanvasText;
     --ni-focus: Highlight;
