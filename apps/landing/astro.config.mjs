@@ -10,6 +10,6 @@ export default defineConfig({
     defaultLocale: 'pt-BR',
     routing: { prefixDefaultLocale: false },
   },
-  build: { inlineStylesheets: 'always' },
+  build: { inlineStylesheets: 'auto' },
   devToolbar: { enabled: false },
 });
