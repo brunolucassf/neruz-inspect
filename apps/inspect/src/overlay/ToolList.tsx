@@ -62,11 +62,13 @@ export const ToolList = ({
             tabIndex={-1}
             aria-selected={isActive}
             className="ni-list__item"
-            style={{ '--ni-delay': `${Math.min(index, 8) * 30}ms` } as CSSProperties}
+            style={{ '--ni-delay': `${Math.min(index, 8) * 24}ms` } as CSSProperties}
             onPointerMove={() => onActivate(index)}
             onClick={() => onChoose(tool)}
           >
-            <Icon className="ni-list__icon" size={16} aria-hidden="true" />
+            <span className="ni-list__icon" aria-hidden="true">
+              <Icon size={16} />
+            </span>
             <span className="ni-list__text">
               <span className="ni-list__name">{name}</span>
               <span className="ni-list__desc">{description}</span>

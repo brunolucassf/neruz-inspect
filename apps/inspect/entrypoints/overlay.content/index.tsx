@@ -2,6 +2,7 @@ import { createRoot, type Root } from 'react-dom/client';
 import { createShadowRootUi } from 'wxt/utils/content-script-ui/shadow-root';
 import { defineContentScript } from 'wxt/utils/define-content-script';
 import { notifyOverlayState } from '../../src/lib/bridge';
+import { registerInspectFonts, unregisterInspectFonts } from '../../src/lib/fonts';
 import { clearHighlights } from '../../src/lib/highlight';
 import { OVERLAY_MOUNT_FLAG, type OverlayHandle } from '../../src/lib/overlayMountFlag';
 import { OVERLAY_HOST_TAG } from '../../src/lib/picker';
@@ -25,6 +26,7 @@ export default defineContentScript({
     }
 
     const stopSettingsSync = await initSettings();
+    registerInspectFonts();
 
     let root: Root | undefined;
     const ui = await createShadowRootUi(ctx, {
@@ -41,6 +43,7 @@ export default defineContentScript({
         root?.unmount();
         clearHighlights();
         stopSettingsSync();
+        unregisterInspectFonts();
         host[OVERLAY_MOUNT_FLAG] = undefined;
         void notifyOverlayState(false);
       },

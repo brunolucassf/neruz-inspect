@@ -1,7 +1,8 @@
 import { useEffect, useRef } from 'react';
 import { HighlightLayer } from '../lib/HighlightLayer';
 import { isEditableTarget, isPickerLocked } from '../lib/picker';
-import { getTool } from '../tools/registry';
+import { useSettingsStore } from '../lib/settings';
+import { GROUPS, getTool } from '../tools/registry';
 import { Toaster } from '../ui';
 import { Panel } from './Panel';
 import { useOverlayStore } from './store';
@@ -16,6 +17,7 @@ export const OverlayApp = ({ onClose }: OverlayAppProps) => {
   const rootRef = useRef<HTMLDivElement>(null);
   const searchRef = useRef<HTMLInputElement>(null);
   const activeTool = useOverlayStore((state) => state.activeTool);
+  const dock = useSettingsStore((state) => state.dock);
   const tool = activeTool ? getTool(activeTool) : undefined;
 
   useEffect(() => {
@@ -38,11 +40,17 @@ export const OverlayApp = ({ onClose }: OverlayAppProps) => {
         else onClose();
         return;
       }
-      const isPlainSlash = event.key === '/' && !event.ctrlKey && !event.metaKey && !event.altKey;
-      if (isPlainSlash && !isEditableTarget(getFocusedElement())) {
+      const hasModifier = event.ctrlKey || event.metaKey || event.altKey;
+      if (hasModifier || isEditableTarget(getFocusedElement())) return;
+      const shortcutGroup = /^[1-9]$/.test(event.key) ? GROUPS[Number(event.key) - 1] : undefined;
+      if (event.key === '/') {
         event.preventDefault();
         event.stopImmediatePropagation();
         searchRef.current?.focus();
+      } else if (shortcutGroup) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        state.toggleMenu(shortcutGroup);
       }
     };
     window.addEventListener('keydown', handleKey, true);
@@ -62,7 +70,7 @@ export const OverlayApp = ({ onClose }: OverlayAppProps) => {
   }, []);
 
   return (
-    <div className="ni-overlay" ref={rootRef}>
+    <div className="ni-overlay" ref={rootRef} data-panel={tool ? dock : undefined}>
       <HighlightLayer />
       <Toolbar searchRef={searchRef} onClose={onClose} />
       {tool ? <Panel tool={tool} /> : null}

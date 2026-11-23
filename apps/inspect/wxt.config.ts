@@ -1,8 +1,12 @@
 import { defineConfig } from 'wxt';
+import { FONT_DIRECTORY, INSPECT_FONTS } from './src/lib/fontFiles';
 
 declare const process: { env: Record<string, string | undefined> };
 
 const GECKO_ID = 'neruz-inspect@fontedev.com';
+const PAGE_MATCHES = ['http://*/*', 'https://*/*'];
+const FONT_SOURCE_DIR = '../../packages/ui/src/fonts';
+const FONT_FILES = [...new Set(INSPECT_FONTS.map((font) => font.file))];
 
 export default defineConfig({
   manifestVersion: 3,
@@ -23,7 +27,13 @@ export default defineConfig({
       },
       permissions: ['storage', 'scripting', 'activeTab'],
       optional_permissions: ['clipboardWrite'],
-      optional_host_permissions: ['http://*/*', 'https://*/*'],
+      optional_host_permissions: PAGE_MATCHES,
+      web_accessible_resources: [
+        {
+          resources: FONT_FILES.map((file) => `${FONT_DIRECTORY}/${file}`),
+          matches: PAGE_MATCHES,
+        },
+      ],
       content_security_policy: {
         extension_pages:
           "script-src 'self'; object-src 'self'; base-uri 'none'; form-action 'none'",
@@ -40,5 +50,15 @@ export default defineConfig({
           }
         : {}),
     };
+  },
+  hooks: {
+    'build:publicAssets': (wxt, files) => {
+      for (const file of FONT_FILES) {
+        files.push({
+          absoluteSrc: `${wxt.config.root}/${FONT_SOURCE_DIR}/${file}`,
+          relativeDest: `${FONT_DIRECTORY}/${file}`,
+        });
+      }
+    },
   },
 });
