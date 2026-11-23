@@ -4,15 +4,15 @@ Textos: `listing.pt-BR.md`, `listing.en.md`, `listing.es.md`. Formulário de pri
 Confira tamanhos e limites no painel no dia do envio; as lojas mudam regras sem aviso.
 
 ## Antes de qualquer envio
-- [ ] Corrigir os achados A1 e M1 do relatório de segurança (revisores questionam fetch para redes privadas)
+- [x] Corrigir os achados A1 e M1 do relatório de segurança (revisores questionam fetch para redes privadas)
 - [ ] Decidir o resumo curto: manter o `extDescription` atual ou trocar pela proposta das fichas (Chrome lê o resumo do manifest, então a troca precisa estar em `apps/inspect/public/_locales/*/messages.json` antes do build)
-- [ ] Repositório https://github.com/brunolucassf/neruz-inspect público, com LICENSE (MIT)
-- [ ] Landing no ar em https://inspect.neruz.tech com as políticas abertas: `/privacy/` (pt), `/en/privacy/`, `/es/privacy/` (não existe rota `/privacidade`)
-- [ ] Política de privacidade cita o carregamento do Google Fonts em "Testar fonte" e as permissões opcionais (hoje cita as permissões, não cita o Google Fonts)
-- [ ] Conferir se o histórico de cópias é opcional (a política diz "se você ativar"; a ARQUITETURA diz que grava sempre os últimos 50). Alinhar código ou texto
-- [ ] Build de produção: `version` do manifest atualizado; zip Chrome e zip Firefox gerados pelo WXT
-- [ ] Imagens finais com a identidade oficial (lista abaixo)
-- [ ] Bruno escreve "pode publicar"
+- [x] Repositório https://github.com/brunolucassf/neruz-inspect público, com LICENSE (MIT)
+- [x] Landing no ar em https://inspect.neruz.tech com as políticas abertas: `/privacy/` (pt), `/en/privacy/`, `/es/privacy/` (não existe rota `/privacidade`)
+- [x] Política de privacidade cita o carregamento do Google Fonts em "Testar fonte" e as permissões opcionais (hoje cita as permissões, não cita o Google Fonts)
+- [x] Conferir se o histórico de cópias é opcional (a política diz "se você ativar"; a ARQUITETURA diz que grava sempre os últimos 50). Alinhar código ou texto
+- [x] Build de produção: `version` do manifest atualizado; zip Chrome e zip Firefox gerados pelo WXT
+- [x] Imagens finais com a identidade oficial (lista abaixo)
+- [x] Bruno escreve "pode publicar" (2026-11-22)
 
 ## Imagens
 | Peça | Tamanho | Chrome | AMO | Observação |
@@ -54,7 +54,7 @@ Capturas: site real como protagonista, barra e painel por cima, sem dados pessoa
 - [ ] E-mail de contato verificado no painel do desenvolvedor (pendente com Bruno)
 
 ## Firefox AMO
-**Pacote:** zip do build Firefox (ID `neruz-inspect@fontedev.com`, Firefox 128+, `data_collection_permissions: none` já no manifest).
+**Pacote:** zip do build Firefox + código-fonte gerado com git archive e BUILD-FIREFOX.md (o sources.zip do WXT omite packages/ e o lockfile; não usar) (ID `neruz-inspect@fontedev.com`, Firefox 128+, `data_collection_permissions: none` já no manifest).
 
 - [ ] Distribuição: no site (listado)
 - [ ] Código-fonte: enviar zip do código, porque o build é empacotado pelo WXT. Incluir no README do zip: versão do Node e do pnpm, `pnpm install` e o comando de build do Firefox

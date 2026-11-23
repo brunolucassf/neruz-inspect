@@ -56,5 +56,5 @@ https://inspect.neruz.tech/en/privacy/
 
 ## Firefox AMO · notes to reviewer
 ```
-Neruz Inspect runs only on the tab the user activates (activeTab + scripting). No data collection (data_collection_permissions: none), no telemetry, no server. Optional host permissions are requested on a user click for the link checker and asset downloads (GET/HEAD, no credentials). Built with pnpm + WXT, not obfuscated, no eval. Source code (MIT): https://github.com/brunolucassf/neruz-inspect. Build steps are in the attached source archive README.
+Neruz Inspect runs only on the tab the user activates (activeTab + scripting). No data collection (data_collection_permissions: none), no telemetry, no server. Optional host permissions are requested on a user click for the link checker and asset downloads (GET/HEAD, no credentials). Built with pnpm + WXT, not obfuscated, no eval. Source code (MIT): https://github.com/brunolucassf/neruz-inspect. Build steps: BUILD-FIREFOX.md at the root of the attached source archive (pnpm install --frozen-lockfile, pnpm build:ext:firefox; output is byte-identical).
 ```
