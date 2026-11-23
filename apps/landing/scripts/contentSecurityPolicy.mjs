@@ -78,7 +78,7 @@ export const buildContentSecurityPolicy = (htmlDocuments) => {
     "img-src 'self' data:",
     "font-src 'self'",
     "connect-src 'self'",
-    "frame-ancestors 'self'",
+    "frame-ancestors 'self' https://fontedev.com https://*.fontedev.com",
     "base-uri 'none'",
     "form-action 'none'",
     "object-src 'none'",

@@ -32,7 +32,7 @@ describe('buildContentSecurityPolicy', () => {
     expect(policy).toContain(`style-src 'self' ${sha('a{}')}`);
     expect(policy).not.toContain('unsafe-inline');
     expect(policy).toContain(
-      "frame-ancestors 'self'; base-uri 'none'; form-action 'none'; object-src 'none'",
+      "frame-ancestors 'self' https://fontedev.com https://*.fontedev.com; base-uri 'none'; form-action 'none'; object-src 'none'",
     );
   });
 
