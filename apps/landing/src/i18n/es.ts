@@ -106,7 +106,7 @@ export const es: LandingCopy = {
       id: 'layout',
       layers: ['03'],
       title: '¿La página se desplaza de lado? Encuentra al culpable.',
-      text: 'La extensión señala el elemento que se pasa del ancho de la pantalla. Mide distancias como en Figma, revisa margin y padding, descubre qué queda encima en el z-index y pon la imagen del diseño encima para comparar.',
+      text: 'La extensión señala el elemento que se pasa del ancho de la pantalla. Mide distancias como en Figma, revisa margin y padding, descubre qué queda encima en el z-index y resalta el contorno de cada bloque de la página.',
       tools: [
         'Scroll horizontal',
         'Regla',
@@ -114,7 +114,6 @@ export const es: LandingCopy = {
         'Grid y Flexbox',
         'Mapa de capas',
         'Breakpoints',
-        'Superponer diseño',
       ],
     },
     {

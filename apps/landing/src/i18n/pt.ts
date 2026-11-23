@@ -106,7 +106,7 @@ export const pt: LandingCopy = {
       id: 'layout',
       layers: ['03'],
       title: 'A página rola para o lado? Ache o culpado.',
-      text: 'A extensão aponta o elemento que passa da largura da tela. Meça distâncias como no Figma, veja margin e padding, descubra quem está na frente no z-index e coloque a imagem do design por cima para comparar.',
+      text: 'A extensão aponta o elemento que passa da largura da tela. Meça distâncias como no Figma, veja margin e padding, descubra quem está na frente no z-index e destaque o contorno de cada bloco da página.',
       tools: [
         'Rolagem lateral',
         'Régua',
@@ -114,7 +114,6 @@ export const pt: LandingCopy = {
         'Grid e Flexbox',
         'Mapa de camadas',
         'Breakpoints',
-        'Sobrepor design',
       ],
     },
     {

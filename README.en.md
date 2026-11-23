@@ -30,7 +30,7 @@ It is **free**, **open source (MIT)** and runs **in your browser**. No account, 
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Color**      | Eyedropper · Page palette · Contrast checker · Color converter · Gradients & shadows · Color blindness                                                            |
 | **Typography** | Font finder · Page fonts · Font tester · Type scale                                                                                                               |
-| **Layout**     | Ruler · Box model · Grid & Flexbox · Overflow finder · Z-index map · Breakpoints · Outlines · Design overlay                                                      |
+| **Layout**     | Ruler · Box model · Grid & Flexbox · Overflow finder · Z-index map · Breakpoints · Outlines                                                      |
 | **Code**       | Copy styles · Copy component · Extract design system · Live edit                                                                                                  |
 | **Motion**     | Motion inspector · Page toggles                                                                                                                                   |
 | **Tech**       | Tech stack · Pixels & tags · Cookies & storage · JSON viewer                                                                                                      |

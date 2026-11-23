@@ -1,7 +1,6 @@
 import type { ToolModule } from '../types';
 import boxModel from './boxModel';
 import breakpoints from './breakpoints';
-import figmaOverlay from './figmaOverlay';
 import gridFlex from './gridFlex';
 import outlines from './outlines';
 import overflow from './overflow';
@@ -16,7 +15,6 @@ const tools: readonly ToolModule[] = [
   zIndex,
   breakpoints,
   outlines,
-  figmaOverlay,
 ];
 
 export default tools;

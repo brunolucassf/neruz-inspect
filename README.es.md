@@ -30,7 +30,7 @@ Es **gratis**, **de código abierto (MIT)** y funciona **en tu navegador**. Sin 
 | -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Color**      | Cuentagotas · Paleta de la página · Revisar contraste · Conversor de color · Degradados y sombras · Daltonismo                                                                |
 | **Tipografía** | Qué fuente es · Fuentes de la página · Probar fuente · Escala tipográfica                                                                                                     |
-| **Layout**     | Regla · Caja del elemento · Grid y Flexbox · Scroll horizontal · Mapa de capas · Breakpoints · Contornos · Superponer diseño                                                  |
+| **Layout**     | Regla · Caja del elemento · Grid y Flexbox · Scroll horizontal · Mapa de capas · Breakpoints · Contornos                                                  |
 | **Código**     | Copiar estilos · Copiar componente · Extraer design system · Editar en vivo                                                                                                   |
 | **Movimiento** | Inspector de movimiento · Interruptores                                                                                                                                       |
 | **Tecnología** | Tecnologías del sitio · Píxeles y etiquetas · Cookies y storage · Visor de JSON                                                                                               |

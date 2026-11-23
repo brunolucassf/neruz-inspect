@@ -12,7 +12,6 @@ export const TOOL_LAYOUT = {
     'zIndex',
     'breakpoints',
     'outlines',
-    'figmaOverlay',
   ],
   code: ['copyStyles', 'copyComponent', 'designTokens', 'editLive'],
   motion: ['motionInspector', 'pageToggles'],
@@ -30,8 +29,6 @@ export const TOOL_LAYOUT = {
   utils: ['units', 'lorem', 'formFill', 'qrCode', 'clipboardHistory'],
 };
 
-// PNG 1x1 vermelho para o upload do figmaOverlay.
-const TINY_PNG = Buffer.from(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
   'base64',
 );
@@ -200,18 +197,6 @@ export const ACTIONS = {
     need(outlined, 'contornos não foram aplicados nos elementos');
     await panel.locator('input[type=checkbox]').first().check();
     await page.waitForTimeout(300);
-  },
-  async figmaOverlay({ panel, page }) {
-    await panel.locator('input[type=file]').setInputFiles({
-      name: 'design.png',
-      mimeType: 'image/png',
-      buffer: TINY_PNG,
-    });
-    await page.waitForTimeout(800);
-    const hasImg = await page.evaluate(
-      () => !!document.querySelector('[data-neruz-design-overlay]'),
-    );
-    need(hasImg, 'imagem do design não foi sobreposta');
   },
   async copyStyles({ page, hover, text }) {
     await hover('.card:nth-child(2)');

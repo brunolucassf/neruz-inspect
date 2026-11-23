@@ -39,7 +39,7 @@ type ToolModule = {
 |---|---|
 | color | eyedropper, palette, contrast, colorTools, gradientShadow, colorblind |
 | type | fontHover, fontList, fontSwap, typeScale |
-| layout | ruler, boxModel, gridFlex, overflow, zIndex, breakpoints, outlines, figmaOverlay |
+| layout | ruler, boxModel, gridFlex, overflow, zIndex, breakpoints, outlines |
 | code | copyStyles, copyComponent, designTokens, editLive |
 | motion | motionInspector, pageToggles |
 | tech | techStack, tagsPixels, storageViewer, jsonViewer |

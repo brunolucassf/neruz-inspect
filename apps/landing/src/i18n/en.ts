@@ -100,7 +100,7 @@ export const en: LandingCopy = {
       id: 'layout',
       layers: ['03'],
       title: 'Page scrolling sideways? Find the culprit.',
-      text: "The extension points to the element that's wider than the screen. Measure distances like in Figma, check margin and padding, see what's on top in the z-index and lay the design over the page to compare.",
+      text: "The extension points to the element that's wider than the screen. Measure distances like in Figma, check margin and padding, see what's on top in the z-index and outline every block on the page.",
       tools: [
         'Overflow finder',
         'Ruler',
@@ -108,7 +108,6 @@ export const en: LandingCopy = {
         'Grid & Flexbox',
         'Z-index map',
         'Breakpoints',
-        'Design overlay',
       ],
     },
     {

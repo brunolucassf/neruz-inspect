@@ -30,7 +30,7 @@
 | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | **Cor**         | Conta-gotas · Paleta da página · Checar contraste · Conversor de cor · Gradiente e sombra · Daltonismo                                                                                     |
 | **Tipografia**  | Qual é a fonte · Fontes da página · Testar fonte · Escala tipográfica                                                                                                                      |
-| **Layout**      | Régua · Caixa do elemento · Grid e Flexbox · Rolagem lateral · Mapa de camadas · Breakpoints · Contornos · Sobrepor design                                                                 |
+| **Layout**      | Régua · Caixa do elemento · Grid e Flexbox · Rolagem lateral · Mapa de camadas · Breakpoints · Contornos                                                                 |
 | **Código**      | Copiar estilos · Copiar componente · Extrair design system · Editar ao vivo                                                                                                                |
 | **Movimento**   | Inspetor de movimento · Liga e desliga                                                                                                                                                     |
 | **Tecnologia**  | Tecnologias do site · Pixels e tags · Cookies e storage · Visualizar JSON                                                                                                                  |

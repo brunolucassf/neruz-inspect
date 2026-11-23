@@ -33,7 +33,6 @@ export type ToolId =
   | 'zIndex'
   | 'breakpoints'
   | 'outlines'
-  | 'figmaOverlay'
   | 'copyStyles'
   | 'copyComponent'
   | 'designTokens'
