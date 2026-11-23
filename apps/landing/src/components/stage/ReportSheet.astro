@@ -1,0 +1,52 @@
+---
+import type { LandingCopy } from '../../i18n';
+
+interface Props {
+  copy: LandingCopy;
+  class?: string;
+}
+
+const { copy, class: extraClass } = Astro.props;
+const pageTools = copy.sections.find((section) => section.id === 'pagina')?.tools ?? [];
+const techTools = copy.sections.find((section) => section.id === 'tecnologia')?.tools ?? [];
+const [reportTitle, seo, links, performance, accessibility] = pageTools;
+const rows = [
+  { title: seo, lines: [92, 64] },
+  { title: links, lines: [80, 48] },
+  { title: techTools[1], lines: [70, 56] },
+  { title: accessibility, lines: [86, 40] },
+];
+---
+
+<div class:list={['np-report', extraClass]} aria-hidden="true">
+  <div class="np-report__head">
+    <svg class="i"><use href="#nis-logo"></use></svg>
+    <span>
+      <b>{reportTitle}</b>
+      <small>{copy.visuals.ogHost}</small>
+    </span>
+  </div>
+  <div class="np-report__vitals">
+    <p class="np-report__title">{performance} <em>{copy.visuals.exampleTag}</em></p>
+    <div class="np-report__tiles">
+      {
+        copy.visuals.vitals.map((vital) => (
+          <span>
+            <small>{vital.name}</small>
+            <b>{vital.value}</b>
+          </span>
+        ))
+      }
+    </div>
+  </div>
+  {
+    rows.map((row) => (
+      <div class="np-report__row">
+        <p class="np-report__title">{row.title}</p>
+        {row.lines.map((width) => (
+          <i style={`width:${width}%`} />
+        ))}
+      </div>
+    ))
+  }
+</div>

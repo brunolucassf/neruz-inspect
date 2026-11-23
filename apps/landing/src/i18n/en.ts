@@ -45,8 +45,6 @@ export const en: LandingCopy = {
     subtitle:
       'Colors, fonts, spacing, motion and tech from any page, in a toolbar that opens right on top of the site. A free, open source extension that collects no data.',
     micro: ['Free', 'Open source (MIT)', 'No account', 'Alt+Shift+I'],
-    stageLabel:
-      'Sample page of a pottery studio. The octagonal magnifier reveals the boxes, measurements, colors and fonts underneath.',
     skipIntro: 'Skip animation',
   },
   demo: {
@@ -54,7 +52,7 @@ export const en: LandingCopy = {
     title: 'Handmade ceramics, one piece at a time.',
     text: 'Cups, plates and vases fired in a wood kiln, on the coast.',
     button: 'See pieces',
-    swatchLabel: 'clay',
+    marquee: 'Cups · Plates · Vases · Bowls · Platters · Fired in a wood kiln',
   },
   explode: {
     eyebrow: 'Under the page',
@@ -62,7 +60,6 @@ export const en: LandingCopy = {
     subtitle:
       'Each layer is a group of tools. Scroll to pull them apart and tap a number to jump to it.',
     indexLabel: 'Neruz Inspect layers',
-    layerWord: 'Layer',
   },
   groups: [
     { name: 'Color', desc: 'Pick, check and convert the colors on any page.' },
@@ -74,6 +71,75 @@ export const en: LandingCopy = {
     { name: 'Page', desc: 'SEO, links, assets, performance and accessibility, in one report.' },
     { name: 'Utilities', desc: 'Small everyday tools for people who build websites.' },
   ],
+  stage: {
+    label:
+      'Sample page for a ceramics studio with the Neruz Inspect toolbar and panel open on top. Hover a block to switch tools.',
+    dock: {
+      search: 'Search tools',
+      groups: [
+        { short: 'Color', name: 'Color' },
+        { short: 'Type', name: 'Type' },
+        { short: 'Layout', name: 'Layout' },
+        { short: 'Code', name: 'Code' },
+        { short: 'Motion', name: 'Motion' },
+        { short: 'Tech', name: 'Tech' },
+        { short: 'Page', name: 'Page' },
+        { short: 'Utils', name: 'Utilities' },
+      ],
+    },
+    panel: {
+      creditsPrefix: 'Built by',
+      locked: 'Locked',
+    },
+    box: {
+      title: 'Box model',
+      size: 'Size',
+      spacing: 'Spacing',
+      box: 'Box',
+      width: 'Width',
+      height: 'Height',
+      margin: 'Margin',
+      padding: 'Padding',
+      border: 'Border',
+      radius: 'Radius',
+      display: 'Display',
+    },
+    font: {
+      title: 'Font finder',
+      webFont: 'Web font',
+      family: 'Font',
+      rendered: 'In use',
+      declared: 'Declared',
+      text: 'Text',
+      weight: 'Weight',
+      size: 'Size',
+      lineHeight: 'Line height',
+      color: 'Color',
+      copyCss: 'Copy CSS',
+    },
+    eyedropper: {
+      title: 'Eyedropper',
+      picked: 'Picked color',
+      recent: 'Recent colors',
+      start: 'Pick a color',
+    },
+    assets: {
+      title: 'Assets',
+      found: '{n} files found on this page',
+      files: 'Files',
+      weight: 'Total weight',
+      alerts: 'Alerts',
+      filterAll: 'All',
+      filterImages: 'Images',
+      filterBackgrounds: 'Backgrounds',
+      filterSvg: 'SVG',
+      noLazy: 'no lazy loading',
+      tryModern: '{format}: try WebP or AVIF',
+      noAlerts: 'No alerts',
+      ratio: '{n}× larger than displayed',
+      cssBackground: 'CSS background',
+    },
+  },
   sections: [
     {
       id: 'cor',
@@ -149,23 +215,14 @@ export const en: LandingCopy = {
   ],
   visuals: {
     exampleTag: 'example',
-    contrastLabel: 'Text on background',
-    contrastPass: 'AA pass',
-    codeTabs: ['CSS', 'Tailwind', 'Tokens'],
-    easingLabel: 'Easing curve',
-    speedLabel: 'Speed',
     techChips: ['Framework', 'CMS', 'Site builder', 'Library', 'Metrics tag'],
-    techLabel: 'Site foundation',
-    ogTitle: 'How the link preview looks',
     ogHost: 'mare.example',
     vitals: [
       { name: 'LCP', value: '1.8 s' },
       { name: 'INP', value: '120 ms' },
       { name: 'CLS', value: '0.04' },
     ],
-    boxLabels: { margin: 'margin', padding: 'padding', content: 'content' },
     typeLabel: 'x-height · baseline · cap height',
-    utilsChips: ['px → rem', 'Lorem ipsum', 'QR code', 'History'],
   },
   privacy: {
     eyebrow: 'Privacy and open source',
@@ -202,9 +259,11 @@ export const en: LandingCopy = {
         why: 'Only to check links and download files from other sites, if you allow it.',
       },
     ],
+    familyEyebrow: 'Same family',
+    familyTitle: 'Inspected it? Now show it.',
     familyText:
-      'From the same family as Neruz Page View, for viewing your site on many screens and capturing screenshots and videos.',
-    familyLink: 'Meet Neruz Page View',
+      'Neruz Page View opens your site on several screens at once, phone, tablet and desktop, and captures screenshots and videos ready to present. Free and open source, just like Inspect.',
+    familyButton: 'Meet Neruz Page View',
   },
   faq: {
     title: 'Quick questions',

@@ -1,0 +1,60 @@
+---
+import type { PanelText } from '../../../i18n/panelText';
+import CodeTabs from './CodeTabs.astro';
+
+interface Props {
+  text: PanelText;
+}
+
+const { text } = Astro.props;
+const tabs = [
+  {
+    label: 'HTML + CSS',
+    code: `<figure class="vaso">
+  <img src="vaso-argila.jpg"
+    alt="Maré" />
+</figure>
+
+.vaso {
+  aspect-ratio: 2 / 3;
+  background: #DDE3D0;
+  border-radius: 6px;
+}`,
+  },
+  {
+    label: 'Tailwind',
+    code: `<figure class="aspect-[2/3]
+  bg-[#DDE3D0] rounded-md">
+  <img src="vaso-argila.jpg"
+    alt="Maré" />
+</figure>`,
+  },
+  {
+    label: 'JSX',
+    code: `export function Vaso() {
+  return (
+    <figure className="vaso">
+      <img src="vaso-argila.jpg"
+        alt="Maré" />
+    </figure>
+  );
+}`,
+  },
+];
+---
+
+<div class="ni-panel__body" data-tool-body="component">
+  <div class="ni-section np-lamina">
+    <p class="np-note">{text('code.copyComponent.nodes_other', { n: 2 })}</p>
+    <CodeTabs tabs={tabs} />
+  </div>
+  <div class="ni-actions np-lamina">
+    <span class="ni-button ni-button--primary" data-np-copy>
+      <svg class="i"><use href="#nis-copy"></use></svg>{text('code.shared.copy')}
+    </span>
+  </div>
+  <span class="ni-toast np-toast" data-np-toast hidden>
+    <svg class="i"><use href="#nis-check"></use></svg>
+    <span class="ni-toast__text">{text('core.copy.done', { label: 'HTML + CSS' })}</span>
+  </span>
+</div>

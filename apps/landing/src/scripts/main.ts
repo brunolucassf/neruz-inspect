@@ -1,8 +1,11 @@
 import { initDomTrail } from './domTrail';
 import { canUseWebGl, isMotion } from './env';
-import { type HeroController, initHero } from './hero';
+import { initFamily } from './family';
 import { initInspectOverlay } from './inspectOverlay';
 import { initLanguageMenus } from './languageMenu';
+import { createDock } from './stage/dock';
+import { initStage, type StageController } from './stage/rig';
+import { initScenes } from './stage/scenes';
 import { initStoreCta } from './storeCta';
 import { initWidgets } from './widgets';
 import { initWireButtons } from './wireButtons';
@@ -30,25 +33,6 @@ function preserveScrollOnLanguageSwitch(): void {
   }
 }
 
-function revealVisualsOnView(): void {
-  const visuals = document.querySelectorAll<HTMLElement>('[data-viz]');
-  if (!isMotion) {
-    for (const visual of visuals) visual.classList.add('is-in');
-    return;
-  }
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (!entry.isIntersecting) continue;
-        entry.target.classList.add('is-in');
-        observer.unobserve(entry.target);
-      }
-    },
-    { rootMargin: '0px 0px -12% 0px' },
-  );
-  for (const visual of visuals) observer.observe(visual);
-}
-
 function afterFirstPaint(task: () => void): void {
   const schedule = () => {
     if ('requestIdleCallback' in window) window.requestIdleCallback(task, { timeout: 1500 });
@@ -58,22 +42,15 @@ function afterFirstPaint(task: () => void): void {
   else window.addEventListener('load', schedule, { once: true });
 }
 
-function loadGl(hero: HeroController): void {
-  if (!canUseWebGl()) return;
-  const canvas = hero.stage.querySelector<HTMLCanvasElement>('[data-gl]');
-  if (!canvas) return;
+function loadBench(stage: StageController): void {
+  const canvas = stage.stage.querySelector<HTMLCanvasElement>('[data-bench-gl]');
+  if (!canvas || stage.mode() !== 'sticky' || !canUseWebGl()) return;
   afterFirstPaint(async () => {
     try {
-      const { createHeroGl } = await import('./gl/heroGl');
-      document.documentElement.classList.add('has-gl');
-      const isReady = await createHeroGl(canvas, hero);
-      if (!isReady) {
-        document.documentElement.classList.remove('has-gl');
-        return;
-      }
-      requestAnimationFrame(() => document.documentElement.classList.add('gl-ready'));
+      const { createBench } = await import('./gl/benchGl');
+      if (createBench(canvas, stage)) stage.stage.classList.add('has-bench');
     } catch {
-      document.documentElement.classList.remove('has-gl', 'gl-ready');
+      stage.stage.classList.remove('has-bench');
     }
   });
 }
@@ -84,15 +61,25 @@ function boot(): void {
   initLanguageMenus();
   preserveScrollOnLanguageSwitch();
   initWidgets();
-  revealVisualsOnView();
   initDomTrail();
+  initFamily();
   initInspectOverlay();
-  const hero = initHero();
-  if (hero) loadGl(hero);
+  const stage = initStage();
+  initScenes(stage);
+  if (!isMotion) {
+    for (const dock of document.querySelectorAll<HTMLElement>('[data-explode-mini] [data-dock]')) {
+      createDock(dock);
+    }
+  }
+  if (stage) loadBench(stage);
   if (isMotion) {
     afterFirstPaint(async () => {
-      const { initMotion } = await import('./motion');
+      const [{ initMotion }, { initJourney }] = await Promise.all([
+        import('./motion'),
+        import('./stage/journey'),
+      ]);
       initMotion();
+      initJourney(stage);
     });
   }
 }

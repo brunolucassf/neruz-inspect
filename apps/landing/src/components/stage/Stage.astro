@@ -1,0 +1,60 @@
+---
+import { DEMO_RECTS, MARQUEE_EXCESS, placeRect } from '../../demo/layout';
+import type { LandingCopy } from '../../i18n';
+import BrowserFrame from './BrowserFrame.astro';
+import Dock from './Dock.astro';
+import ExplodeLayers from './ExplodeLayers.astro';
+import IconSprite from './IconSprite.astro';
+import Panel from './Panel.astro';
+import ReportSheet from './ReportSheet.astro';
+
+interface Props {
+  copy: LandingCopy;
+}
+
+const { copy } = Astro.props;
+---
+
+<div class="st np" data-stage>
+  <IconSprite />
+  <div class="st__bench" aria-hidden="true"></div>
+  <canvas class="st__gl" data-bench-gl aria-hidden="true"></canvas>
+  <div class="st__view" data-stage-view role="img" aria-label={copy.stage.label}>
+    <div class="st__rig" data-rig>
+      <span class="st__shadow" data-plane-shadow></span>
+      <div class="st__plane st__plane--frame" data-plane="frame">
+        <BrowserFrame copy={copy} />
+      </div>
+      <div class="st__plane st__plane--layers" data-plane="layers">
+        <ExplodeLayers copy={copy} variant="stage" />
+      </div>
+      <div class="st__plane st__plane--hl" data-plane="hl">
+        <span class="hl-spill" style={placeRect(DEMO_RECTS.marquee)}><em>+{MARQUEE_EXCESS} px</em></span>
+        <div class="hl" data-hl>
+          <span class="hl__margin hl__margin--t" data-hl-margin="t"></span>
+          <span class="hl__margin hl__margin--b" data-hl-margin="b"></span>
+          <span class="hl__padding" data-hl-padding></span>
+          <span class="hl__outline"></span>
+          <span class="hl__label" data-hl-label><b data-hl-tag>a</b><span data-hl-class>.btn</span><em data-hl-size>176 × 52</em></span>
+          <span class="hl__measure" data-hl-measure><span data-hl-measure-text>176 px</span></span>
+        </div>
+      </div>
+      <div class="st__plane st__plane--sheet" data-plane="sheet">
+        <ReportSheet copy={copy} />
+      </div>
+      <div class="st__plane st__plane--panel" data-plane="panel">
+        <Panel copy={copy} />
+      </div>
+    </div>
+    <div class="st__rig st__rig--dock" data-dock-rig>
+      <div class="st__plane st__plane--dock" data-plane="dock">
+        <Dock copy={copy} variant="stage" />
+      </div>
+    </div>
+    <svg class="st__callouts" data-callouts aria-hidden="true"></svg>
+    <span class="st__cursor" data-ghost-cursor aria-hidden="true">
+      <svg viewBox="0 0 24 28"><use href="#nis-pointer"></use></svg>
+    </span>
+  </div>
+  <button type="button" class="st__skip" data-skip-intro hidden>{copy.hero.skipIntro}</button>
+</div>

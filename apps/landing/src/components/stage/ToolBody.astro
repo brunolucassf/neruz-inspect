@@ -1,0 +1,43 @@
+---
+import { findTarget, type ToolId } from '../../demo/layout';
+import type { LandingCopy } from '../../i18n';
+import type { PanelText } from '../../i18n/panelText';
+import Assets from './panels/Assets.astro';
+import BoxModel from './panels/BoxModel.astro';
+import Component from './panels/Component.astro';
+import Contrast from './panels/Contrast.astro';
+import Eyedropper from './panels/Eyedropper.astro';
+import Font from './panels/Font.astro';
+import Motion from './panels/Motion.astro';
+import Overflow from './panels/Overflow.astro';
+import Tags from './panels/Tags.astro';
+import Tech from './panels/Tech.astro';
+import Tokens from './panels/Tokens.astro';
+import Utils from './panels/Utils.astro';
+
+interface Props {
+  copy: LandingCopy;
+  text: PanelText;
+  tool: ToolId;
+  active?: boolean;
+}
+
+const { copy, text, tool, active = false } = Astro.props;
+const box = findTarget('button')?.box;
+const font = findTarget('title')?.font;
+const color = findTarget('swatch-clay')?.color;
+if (!box || !font || !color) throw new Error('Demo targets missing readings');
+---
+
+{tool === 'box' && <BoxModel copy={copy} box={box} active={active} />}
+{tool === 'font' && <Font copy={copy} font={font} />}
+{tool === 'eyedropper' && <Eyedropper copy={copy} color={color} />}
+{tool === 'assets' && <Assets copy={copy} />}
+{tool === 'contrast' && <Contrast copy={copy} text={text} />}
+{tool === 'tokens' && <Tokens text={text} />}
+{tool === 'component' && <Component text={text} />}
+{tool === 'overflow' && <Overflow text={text} />}
+{tool === 'motion' && <Motion copy={copy} text={text} />}
+{tool === 'tags' && <Tags text={text} />}
+{tool === 'tech' && <Tech text={text} />}
+{tool === 'utils' && <Utils text={text} lang={copy.htmlLang} />}

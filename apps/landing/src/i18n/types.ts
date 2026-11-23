@@ -22,6 +22,66 @@ export interface PrivacyPageCopy {
   blocks: { title: string; paragraphs: string[]; items?: string[] }[];
 }
 
+export interface StageCopy {
+  label: string;
+  dock: {
+    search: string;
+    groups: { short: string; name: string }[];
+  };
+  panel: {
+    creditsPrefix: string;
+    locked: string;
+  };
+  box: {
+    title: string;
+    size: string;
+    spacing: string;
+    box: string;
+    width: string;
+    height: string;
+    margin: string;
+    padding: string;
+    border: string;
+    radius: string;
+    display: string;
+  };
+  font: {
+    title: string;
+    webFont: string;
+    family: string;
+    rendered: string;
+    declared: string;
+    text: string;
+    weight: string;
+    size: string;
+    lineHeight: string;
+    color: string;
+    copyCss: string;
+  };
+  eyedropper: {
+    title: string;
+    picked: string;
+    recent: string;
+    start: string;
+  };
+  assets: {
+    title: string;
+    found: string;
+    files: string;
+    weight: string;
+    alerts: string;
+    filterAll: string;
+    filterImages: string;
+    filterBackgrounds: string;
+    filterSvg: string;
+    noLazy: string;
+    tryModern: string;
+    noAlerts: string;
+    ratio: string;
+    cssBackground: string;
+  };
+}
+
 export interface LandingCopy {
   locale: Locale;
   htmlLang: string;
@@ -51,7 +111,6 @@ export interface LandingCopy {
     title: string;
     subtitle: string;
     micro: string[];
-    stageLabel: string;
     skipIntro: string;
   };
   demo: {
@@ -59,32 +118,23 @@ export interface LandingCopy {
     title: string;
     text: string;
     button: string;
-    swatchLabel: string;
+    marquee: string;
   };
   explode: {
     eyebrow: string;
     title: string;
     subtitle: string;
     indexLabel: string;
-    layerWord: string;
   };
   groups: { name: string; desc: string }[];
+  stage: StageCopy;
   sections: SectionCopy[];
   visuals: {
     exampleTag: string;
-    contrastLabel: string;
-    contrastPass: string;
-    codeTabs: string[];
-    easingLabel: string;
-    speedLabel: string;
     techChips: string[];
-    techLabel: string;
-    ogTitle: string;
     ogHost: string;
     vitals: { name: string; value: string }[];
-    boxLabels: { margin: string; padding: string; content: string };
     typeLabel: string;
-    utilsChips: string[];
   };
   privacy: {
     eyebrow: string;
@@ -98,8 +148,10 @@ export interface LandingCopy {
     requiredWord: string;
     optionalWord: string;
     perms: { name: string; kind: 'required' | 'optional'; why: string }[];
+    familyEyebrow: string;
+    familyTitle: string;
     familyText: string;
-    familyLink: string;
+    familyButton: string;
   };
   faq: { title: string; items: { q: string; a: string }[] };
   final: { title: string; subtitle: string };

@@ -1,0 +1,46 @@
+---
+import { DEMO_RECTS, DEMO_WIDTH, MARQUEE_EXCESS } from '../../../demo/layout';
+import type { PanelText } from '../../../i18n/panelText';
+
+interface Props {
+  text: PanelText;
+}
+
+const { text } = Astro.props;
+const tiles = [
+  { label: text('layout.overflow.tile.excess'), value: `+${MARQUEE_EXCESS}`, isWarning: true },
+  { label: text('layout.overflow.tile.viewport'), value: String(DEMO_WIDTH), isWarning: false },
+  {
+    label: text('layout.overflow.tile.page'),
+    value: String(DEMO_RECTS.marquee.w),
+    isWarning: false,
+  },
+];
+---
+
+<div class="ni-panel__body" data-tool-body="overflow">
+  <div class="ni-tiles np-lamina" style="--cols:3">
+    {
+      tiles.map((tile) => (
+        <div class:list={['ni-tile', { 'ni-tile--warning': tile.isWarning }]}>
+          <div class="ni-tile__label">{tile.label}</div>
+          <div class="ni-tile__value">
+            {tile.value}
+            <small>px</small>
+          </div>
+        </div>
+      ))
+    }
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('layout.overflow.culprits.title_one', { n: 1 })}</p>
+    <div class="np-culprit">
+      <div class="np-culprit__head">
+        <span class="ni-code-chip"><b>div</b>.marquee</span>
+        <span class="ni-badge ni-badge--warning">{text('layout.overflow.excess', { n: MARQUEE_EXCESS })} px</span>
+      </div>
+      <span class="np-culprit__bar"><i></i></span>
+      <span class="ni-button np-culprit__reveal">{text('layout.overflow.reveal', { label: 'div.marquee' })}</span>
+    </div>
+  </div>
+</div>

@@ -1,46 +1,38 @@
 ---
-import { DEMO_HEIGHT, DEMO_RECTS, DEMO_SWATCHES, DEMO_WIDTH, type DemoRect } from '../demo/layout';
+import { DEMO_RECTS, DEMO_SWATCHES, placeRect } from '../demo/layout';
 import type { LandingCopy } from '../i18n';
 
 interface Props {
   copy: LandingCopy;
-  proof?: boolean;
 }
 
-const { copy, proof = false } = Astro.props;
+const { copy } = Astro.props;
 const { demo } = copy;
-
-const place = (rect: DemoRect) =>
-  `left:${(rect.x / DEMO_WIDTH) * 100}%;top:${(rect.y / DEMO_HEIGHT) * 100}%;width:${(rect.w / DEMO_WIDTH) * 100}%;height:${(rect.h / DEMO_HEIGHT) * 100}%`;
-
-const cotas = [
-  { x: 300, y: 288, w: 0, h: 24, label: '24' },
-  { x: 300, y: 370, w: 0, h: 28, label: '28' },
-  { x: 0, y: 424, w: 48, h: 0, label: '48' },
-];
 ---
 
-<div class:list={['demo', { 'demo--proof': proof }]} aria-hidden="true">
-  <div class="demo__nav" style={place(DEMO_RECTS.nav)}></div>
-  <p class="demo__brand" style={place(DEMO_RECTS.brand)}>Maré</p>
-  <ul class="demo__links" style={place(DEMO_RECTS.links)}>
+<div class="demo" data-inspect="paper">
+  <div class="demo__nav" style={placeRect(DEMO_RECTS.nav)} data-inspect="nav"></div>
+  <p class="demo__brand" style={placeRect(DEMO_RECTS.brand)} data-inspect="brand">Maré</p>
+  <ul class="demo__links" style={placeRect(DEMO_RECTS.links)} data-inspect="links">
     {demo.nav.map((item) => <li>{item}</li>)}
   </ul>
-  <h2 class="demo__title" style={place(DEMO_RECTS.title)}>{demo.title}</h2>
-  <p class="demo__text" style={place(DEMO_RECTS.text)}>{demo.text}</p>
-  <p class="demo__button" style={place(DEMO_RECTS.button)}>{demo.button}</p>
-  <ul class="demo__swatches" style={place(DEMO_RECTS.swatches)}>
-    {
-      DEMO_SWATCHES.map((swatch) => (
-        <li>
-          <span class={`demo__chip demo__chip--${swatch.key}`}></span>
-          <span class="demo__hex">{swatch.hex}</span>
-        </li>
-      ))
-    }
-  </ul>
-  <div class="demo__art" style={place(DEMO_RECTS.art)}>
-    <svg viewBox="0 0 292 440" preserveAspectRatio="xMidYMid slice">
+  <p class="demo__title" style={placeRect(DEMO_RECTS.title)} data-inspect="title">{demo.title}</p>
+  <p class="demo__text" style={placeRect(DEMO_RECTS.text)} data-inspect="text">{demo.text}</p>
+  <p class="demo__button" style={placeRect(DEMO_RECTS.button)} data-inspect="button">{demo.button}</p>
+  {
+    DEMO_SWATCHES.map((swatch) => (
+      <span
+        class={`demo__chip demo__chip--${swatch.key}`}
+        style={placeRect(swatch.rect)}
+        data-inspect={`swatch-${swatch.key}`}
+      />
+    ))
+  }
+  <p class="demo__marquee" style={placeRect(DEMO_RECTS.marquee)} data-inspect="marquee">
+    <span>{demo.marquee}</span>
+  </p>
+  <div class="demo__art" style={placeRect(DEMO_RECTS.art)} data-inspect="art">
+    <svg viewBox="0 0 292 440" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
       <rect width="292" height="440" fill="#DDE3D0"></rect>
       <ellipse cx="146" cy="392" rx="96" ry="14" fill="#1C2620" opacity=".14"></ellipse>
       <path d="M118 96h56v34c44 22 64 62 64 112 0 56-34 100-92 100s-92-44-92-100c0-50 20-90 64-112Z" fill="#B4582F"></path>
@@ -48,16 +40,4 @@ const cotas = [
       <circle cx="146" cy="300" r="26" fill="#6F8A5B"></circle>
     </svg>
   </div>
-  {
-    proof &&
-      cotas.map((cota) => (
-        <span
-          class:list={['demo__cota', cota.h === 0 ? 'demo__cota--h' : 'demo__cota--v']}
-          style={`left:${(cota.x / DEMO_WIDTH) * 100}%;top:${(cota.y / DEMO_HEIGHT) * 100}%;width:${(cota.w / DEMO_WIDTH) * 100}%;height:${(cota.h / DEMO_HEIGHT) * 100}%`}
-        >
-          <b>{cota.label}</b>
-        </span>
-      ))
-  }
-  {proof && <span class="demo__font-tag" style={place({ x: 48, y: 84, w: 240, h: 20 })}>Fraunces 600 · 54/58</span>}
 </div>

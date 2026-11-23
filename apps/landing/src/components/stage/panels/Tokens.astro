@@ -1,0 +1,68 @@
+---
+import { DEMO_COLORS } from '../../../demo/layout';
+import type { PanelText } from '../../../i18n/panelText';
+import CodeTabs from './CodeTabs.astro';
+
+interface Props {
+  text: PanelText;
+}
+
+const { text } = Astro.props;
+const colors = [
+  DEMO_COLORS.clay,
+  DEMO_COLORS.moss,
+  DEMO_COLORS.ink,
+  DEMO_COLORS.paper,
+  DEMO_COLORS.artPaper,
+];
+const tabs = [
+  {
+    label: 'CSS',
+    code: `:root {
+  --color-clay: #B4582F;
+  --color-moss: #6F8A5B;
+  --color-ink: #1C2620;
+  --font-title: Fraunces;
+  --space-4: 24px;
+  --radius-m: 6px;
+}`,
+  },
+  {
+    label: 'Tailwind',
+    code: `theme: {
+  colors: {
+    clay: '#B4582F',
+    moss: '#6F8A5B',
+    ink: '#1C2620',
+  },
+  fontFamily: { title: ['Fraunces'] },
+  borderRadius: { m: '6px' },
+}`,
+  },
+  {
+    label: 'JSON',
+    code: `{
+  "color": {
+    "clay": "#B4582F",
+    "moss": "#6F8A5B",
+    "ink": "#1C2620"
+  },
+  "space": { "4": "24px" },
+  "radius": { "m": "6px" }
+}`,
+  },
+];
+---
+
+<div class="ni-panel__body" data-tool-body="tokens">
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('code.designTokens.section.colors')}</p>
+    <div class="np-recent" data-np-token-chips>
+      {colors.map((hex) => <span class="np-recent__chip" style={`background:${hex}`} />)}
+    </div>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('code.designTokens.section.export')}</p>
+    <CodeTabs tabs={tabs} />
+  </div>
+</div>

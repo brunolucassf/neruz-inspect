@@ -7,29 +7,120 @@ interface Props {
 }
 
 const { copy } = Astro.props;
+const { privacy } = copy;
+const [firstNavItem, secondNavItem] = copy.demo.nav;
 ---
 
-<section class="family" id="familia" aria-label="Neruz Extensions" data-section-trail="main › section#familia › p">
-  <div class="family__marks" aria-hidden="true">
-    <svg viewBox="0 0 128 128" class="family__svg family__svg--cyan">
-      <g fill="#00e5ff" fill-rule="evenodd">
-        <path d="M24 20H104L112 28V46H100V32H28V88H54V100H24L16 92V28Z" />
-        <path d="M72 52H104L112 60V104L104 112H72L64 104V60ZM76 64V100H100V64Z" />
-      </g>
-    </svg>
-    <svg viewBox="0 0 128 128" class="family__svg">
-      <g fill="#ff4fd0">
-        <path d="M16 76V36L36 16H80V28H40.9706L28 40.9706V76Z" />
-        <path d="M16 76V36L36 16H80V28H40.9706L28 40.9706V76Z" transform="rotate(180 64 64)" />
-        <path d="M64 52L76 64L64 76L52 64Z" />
-      </g>
-    </svg>
-  </div>
-  <div class="family__text">
-    <p class="family__copy">{copy.privacy.familyText}</p>
-    <p class="family__links">
-      <a class="text-link" href={STORE_LINKS.pageView} rel="noopener">{copy.privacy.familyLink}</a>
-      <a class="text-link" href={STORE_LINKS.github} rel="noopener">Neruz Inspect · GitHub</a>
-    </p>
+<section class="family" id="familia" aria-labelledby="familia-title" data-section-trail="main › section#familia › h2">
+  <div class="family__card" data-family>
+    <div class="family__copy">
+      <p class="family__eyebrow">
+        <svg viewBox="0 0 128 128" class="family__logo" aria-hidden="true">
+          <g fill="#00e5ff" fill-rule="evenodd">
+            <path d="M24 20H104L112 28V46H100V32H28V88H54V100H24L16 92V28Z" />
+            <path d="M72 52H104L112 60V104L104 112H72L64 104V60ZM76 64V100H100V64Z" />
+          </g>
+        </svg>
+        <span>{privacy.familyEyebrow}</span>
+      </p>
+      <h2 id="familia-title" class="family__title">{privacy.familyTitle}</h2>
+      <p class="family__text">{privacy.familyText}</p>
+      <div class="family__actions">
+        <a class="btn family__btn" href={STORE_LINKS.pageView} rel="noopener" data-wire>
+          <span>{privacy.familyButton}</span>
+          <svg class="btn__arrow" width="18" height="18" viewBox="0 0 18 18" aria-hidden="true">
+            <path d="M3 9h11M9.5 4.5 14 9l-4.5 4.5" />
+          </svg>
+        </a>
+        <a class="text-link family__github" href={STORE_LINKS.github} rel="noopener">Neruz Inspect · GitHub</a>
+      </div>
+    </div>
+
+    <div class="family__visual" aria-hidden="true">
+      <svg class="family__defs" width="0" height="0">
+        <defs>
+          <symbol id="family-vase" viewBox="0 0 292 440" preserveAspectRatio="xMidYMid slice">
+            <rect width="292" height="440" fill="#DDE3D0" />
+            <ellipse cx="146" cy="392" rx="96" ry="14" fill="#1C2620" opacity=".14" />
+            <path d="M118 96h56v34c44 22 64 62 64 112 0 56-34 100-92 100s-92-44-92-100c0-50 20-90 64-112Z" fill="#B4582F" />
+            <path d="M96 252c28 14 72 14 100 0" fill="none" stroke="#EEF0E6" stroke-width="4" />
+            <circle cx="146" cy="300" r="26" fill="#6F8A5B" />
+          </symbol>
+        </defs>
+      </svg>
+
+      <figure class="family__device family__device--phone" style="--order: 0">
+        <span class="family__notch"></span>
+        <svg class="family__screen" viewBox="0 0 90 190">
+          <rect width="90" height="190" fill="#EEF0E6" />
+          <rect width="90" height="20" fill="#E3E7D8" />
+          <text x="8" y="14" class="family__brand" font-size="9">Maré</text>
+          <rect x="70" y="8" width="12" height="1.6" fill="#1C2620" />
+          <rect x="70" y="12" width="12" height="1.6" fill="#1C2620" />
+          <use href="#family-vase" x="8" y="28" width="74" height="70" />
+          <rect x="8" y="108" width="70" height="7" fill="#1C2620" />
+          <rect x="8" y="119" width="52" height="7" fill="#1C2620" />
+          <rect x="8" y="134" width="74" height="2.5" fill="#1C2620" opacity=".4" />
+          <rect x="8" y="140" width="60" height="2.5" fill="#1C2620" opacity=".4" />
+          <rect x="8" y="152" width="40" height="12" fill="#B4582F" />
+          <rect x="8" y="172" width="12" height="12" fill="#B4582F" />
+          <rect x="24" y="172" width="12" height="12" fill="#6F8A5B" />
+          <rect x="40" y="172" width="12" height="12" fill="#1C2620" />
+        </svg>
+        <span class="family__flash"></span>
+        <span class="family__marks"></span>
+      </figure>
+
+      <figure class="family__device family__device--tablet" style="--order: 1">
+        <svg class="family__screen" viewBox="0 0 150 200">
+          <rect width="150" height="200" fill="#EEF0E6" />
+          <rect width="150" height="20" fill="#E3E7D8" />
+          <text x="10" y="14" class="family__brand" font-size="9">Maré</text>
+          <text x="98" y="13" class="family__nav" font-size="5">{firstNavItem}</text>
+          <text x="122" y="13" class="family__nav" font-size="5">{secondNavItem}</text>
+          <rect x="10" y="34" width="78" height="9" fill="#1C2620" />
+          <rect x="10" y="47" width="64" height="9" fill="#1C2620" />
+          <rect x="10" y="60" width="46" height="9" fill="#1C2620" />
+          <rect x="10" y="80" width="74" height="3" fill="#1C2620" opacity=".4" />
+          <rect x="10" y="87" width="60" height="3" fill="#1C2620" opacity=".4" />
+          <rect x="10" y="100" width="42" height="13" fill="#B4582F" />
+          <use href="#family-vase" x="96" y="32" width="44" height="86" />
+          <rect x="10" y="130" width="130" height="1" fill="#1C2620" opacity=".12" />
+          <rect x="10" y="140" width="40" height="40" fill="#B4582F" />
+          <rect x="55" y="140" width="40" height="40" fill="#6F8A5B" />
+          <rect x="100" y="140" width="40" height="40" fill="#1C2620" />
+        </svg>
+        <span class="family__flash"></span>
+        <span class="family__marks"></span>
+      </figure>
+
+      <figure class="family__device family__device--desktop" style="--order: 2">
+        <span class="family__chrome">
+          <i></i><i></i><i></i>
+          <b>mare.exemplo</b>
+        </span>
+        <svg class="family__screen" viewBox="0 0 240 150">
+          <rect width="240" height="150" fill="#EEF0E6" />
+          <rect width="240" height="16" fill="#E3E7D8" />
+          <text x="10" y="11.5" class="family__brand" font-size="8">Maré</text>
+          <text x="162" y="10.5" class="family__nav" font-size="5">{firstNavItem}</text>
+          <text x="194" y="10.5" class="family__nav" font-size="5">{secondNavItem}</text>
+          <rect x="12" y="30" width="120" height="10" fill="#1C2620" />
+          <rect x="12" y="44" width="96" height="10" fill="#1C2620" />
+          <rect x="12" y="64" width="100" height="3" fill="#1C2620" opacity=".4" />
+          <rect x="12" y="71" width="80" height="3" fill="#1C2620" opacity=".4" />
+          <rect x="12" y="84" width="44" height="13" fill="#B4582F" />
+          <rect x="12" y="108" width="16" height="16" fill="#B4582F" />
+          <rect x="34" y="108" width="16" height="16" fill="#6F8A5B" />
+          <rect x="56" y="108" width="16" height="16" fill="#1C2620" />
+          <use href="#family-vase" x="156" y="26" width="72" height="108" />
+          <rect y="138" width="240" height="12" fill="#1C2620" />
+          <rect x="12" y="142.5" width="70" height="3" fill="#EEF0E6" opacity=".6" />
+          <rect x="96" y="142.5" width="70" height="3" fill="#EEF0E6" opacity=".6" />
+        </svg>
+        <span class="family__flash"></span>
+        <span class="family__marks"></span>
+      </figure>
+    </div>
   </div>
 </section>

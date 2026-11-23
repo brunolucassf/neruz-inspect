@@ -1,0 +1,79 @@
+---
+import type { LandingCopy } from '../../../i18n';
+import type { PanelText } from '../../../i18n/panelText';
+
+interface Props {
+  copy: LandingCopy;
+  text: PanelText;
+}
+
+const { copy, text } = Astro.props;
+const animations = [
+  {
+    name: 'vaso-flutua',
+    target: 'img.vaso',
+    duration: '600 ms',
+    kind: text('motion.motionInspector.kind.css-animation'),
+  },
+  {
+    name: 'btn-pulso',
+    target: 'a.btn',
+    duration: '320 ms',
+    kind: text('motion.motionInspector.kind.css-transition'),
+  },
+  {
+    name: 'titulo-entra',
+    target: 'h1',
+    duration: '900 ms',
+    kind: text('motion.motionInspector.kind.web-animation'),
+  },
+];
+const speedFormat = new Intl.NumberFormat(copy.htmlLang, { maximumFractionDigits: 2 });
+const speeds = [1, 0.5, 0.25];
+---
+
+<div class="ni-panel__body" data-tool-body="motion">
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('motion.motionInspector.speed')}</p>
+    <span class="ni-tabs__list" data-np-speed>
+      {
+        speeds.map((speed, index) => (
+          <span class="ni-tabs__tab" data-np-speed-value={speed} aria-selected={index === 0 ? 'true' : 'false'}>
+            {speedFormat.format(speed)}×
+          </span>
+        ))
+      }
+    </span>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('motion.motionInspector.section.animations')}</p>
+    <div class="ni-card ni-card--rows">
+      {
+        animations.map((animation, index) => (
+          <span class:list={['ni-copyrow', 'np-anim', { 'is-current': index === 0 }]}>
+            <span class="np-anim__name">
+              <b>{animation.name}</b>
+              <small>
+                {animation.target} · {animation.kind}
+              </small>
+            </span>
+            <span class="ni-copyrow__value">{animation.duration}</span>
+          </span>
+        ))
+      }
+    </div>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('motion.motionInspector.easing')}</p>
+    <div class="np-well np-curve">
+      <svg viewBox="0 0 240 120" aria-hidden="true">
+        <path class="np-curve__grid" d="M16 104H224M16 104V12"></path>
+        <path class="np-curve__arm" d="M16 104L68 104M224 12L102 12"></path>
+        <path class="np-curve__line" d="M16 104C68 104 102 12 224 12"></path>
+        <circle class="np-curve__handle" cx="68" cy="104" r="4"></circle>
+        <circle class="np-curve__handle" cx="102" cy="12" r="4"></circle>
+      </svg>
+      <code>cubic-bezier(0.22, 1, 0.36, 1)</code>
+    </div>
+  </div>
+</div>

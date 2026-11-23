@@ -1,0 +1,83 @@
+---
+import { findTarget, TOOL_GROUP, TOOL_IDS, type ToolId } from '../../demo/layout';
+import type { LandingCopy } from '../../i18n';
+import { createPanelText } from '../../i18n/panelText';
+import ToolBody from './ToolBody.astro';
+
+interface Props {
+  copy: LandingCopy;
+  tools?: readonly ToolId[];
+  target?: string | null;
+  variant?: 'stage' | 'sheet';
+}
+
+const { copy, tools = TOOL_IDS, target = 'button', variant = 'stage' } = Astro.props;
+const { stage } = copy;
+const text = createPanelText(copy.locale);
+const [initialTool, ...laterTools] = tools;
+const titles: Record<ToolId, string> = {
+  box: stage.box.title,
+  font: stage.font.title,
+  eyedropper: stage.eyedropper.title,
+  assets: stage.assets.title,
+  contrast: text('color.contrast.name'),
+  tokens: text('code.designTokens.name'),
+  component: text('code.copyComponent.name'),
+  overflow: text('layout.overflow.name'),
+  motion: text('motion.motionInspector.name'),
+  tags: text('tech.tagsPixels.name'),
+  tech: text('tech.techStack.name'),
+  utils: text('utils.units.name'),
+};
+const heads = Object.fromEntries(
+  tools.map((tool) => [
+    tool,
+    { eyebrow: stage.dock.groups[TOOL_GROUP[tool]].name, title: titles[tool] },
+  ]),
+);
+const initialTarget = target ? findTarget(target) : undefined;
+const foundText = stage.assets.found.replace('{n}', '6');
+const isAssets = initialTool === 'assets';
+---
+
+<aside
+  class:list={['ni-panel', 'ni-shell', 'np-panel', `np-panel--${variant}`]}
+  data-panel
+  data-tool={initialTool}
+  data-heads={JSON.stringify(heads)}
+>
+  <span class="ni-sheet__grabber"></span>
+  <div class="ni-panel__header">
+    <div class="ni-panel__top">
+      <span class="ni-icon-button"><svg class="i"><use href="#nis-back"></use></svg></span>
+      <span class="ni-panel__eyebrow" data-panel-eyebrow>{heads[initialTool].eyebrow}</span>
+      <span class="ni-icon-button"><svg class="i"><use href="#nis-dock"></use></svg></span>
+      <span class="ni-icon-button"><svg class="i"><use href="#nis-x"></use></svg></span>
+    </div>
+    <p class="ni-panel__title" data-panel-title>{heads[initialTool].title}</p>
+    <div class="ni-panel__meta">
+      <span class="ni-code-chip" data-panel-selector hidden={!initialTarget || isAssets}>
+        <b>{initialTarget?.tag}</b>{initialTarget?.className ? `.${initialTarget.className}` : ''}
+      </span>
+      <span class="ni-badge" data-panel-webfont hidden={initialTool !== 'font'}>{stage.font.webFont}</span>
+      <span class="ni-badge ni-badge--accent" data-panel-locked hidden>
+        <svg class="i"><use href="#nis-lock"></use></svg>{stage.panel.locked}
+      </span>
+      <span data-panel-found hidden={!isAssets}>{foundText}</span>
+    </div>
+  </div>
+  <div class="np-panel__bodies" data-panel-bodies data-lenis-prevent-wheel={variant === 'stage' ? true : undefined}>
+    <ToolBody copy={copy} text={text} tool={initialTool} active />
+  </div>
+  <span class="np-panel__more" aria-hidden="true">
+    <svg viewBox="0 0 16 16"><path d="M4 6l4 4 4-4" /></svg>
+  </span>
+  {
+    laterTools.map((tool) => (
+      <template data-tool-template={tool}>
+        <ToolBody copy={copy} text={text} tool={tool} />
+      </template>
+    ))
+  }
+  <p class="ni-credits">{stage.panel.creditsPrefix} <span>Fonte Dev · Bruno Lucas</span></p>
+</aside>

@@ -1,0 +1,42 @@
+---
+import type { FontReading } from '../../../demo/layout';
+import type { LandingCopy } from '../../../i18n';
+import CopyRow from './CopyRow.astro';
+
+interface Props {
+  copy: LandingCopy;
+  font: FontReading;
+}
+
+const { copy, font } = Astro.props;
+const labels = copy.stage.font;
+---
+
+<div class="ni-panel__body" data-tool-body="font">
+  <div class="ni-card np-specimen np-lamina">
+    <span class="np-specimen__glyph" data-field="glyph" data-family={font.family}>Aa</span>
+    <span class="np-specimen__meta">
+      <b data-field="family">{font.family}</b>
+      <span data-field="summary">{font.weight} · {font.size}/{font.lineHeight}</span>
+    </span>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{labels.family}</p>
+    <div class="ni-card ni-card--rows">
+      <CopyRow label={labels.rendered} value={font.family} field="family" />
+      <CopyRow label={labels.declared} value={font.declared} field="declared" />
+    </div>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{labels.text}</p>
+    <div class="ni-card ni-card--rows">
+      <CopyRow label={labels.weight} value={String(font.weight)} field="weight" />
+      <CopyRow label={labels.size} value={String(font.size)} field="size" unit="px" />
+      <CopyRow label={labels.lineHeight} value={String(font.lineHeight)} field="lineHeight" unit="px" />
+      <CopyRow label={labels.color} value={font.color} field="color" swatch={font.color} swatchField="colorSwatch" />
+    </div>
+  </div>
+  <div class="ni-actions np-lamina">
+    <span class="ni-button ni-button--primary"><svg class="i"><use href="#nis-copy"></use></svg>{labels.copyCss}</span>
+  </div>
+</div>

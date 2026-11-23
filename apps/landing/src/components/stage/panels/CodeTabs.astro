@@ -1,0 +1,24 @@
+---
+interface Props {
+  tabs: { label: string; code: string }[];
+}
+
+const { tabs } = Astro.props;
+---
+
+<div class="np-codetabs" data-np-tabs>
+  <span class="ni-tabs__list">
+    {
+      tabs.map((tab, index) => (
+        <span class="ni-tabs__tab" data-np-tab={index} aria-selected={index === 0 ? 'true' : 'false'}>
+          {tab.label}
+        </span>
+      ))
+    }
+  </span>
+  {
+    tabs.map((tab, index) => (
+      <pre class="np-well" data-np-tabpanel={index} hidden={index !== 0}><code>{tab.code}</code></pre>
+    ))
+  }
+</div>

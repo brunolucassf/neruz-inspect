@@ -1,14 +1,12 @@
 ---
 import type { LandingCopy } from '../i18n';
 import Base from '../layouts/Base.astro';
-import Explode from './Explode.astro';
 import Family from './Family.astro';
 import Faq from './Faq.astro';
 import FinalCta from './FinalCta.astro';
-import Hero from './Hero.astro';
+import Journey from './Journey.astro';
 import MobileCta from './MobileCta.astro';
 import PrivacySection from './PrivacySection.astro';
-import Sections from './Sections.astro';
 import SiteFooter from './SiteFooter.astro';
 import SiteHeader from './SiteHeader.astro';
 
@@ -22,9 +20,7 @@ const { copy } = Astro.props;
 <Base copy={copy}>
   <SiteHeader copy={copy} />
   <main id="conteudo" tabindex="-1">
-    <Hero copy={copy} />
-    <Explode copy={copy} />
-    <Sections copy={copy} />
+    <Journey copy={copy} />
     <PrivacySection copy={copy} />
     <Family copy={copy} />
     <Faq copy={copy} />

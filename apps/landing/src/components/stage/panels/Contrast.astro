@@ -1,0 +1,54 @@
+---
+import { contrastRatio, DEMO_COLORS } from '../../../demo/layout';
+import type { LandingCopy } from '../../../i18n';
+import type { PanelText } from '../../../i18n/panelText';
+import CopyRow from './CopyRow.astro';
+
+interface Props {
+  copy: LandingCopy;
+  text: PanelText;
+}
+
+const { copy, text } = Astro.props;
+const ratio = contrastRatio(DEMO_COLORS.ink, DEMO_COLORS.paper);
+const ratioText = new Intl.NumberFormat(copy.htmlLang, {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+}).format(ratio);
+const scores = [
+  { label: text('color.contrast.aaNormal'), minimum: 4.5 },
+  { label: text('color.contrast.aaLarge'), minimum: 3 },
+  { label: text('color.contrast.aaaNormal'), minimum: 7 },
+  { label: text('color.contrast.aaaLarge'), minimum: 4.5 },
+];
+---
+
+<div class="ni-panel__body" data-tool-body="contrast">
+  <div class="ni-card np-contrast np-lamina">
+    <span class="np-contrast__sample">Aa</span>
+    <span class="np-contrast__ratio"><b>{ratioText}</b>:1</span>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('color.contrast.section.colors')}</p>
+    <div class="ni-card ni-card--rows">
+      <CopyRow label={text('color.contrast.text')} value={DEMO_COLORS.ink} swatch={DEMO_COLORS.ink} />
+      <CopyRow label={text('color.contrast.background')} value={DEMO_COLORS.paper} swatch={DEMO_COLORS.paper} />
+    </div>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('color.contrast.section.scores')}</p>
+    <div class="np-scores">
+      {
+        scores.map((score) => (
+          <span class:list={['ni-status', ratio >= score.minimum ? 'ni-status--active' : 'ni-status--notLoaded']}>
+            <svg class="i">
+              <use href={ratio >= score.minimum ? '#nis-ok' : '#nis-alert'} />
+            </svg>
+            {score.label}
+          </span>
+        ))
+      }
+    </div>
+    <p class="np-note">{text('color.contrast.sizeLarge')}</p>
+  </div>
+</div>

@@ -1,0 +1,102 @@
+---
+import type { LandingCopy } from '../../../i18n';
+
+interface Props {
+  copy: LandingCopy;
+}
+
+const { copy } = Astro.props;
+const labels = copy.stage.assets;
+const decimal = new Intl.NumberFormat(copy.htmlLang, {
+  minimumFractionDigits: 1,
+  maximumFractionDigits: 1,
+});
+const ratio = labels.ratio.replace('{n}', decimal.format(1168 / 292));
+const rows = [
+  {
+    name: 'vaso-argila.jpg',
+    meta: ['JPG', '1168×1760', '286 KB'],
+    thumb: 'np-thumb--vase',
+    ratio,
+    alerts: [
+      { kind: 'warning', icon: 'alert', text: labels.noLazy },
+      { kind: 'info', icon: 'info', text: labels.tryModern.replace('{format}', 'JPG') },
+    ],
+  },
+  {
+    name: 'papel-textura.webp',
+    meta: ['WEBP', '1920×1080', '92 KB'],
+    thumb: 'np-thumb--paper',
+    background: true,
+  },
+  { name: 'xicara-musgo.webp', meta: ['WEBP', '640×640', '48 KB'], thumb: 'np-thumb--cup' },
+  { name: 'mare-logo.svg', meta: ['SVG', '78×30', '2 KB'], thumb: 'np-thumb--logo' },
+];
+---
+
+<div class="ni-panel__body" data-tool-body="assets">
+  <div class="ni-tiles np-lamina" style="--cols:3">
+    <div class="ni-tile"><div class="ni-tile__label">{labels.files}</div><div class="ni-tile__value">6</div></div>
+    <div class="ni-tile"><div class="ni-tile__label">{labels.weight}</div><div class="ni-tile__value">431<small>KB</small></div></div>
+    <div class="ni-tile ni-tile--warning">
+      <div class="ni-tile__label"><svg class="i"><use href="#nis-alert"></use></svg>{labels.alerts}</div>
+      <div class="ni-tile__value">2</div>
+    </div>
+  </div>
+  <div class="ni-filter np-lamina">
+    <span class="ni-filter__chip">{labels.filterAll} <span>6</span></span>
+    <span class="ni-filter__chip" aria-pressed="true">{labels.filterImages} <span>3</span></span>
+    <span class="ni-filter__chip">{labels.filterBackgrounds} <span>1</span></span>
+    <span class="ni-filter__chip">{labels.filterSvg} <span>2</span></span>
+  </div>
+  <div class="ni-card ni-pg-list np-lamina">
+    {
+      rows.map((row) => (
+        <div class="ni-pg-row">
+          <span class={`ni-pg-thumb ${row.thumb}`} />
+          <div>
+            <div class="ni-pg-row__title">
+              {row.name}
+              {row.background && <span class="ni-badge">{labels.cssBackground}</span>}
+            </div>
+            <div class="ni-pg-row__sub">
+              <b>{row.meta[0]}</b> · {row.meta[1]} · {row.meta[2]}
+            </div>
+            {row.ratio && (
+              <div class="ni-ratio">
+                <span class="ni-ratio__bar">
+                  <i />
+                </span>
+                {row.ratio}
+              </div>
+            )}
+          </div>
+          <span class="ni-icon-button">
+            <svg class="i">
+              <use href="#nis-download" />
+            </svg>
+          </span>
+          {row.alerts ? (
+            <div class="ni-pg-row__chips">
+              {row.alerts.map((alert) => (
+                <span class={`ni-badge ni-badge--${alert.kind}`}>
+                  <svg class="i">
+                    <use href={`#nis-${alert.icon}`} />
+                  </svg>
+                  {alert.text}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <div class="ni-pg-row__ok">
+              <svg class="i">
+                <use href="#nis-ok" />
+              </svg>
+              {labels.noAlerts}
+            </div>
+          )}
+        </div>
+      ))
+    }
+  </div>
+</div>

@@ -1,0 +1,42 @@
+---
+import { type ColorReading, DEMO_COLORS } from '../../../demo/layout';
+import type { LandingCopy } from '../../../i18n';
+import CopyRow from './CopyRow.astro';
+
+interface Props {
+  copy: LandingCopy;
+  color: ColorReading;
+}
+
+const { copy, color } = Astro.props;
+const labels = copy.stage.eyedropper;
+const recent = [DEMO_COLORS.clay, DEMO_COLORS.moss, DEMO_COLORS.ink, DEMO_COLORS.paper];
+---
+
+<div class="ni-panel__body" data-tool-body="eyedropper">
+  <div class="ni-card np-picked np-lamina">
+    <span class="np-picked__swatch" data-field="swatch" style={`background:${color.hex}`}></span>
+    <span class="np-picked__text">
+      <b data-field="hex">{color.hex}</b>
+      <span data-field="oklch">{color.oklch}</span>
+    </span>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{labels.picked}</p>
+    <div class="ni-card ni-card--rows">
+      <CopyRow label="HEX" value={color.hex} field="hex" />
+      <CopyRow label="RGB" value={color.rgb} field="rgb" />
+      <CopyRow label="HSL" value={color.hsl} field="hsl" />
+      <CopyRow label="OKLCH" value={color.oklch} field="oklch" />
+    </div>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{labels.recent}</p>
+    <div class="np-recent">
+      {recent.map((hex) => <span class="np-recent__chip" style={`background:${hex}`} data-recent={hex.toUpperCase()} />)}
+    </div>
+  </div>
+  <div class="ni-actions np-lamina">
+    <span class="ni-button ni-button--primary"><svg class="i"><use href="#nis-pipette"></use></svg>{labels.start}</span>
+  </div>
+</div>

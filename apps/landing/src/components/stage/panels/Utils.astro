@@ -1,0 +1,56 @@
+---
+import type { PanelText } from '../../../i18n/panelText';
+
+interface Props {
+  text: PanelText;
+  lang: string;
+}
+
+const { text, lang } = Astro.props;
+const remFormat = new Intl.NumberFormat(lang, { maximumFractionDigits: 3 });
+const tools = [
+  { key: 'units', icon: 'layout' },
+  { key: 'lorem', icon: 'lorem' },
+  { key: 'formFill', icon: 'form' },
+  { key: 'qrCode', icon: 'qr' },
+  { key: 'clipboardHistory', icon: 'clipboard' },
+];
+const quick = [8, 16, 24, 32, 48];
+---
+
+<div class="ni-panel__body" data-tool-body="utils">
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('utils.units.section.result')}</p>
+    <div class="np-converter">
+      <span class="np-converter__value"><b data-np-px>24</b><small>px</small></span>
+      <svg class="i np-converter__arrow" aria-hidden="true"><use href="#nis-back"></use></svg>
+      <span class="np-converter__value np-converter__value--out"><b data-np-rem>{remFormat.format(1.5)}</b><small>rem</small></span>
+    </div>
+    <p class="np-note">{text('utils.units.rootBase')} · 16</p>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('utils.units.section.quick')}</p>
+    <div class="np-quick">
+      {quick.map((pixels) => <span class="ni-code-chip"><b>{pixels}</b>px · {remFormat.format(pixels / 16)}rem</span>)}
+    </div>
+  </div>
+  <div class="ni-section np-lamina">
+    <div class="np-tray">
+      {
+        tools.map((tool, index) => (
+          <span class="ni-list__item" aria-selected={index === 0 ? 'true' : 'false'}>
+            <span class="ni-list__icon">
+              <svg class="i">
+                <use href={`#nis-${tool.icon}`} />
+              </svg>
+            </span>
+            <span>
+              <span class="ni-list__name">{text(`utils.${tool.key}.name`)}</span>
+              <span class="ni-list__desc">{text(`utils.${tool.key}.desc`)}</span>
+            </span>
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</div>

@@ -1,0 +1,204 @@
+---
+import {
+  DEMO_COLORS,
+  DEMO_RECTS,
+  DEMO_SWATCHES,
+  type DemoRect,
+  placeRect,
+} from '../../demo/layout';
+import type { LandingCopy } from '../../i18n';
+
+interface Props {
+  copy: LandingCopy;
+  variant: 'stage' | 'mini';
+}
+
+const { copy, variant } = Astro.props;
+const { groups, visuals, demo } = copy;
+const GROUP_ICONS = ['cor', 'tipo', 'layout', 'codigo', 'mov', 'tech', 'pagina', 'utils'];
+const CORE_LAYERS = [0, 1, 2, 6];
+const rem = new Intl.NumberFormat(copy.htmlLang, { maximumFractionDigits: 2 }).format(24 / 16);
+const at = (x: number, y: number) => `left:${(x / 960) * 100}%;top:${(y / 640) * 100}%`;
+const vasePath =
+  'M118 96h56v34c44 22 64 62 64 112 0 56-34 100-92 100s-92-44-92-100c0-50 20-90 64-112Z';
+const outlined: DemoRect[] = Object.values(DEMO_RECTS).filter(
+  (rect) => rect !== DEMO_RECTS.marquee,
+);
+const codeChips = [
+  { tag: 'header', cls: '', x: 8, y: 66 },
+  { tag: 'h1', cls: '', x: 48, y: 78 },
+  { tag: 'p', cls: '.lead', x: 48, y: 376 },
+  { tag: 'a', cls: '.btn', x: 236, y: 410 },
+  { tag: 'ul', cls: '.palette', x: 300, y: 500 },
+  { tag: 'img', cls: '.vaso', x: 628, y: 548 },
+];
+const rulerMarks = Array.from({ length: 48 }, (_, index) => (index + 1) * 20);
+const techChips = [visuals.techChips[0], visuals.techChips[1], visuals.techChips[4]];
+---
+
+<div class:list={['xl-stack', `xl-stack--${variant}`]} data-explode-layers={variant}>
+  {
+    groups.map((group, index) => (
+      <div
+        class:list={['xl', `xl--${GROUP_ICONS[index]}`, { 'xl--core': CORE_LAYERS.includes(index) }]}
+        data-layer={index}
+        style={`--i:${index};--ci:${CORE_LAYERS.indexOf(index)}`}
+      >
+        <span class="xl__plate" />
+        {index === 0 && (
+          <>
+            <svg class="xl__art" viewBox="0 0 960 640" preserveAspectRatio="none">
+              <rect width="960" height="640" fill={DEMO_COLORS.paper} fill-opacity=".22" />
+              <rect width="960" height="60" fill={DEMO_COLORS.navPaper} fill-opacity=".3" />
+              <rect x="628" y="100" width="292" height="440" rx="6" fill={DEMO_COLORS.artPaper} fill-opacity=".45" />
+              <g transform="translate(628 100)">
+                <path d={vasePath} fill={DEMO_COLORS.clay} />
+                <circle cx="146" cy="300" r="26" fill={DEMO_COLORS.moss} />
+              </g>
+              <rect x="48" y="398" width="176" height="52" rx="6" fill={DEMO_COLORS.clay} />
+              {DEMO_SWATCHES.map((swatch) => (
+                <rect x={swatch.rect.x} y={swatch.rect.y} width={swatch.rect.w} height={swatch.rect.h} rx="5" fill={swatch.hex} />
+              ))}
+            </svg>
+            <span class="xl__chip" style={at(48, 300)}>{DEMO_COLORS.paper}</span>
+            <span class="xl__chip" style={at(236, 412)}>{DEMO_COLORS.clay}</span>
+            <span class="xl__chip" style={at(800, 386)}>{DEMO_COLORS.moss}</span>
+            <span class="xl__chip" style={at(224, 560)}>{DEMO_COLORS.ink}</span>
+          </>
+        )}
+        {index === 1 && (
+          <>
+            <div class="demo demo--type">
+              <p class="demo__brand" style={placeRect(DEMO_RECTS.brand)}>Maré</p>
+              <ul class="demo__links" style={placeRect(DEMO_RECTS.links)}>
+                {demo.nav.map((item) => <li>{item}</li>)}
+              </ul>
+              <p class="demo__title" style={placeRect(DEMO_RECTS.title)}>{demo.title}</p>
+              <p class="demo__text" style={placeRect(DEMO_RECTS.text)}>{demo.text}</p>
+              <p class="demo__button demo__button--text" style={placeRect(DEMO_RECTS.button)}>{demo.button}</p>
+            </div>
+            <svg class="xl__art" viewBox="0 0 960 640" preserveAspectRatio="none">
+              <path class="xl__guide" d="M40 119H620M40 131H620M40 156H620" />
+            </svg>
+            <span class="xl__chip xl__chip--accent" style={at(48, 70)}>Fraunces 600 · 54/58</span>
+            <span class="xl__chip" style={at(640, 120)}>{visuals.typeLabel}</span>
+          </>
+        )}
+        {index === 2 && (
+          <>
+            <svg class="xl__art" viewBox="0 0 960 640" preserveAspectRatio="none">
+              <defs>
+                <pattern id={`hatch-${variant}`} width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                  <rect width="8" height="8" fill="rgba(251,191,36,.08)" />
+                  <rect width="1.5" height="8" fill="rgba(251,191,36,.55)" />
+                </pattern>
+              </defs>
+              {outlined.map((rect) => (
+                <rect class="xl__outline" x={rect.x} y={rect.y} width={rect.w} height={rect.h} />
+              ))}
+              <rect x="48" y="370" width="176" height="28" fill={`url(#hatch-${variant})`} />
+              <rect x="48" y="450" width="176" height="36" fill={`url(#hatch-${variant})`} />
+              <rect x="48" y="398" width="176" height="52" fill="rgba(74,222,128,.22)" stroke="#4ade80" />
+              <rect x="76" y="412" width="120" height="24" fill="rgba(96,165,250,.3)" stroke="#60a5fa" />
+              <path class="xl__cota" d="M300 288V312M292 288H308M292 312H308M300 370V398M292 370H308M292 398H308M0 424H48M0 416V432M48 416V432" />
+            </svg>
+            <span class="xl__chip" style={at(312, 286)}>24</span>
+            <span class="xl__chip" style={at(312, 370)}>28</span>
+            <span class="xl__chip" style={at(4, 436)}>48</span>
+          </>
+        )}
+        {index === 3 && (
+          <>
+            <svg class="xl__art" viewBox="0 0 960 640" preserveAspectRatio="none">
+              {outlined
+                .filter((rect) => rect !== DEMO_RECTS.brand && rect !== DEMO_RECTS.links)
+                .map((rect) => (
+                  <rect class="xl__dashed" x={rect.x + 2} y={rect.y + 2} width={rect.w - 4} height={rect.h - 4} />
+                ))}
+            </svg>
+            {codeChips.map((chip) => (
+              <span class="xl__chip xl__chip--code" style={at(chip.x, chip.y)}>
+                <b>{chip.tag}</b>
+                {chip.cls}
+              </span>
+            ))}
+          </>
+        )}
+        {index === 4 && (
+          <>
+            <svg class="xl__art" viewBox="0 0 960 640" preserveAspectRatio="none">
+              <path class="xl__path" d="M774 620C774 520 774 440 774 330" />
+              <circle class="xl__dot" cx="774" cy="620" r="6" />
+              <circle class="xl__dot xl__dot--end" cx="774" cy="330" r="8" />
+              <path class="xl__path" d="M-40 424C20 424 60 424 136 424" />
+              <circle class="xl__dot xl__dot--end" cx="136" cy="424" r="8" />
+            </svg>
+            <span class="xl__chip xl__chip--curve" style={at(800, 560)}>
+              <svg viewBox="0 0 40 24" aria-hidden="true">
+                <path d="M2 22C10 22 12 2 38 2" />
+              </svg>
+              600 ms
+            </span>
+            <span class="xl__chip" style={at(48, 470)}>cubic-bezier(.22, 1, .36, 1)</span>
+          </>
+        )}
+        {index === 5 && (
+          <>
+            <span class="xl__board" style={placeRect({ x: 120, y: 180, w: 720, h: 280 })}>
+              {techChips.map((chip) => (
+                <span class="xl__status">
+                  <i />
+                  {chip}
+                </span>
+              ))}
+            </span>
+          </>
+        )}
+        {index === 6 && (
+          <>
+            <svg class="xl__art" viewBox="0 0 960 640" preserveAspectRatio="none">
+              <rect class="xl__heading" x="48" y="108" width="560" height="180" />
+              <path class="xl__link" d="M600 50H690M720 50H812M842 50H920" />
+              <rect class="xl__outline" x="628" y="100" width="292" height="440" />
+            </svg>
+            <span class="xl__chip xl__chip--code" style={at(48, 78)}><b>H1</b></span>
+            <span class="xl__chip" style={at(820, 108)}>286 KB</span>
+            <span class="xl__og" style={placeRect({ x: 628, y: 556, w: 292, h: 76 })}>
+              <small>{visuals.ogHost}</small>
+              <b>{demo.title}</b>
+            </span>
+          </>
+        )}
+        {index === 7 && (
+          <>
+            <svg class="xl__art" viewBox="0 0 960 640" preserveAspectRatio="none">
+              <rect class="xl__ruler" width="960" height="24" />
+              <rect class="xl__ruler" width="24" height="640" />
+              <path
+                class="xl__tick"
+                d={rulerMarks.map((mark) => `M${mark} 24V${mark % 100 === 0 ? 10 : 17}`).join('') +
+                  rulerMarks.filter((mark) => mark < 640).map((mark) => `M24 ${mark}H${mark % 100 === 0 ? 10 : 17}`).join('')}
+              />
+              {rulerMarks
+                .filter((mark) => mark % 200 === 0)
+                .map((mark) => (
+                  <text class="xl__ruler-text" x={mark + 4} y="15">
+                    {mark}
+                  </text>
+                ))}
+            </svg>
+            <span class="xl__chip xl__chip--accent" style={at(316, 290)}>24 px = {rem} rem</span>
+          </>
+        )}
+        <span class="xl__tag">
+          <b>{String(index + 1).padStart(2, '0')}</b>
+          <svg class="i">
+            <use href={`#nis-${GROUP_ICONS[index]}`} />
+          </svg>
+          {group.name}
+        </span>
+        <span class="xl__anchor" data-layer-anchor />
+      </div>
+    ))
+  }
+</div>

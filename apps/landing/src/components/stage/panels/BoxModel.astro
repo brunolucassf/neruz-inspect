@@ -1,0 +1,69 @@
+---
+import { type BoxReading, boxContentSize, cssShorthand } from '../../../demo/layout';
+import type { LandingCopy } from '../../../i18n';
+import CopyRow from './CopyRow.astro';
+
+interface Props {
+  copy: LandingCopy;
+  box: BoxReading;
+  active?: boolean;
+}
+
+const { copy, box, active = false } = Astro.props;
+const labels = copy.stage.box;
+const [mt, mr, mb, ml] = box.margin;
+const [pt, pr, pb, pl] = box.padding;
+---
+
+<div class:list={["ni-panel__body", { "is-active": active }]} data-tool-body="box">
+  <div class="ni-card ni-boxmodel np-lamina">
+    <div class="ni-bm ni-bm--margin">
+      <span class="ni-bm__tag">margin</span>
+      <span class="ni-bm__n ni-bm__n--t" data-field="mt">{mt}</span>
+      <span class="ni-bm__n ni-bm__n--b" data-field="mb">{mb}</span>
+      <span class="ni-bm__n ni-bm__n--l" data-field="ml">{ml}</span>
+      <span class="ni-bm__n ni-bm__n--r" data-field="mr">{mr}</span>
+      <div class="ni-bm ni-bm--border">
+        <span class="ni-bm__tag">border</span>
+        <span class="ni-bm__n ni-bm__n--t" data-field="bw">{box.border}</span>
+        <span class="ni-bm__n ni-bm__n--b" data-field="bw">{box.border}</span>
+        <div class="ni-bm ni-bm--padding">
+          <span class="ni-bm__tag">padding</span>
+          <span class="ni-bm__n ni-bm__n--t" data-field="pt">{pt}</span>
+          <span class="ni-bm__n ni-bm__n--b" data-field="pb">{pb}</span>
+          <span class="ni-bm__n ni-bm__n--l" data-field="pl">{pl}</span>
+          <span class="ni-bm__n ni-bm__n--r" data-field="pr">{pr}</span>
+          <div class="ni-bm ni-bm--content" data-field="content">{boxContentSize(box)}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{labels.size}</p>
+    <div class="ni-tiles">
+      <div class="ni-tile">
+        <div class="ni-tile__label">{labels.width}</div>
+        <div class="ni-tile__value"><span data-field="width">{box.width}</span><small>px</small></div>
+      </div>
+      <div class="ni-tile">
+        <div class="ni-tile__label">{labels.height}</div>
+        <div class="ni-tile__value"><span data-field="height">{box.height}</span><small>px</small></div>
+      </div>
+    </div>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{labels.spacing}</p>
+    <div class="ni-card ni-card--rows">
+      <CopyRow label={labels.margin} value={cssShorthand(box.margin)} field="margin" unit="px" />
+      <CopyRow label={labels.padding} value={cssShorthand(box.padding)} field="padding" unit="px" />
+    </div>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{labels.box}</p>
+    <div class="ni-card ni-card--rows">
+      <CopyRow label={labels.border} value={String(box.border)} field="border" unit="px" />
+      <CopyRow label={labels.radius} value={String(box.radius)} field="radius" unit="px" />
+      <CopyRow label={labels.display} value={box.display} field="display" />
+    </div>
+  </div>
+</div>

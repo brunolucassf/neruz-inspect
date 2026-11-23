@@ -1,0 +1,52 @@
+---
+import type { PanelText } from '../../../i18n/panelText';
+
+interface Props {
+  text: PanelText;
+}
+
+const { text } = Astro.props;
+const categories = [
+  {
+    label: text('tech.techStack.cat.framework'),
+    items: [{ mark: 'As', name: 'Astro', version: '5.2' }],
+  },
+  { label: text('tech.techStack.cat.cms'), items: [{ mark: 'Sa', name: 'Sanity', version: '' }] },
+  {
+    label: text('tech.techStack.cat.analytics'),
+    items: [
+      { mark: 'GA', name: 'Google Analytics 4', version: '' },
+      { mark: 'GT', name: 'Google Tag Manager', version: '' },
+    ],
+  },
+  {
+    label: text('tech.techStack.cat.library'),
+    items: [{ mark: 'Gs', name: 'GSAP', version: '3.12' }],
+  },
+];
+const total = categories.reduce((sum, category) => sum + category.items.length, 0);
+const confidence = text('tech.techStack.confidence.high');
+---
+
+<div class="ni-panel__body" data-tool-body="tech">
+  <p class="np-note np-lamina">{text('tech.techStack.count_other', { n: total })}</p>
+  {
+    categories.map((category) => (
+      <div class="ni-section np-lamina">
+        <p class="ni-section__title">{category.label}</p>
+        <div class="ni-card ni-card--rows">
+          {category.items.map((item) => (
+            <span class="ni-copyrow np-tech">
+              <span class="ni-tag-card__mark np-tech__mark">{item.mark}</span>
+              <span class="np-tech__name">
+                <b>{item.name}</b>
+                {item.version && <small>{item.version}</small>}
+              </span>
+              <span class="ni-status ni-status--active np-tech__confidence">{confidence}</span>
+            </span>
+          ))}
+        </div>
+      </div>
+    ))
+  }
+</div>

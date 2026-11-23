@@ -1,0 +1,25 @@
+---
+interface Props {
+  label: string;
+  value: string;
+  field?: string;
+  unit?: string;
+  swatch?: string;
+  swatchField?: string;
+}
+
+const { label, value, field, unit, swatch, swatchField } = Astro.props;
+---
+
+<span class="ni-copyrow" data-copyrow>
+  <span class="ni-copyrow__label">{label}</span>
+  <span class="ni-copyrow__value">
+    {swatch && <i class="ni-swatch" style={`background:${swatch}`} data-field={swatchField} />}
+    <span data-field={field}>{value}</span>
+    {unit && <small>{unit}</small>}
+  </span>
+  <span class="ni-copyrow__button">
+    <svg class="i np-icon-copy"><use href="#nis-copy"></use></svg>
+    <svg class="i np-icon-check"><use href="#nis-check"></use></svg>
+  </span>
+</span>

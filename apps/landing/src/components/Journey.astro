@@ -1,0 +1,25 @@
+---
+import '../styles/stage.css';
+import type { LandingCopy } from '../i18n';
+import Explode from './Explode.astro';
+import Hero from './Hero.astro';
+import Sections from './Sections.astro';
+import Stage from './stage/Stage.astro';
+
+interface Props {
+  copy: LandingCopy;
+}
+
+const { copy } = Astro.props;
+---
+
+<div class="journey" data-journey>
+  <div class="journey__stage">
+    <Stage copy={copy} />
+  </div>
+  <div class="journey__track">
+    <Hero copy={copy} />
+    <Explode copy={copy} />
+    <Sections copy={copy} />
+  </div>
+</div>

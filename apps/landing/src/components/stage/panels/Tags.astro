@@ -1,0 +1,117 @@
+---
+import type { PanelText } from '../../../i18n/panelText';
+
+interface Props {
+  text: PanelText;
+}
+
+const { text } = Astro.props;
+const missing = [
+  'Google Ads',
+  'TikTok Pixel',
+  'LinkedIn Insight',
+  'Hotjar',
+  'Clarity',
+  'Pinterest',
+  'Taboola',
+  'RD Station',
+  'Kwai',
+];
+const hit = text('tech.tagsPixels.hit');
+const activeTags = [
+  {
+    mark: 'GA4',
+    name: 'Google Analytics 4',
+    source: 'gtag.js',
+    id: 'G-8X2KQ1LM4P',
+    hasEvents: true,
+  },
+  { mark: 'GTM', name: 'Google Tag Manager', source: 'gtm.js', id: 'GTM-K7P2Q9', hasEvents: false },
+];
+---
+
+<div class="ni-panel__body" data-tool-body="tags">
+  <div class="ni-tiles np-lamina" style="--cols:3">
+    <div class="ni-tile ni-tile--success">
+      <div class="ni-tile__value"><svg class="i"><use href="#nis-ok"></use></svg>2</div>
+      <div class="ni-tile__label">{text('tech.tagsPixels.summary.active')}</div>
+    </div>
+    <div class="ni-tile ni-tile--warning">
+      <div class="ni-tile__value"><svg class="i"><use href="#nis-alert"></use></svg>1</div>
+      <div class="ni-tile__label">{text('tech.tagsPixels.status.notLoaded')}</div>
+    </div>
+    <div class="ni-tile">
+      <div class="ni-tile__value">{missing.length}</div>
+      <div class="ni-tile__label">{text('tech.tagsPixels.summary.missing')}</div>
+    </div>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('tech.tagsPixels.summary.active')} <em>· {activeTags.length}</em></p>
+    {
+      activeTags.map((tag) => (
+        <article class="ni-tag-card" data-status="active">
+          <div class="ni-tag-card__head">
+            <span class="ni-tag-card__mark">{tag.mark}</span>
+            <div>
+              <p class="ni-tag-card__title">{tag.name}</p>
+              <p class="ni-tag-card__src">
+                {tag.source} · {hit}
+              </p>
+            </div>
+            <span class="ni-status ni-status--active">
+              <i class="ni-dot ni-dot--pulse" />
+              {text('tech.tagsPixels.status.active')}
+            </span>
+          </div>
+          <div class="ni-tag-card__ids">
+            <span class="ni-id">
+              <small>{text('tech.tagsPixels.id')}</small>
+              {tag.id}
+              <svg class="i">
+                <use href="#nis-copy" />
+              </svg>
+            </span>
+          </div>
+          {tag.hasEvents && (
+            <div class="ni-tag-card__events">
+              <div class="ni-tag-card__events-head">
+                <span>{text('tech.tagsPixels.events')}</span>
+                <b data-np-event-count>4</b>
+              </div>
+              <ul class="ni-tech-events">
+                <li class="ni-tech-event">
+                  page_view <em>×2</em>
+                </li>
+                <li class="ni-tech-event">scroll</li>
+                <li class="ni-tech-event">view_item</li>
+                <li class="ni-tech-event ni-tech-event--new" data-np-new-event hidden>
+                  add_to_cart <strong>{text('tech.tagsPixels.new')}</strong>
+                </li>
+              </ul>
+            </div>
+          )}
+        </article>
+      ))
+    }
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('tech.tagsPixels.section.attention')} <em>· 1</em></p>
+    <article class="ni-tag-card" data-status="notLoaded">
+      <div class="ni-tag-card__head">
+        <span class="ni-tag-card__mark">Meta</span>
+        <div>
+          <p class="ni-tag-card__title">Meta Pixel</p>
+          <p class="ni-tag-card__src">{text('tech.tagsPixels.noId')}</p>
+        </div>
+        <span class="ni-status ni-status--notLoaded"><svg class="i"><use href="#nis-alert"></use></svg>{text('tech.tagsPixels.status.notLoaded')}</span>
+      </div>
+      <p class="ni-tag-card__note">{text('tech.tagsPixels.notLoadedBefore')} <code>window.fbq</code>, {text('tech.tagsPixels.notLoadedAfter')}</p>
+    </article>
+  </div>
+  <div class="ni-section np-lamina">
+    <p class="ni-section__title">{text('tech.tagsPixels.summary.missing')} <em>· {missing.length}</em></p>
+    <div class="ni-tags-missing">
+      {missing.map((name) => <span class="ni-status ni-status--missing">{name}</span>)}
+    </div>
+  </div>
+</div>

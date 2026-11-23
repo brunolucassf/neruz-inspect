@@ -1,0 +1,52 @@
+---
+import type { LandingCopy } from '../../i18n';
+
+interface Props {
+  copy: LandingCopy;
+  open?: number;
+  variant?: 'stage' | 'mini';
+  class?: string;
+}
+
+const { copy, open = 2, variant = 'stage', class: extraClass } = Astro.props;
+const { dock } = copy.stage;
+const GROUP_ICONS = ['cor', 'tipo', 'layout', 'codigo', 'mov', 'tech', 'pagina', 'utils'];
+---
+
+<div class:list={['ni-toolbar', 'ni-shell', `np-dock--${variant}`, extraClass]} data-dock>
+  <span class="ni-toolbar__brand"><svg><use href="#nis-logo"></use></svg></span>
+  <span class="ni-toolbar__sep"></span>
+  <span class="ni-toolbar__groups" data-dock-groups>
+    <span class="ni-toolbar__indicator" data-dock-indicator></span>
+    {
+      dock.groups.map((group, index) => (
+        <span
+          class:list={['ni-toolbar__group', { 'is-open': index === open }]}
+          data-dock-group={index}
+          style={`--i:${index}`}
+        >
+          <svg class="i">
+            <use href={`#nis-${GROUP_ICONS[index]}`} />
+          </svg>
+          <span class="ni-toolbar__label">{group.short}</span>
+        </span>
+      ))
+    }
+  </span>
+  {
+    variant === 'stage' && (
+      <span class="ni-search">
+        <svg class="i">
+          <use href="#nis-search" />
+        </svg>
+        <span class="ni-search__input">{dock.search}</span>
+        <span class="ni-kbd">/</span>
+      </span>
+    )
+  }
+  <span class="ni-icon-button np-dock__search-icon">
+    <svg class="i"><use href="#nis-search"></use></svg>
+  </span>
+  <span class="ni-toolbar__sep np-dock__end-sep"></span>
+  <span class="ni-icon-button np-dock__close"><svg class="i"><use href="#nis-x"></use></svg></span>
+</div>

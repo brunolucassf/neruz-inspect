@@ -45,8 +45,6 @@ export const pt: LandingCopy = {
     subtitle:
       'Cores, fontes, medidas, animações e tecnologias de qualquer página, numa barra que abre por cima do site. Extensão gratuita, de código aberto e sem coleta de dados.',
     micro: ['Grátis', 'Código aberto (MIT)', 'Sem conta', 'Alt+Shift+I'],
-    stageLabel:
-      'Página de exemplo de um ateliê de cerâmica. A lupa octogonal mostra por baixo dela as caixas, medidas, cores e fontes.',
     skipIntro: 'Pular animação',
   },
   demo: {
@@ -54,7 +52,7 @@ export const pt: LandingCopy = {
     title: 'Cerâmica feita à mão, uma peça por vez.',
     text: 'Xícaras, pratos e vasos queimados em forno a lenha, no litoral.',
     button: 'Ver peças',
-    swatchLabel: 'argila',
+    marquee: 'Xícaras · Pratos · Vasos · Tigelas · Travessas · Queimados em forno a lenha',
   },
   explode: {
     eyebrow: 'Por baixo da página',
@@ -62,7 +60,6 @@ export const pt: LandingCopy = {
     subtitle:
       'Cada camada é um grupo de ferramentas. Role para separá-las e toque num número para ir até ele.',
     indexLabel: 'Camadas do Neruz Inspect',
-    layerWord: 'Camada',
   },
   groups: [
     { name: 'Cor', desc: 'Pegue, compare e converta as cores de qualquer página.' },
@@ -74,6 +71,75 @@ export const pt: LandingCopy = {
     { name: 'Página', desc: 'SEO, links, arquivos, desempenho e acessibilidade, num relatório.' },
     { name: 'Utilitários', desc: 'Pequenas ferramentas do dia a dia de quem faz sites.' },
   ],
+  stage: {
+    label:
+      'Página de exemplo de um ateliê de cerâmica com a barra e o painel do Neruz Inspect abertos por cima. Passe o mouse sobre um bloco para trocar a ferramenta.',
+    dock: {
+      search: 'Buscar ferramenta',
+      groups: [
+        { short: 'Cor', name: 'Cor' },
+        { short: 'Tipo', name: 'Tipografia' },
+        { short: 'Layout', name: 'Layout' },
+        { short: 'Código', name: 'Código' },
+        { short: 'Mov.', name: 'Movimento' },
+        { short: 'Tech', name: 'Tecnologia' },
+        { short: 'Página', name: 'Página' },
+        { short: 'Utils', name: 'Utilitários' },
+      ],
+    },
+    panel: {
+      creditsPrefix: 'Desenvolvido por',
+      locked: 'Travado',
+    },
+    box: {
+      title: 'Caixa do elemento',
+      size: 'Tamanho',
+      spacing: 'Espaçamento',
+      box: 'Caixa',
+      width: 'Largura',
+      height: 'Altura',
+      margin: 'Margin',
+      padding: 'Padding',
+      border: 'Borda',
+      radius: 'Raio',
+      display: 'Display',
+    },
+    font: {
+      title: 'Qual é a fonte',
+      webFont: 'Web font',
+      family: 'Fonte',
+      rendered: 'Em uso',
+      declared: 'Declarada',
+      text: 'Texto',
+      weight: 'Peso',
+      size: 'Tamanho',
+      lineHeight: 'Entrelinha',
+      color: 'Cor',
+      copyCss: 'Copiar CSS',
+    },
+    eyedropper: {
+      title: 'Conta-gotas',
+      picked: 'Cor escolhida',
+      recent: 'Últimas cores',
+      start: 'Pegar uma cor',
+    },
+    assets: {
+      title: 'Imagens e arquivos',
+      found: '{n} arquivos encontrados nesta página',
+      files: 'Arquivos',
+      weight: 'Peso total',
+      alerts: 'Alertas',
+      filterAll: 'Todos',
+      filterImages: 'Imagens',
+      filterBackgrounds: 'Fundos',
+      filterSvg: 'SVG',
+      noLazy: 'sem lazy loading',
+      tryModern: '{format}: teste WebP ou AVIF',
+      noAlerts: 'Sem alertas',
+      ratio: '{n}× maior que exibida',
+      cssBackground: 'Fundo CSS',
+    },
+  },
   sections: [
     {
       id: 'cor',
@@ -161,23 +227,14 @@ export const pt: LandingCopy = {
   ],
   visuals: {
     exampleTag: 'exemplo',
-    contrastLabel: 'Texto no fundo',
-    contrastPass: 'AA passa',
-    codeTabs: ['CSS', 'Tailwind', 'Tokens'],
-    easingLabel: 'Curva de easing',
-    speedLabel: 'Velocidade',
     techChips: ['Framework', 'CMS', 'Construtor', 'Biblioteca', 'Tag de métrica'],
-    techLabel: 'Fundação do site',
-    ogTitle: 'Como a prévia do link aparece',
     ogHost: 'mare.exemplo',
     vitals: [
       { name: 'LCP', value: '1,8 s' },
       { name: 'INP', value: '120 ms' },
       { name: 'CLS', value: '0,04' },
     ],
-    boxLabels: { margin: 'margin', padding: 'padding', content: 'conteúdo' },
     typeLabel: 'altura-x · linha de base · versal',
-    utilsChips: ['px → rem', 'Lorem ipsum', 'QR code', 'Histórico'],
   },
   privacy: {
     eyebrow: 'Privacidade e código aberto',
@@ -218,9 +275,11 @@ export const pt: LandingCopy = {
         why: 'Só para checar links e baixar arquivos de outros sites, se você permitir.',
       },
     ],
+    familyEyebrow: 'Da mesma família',
+    familyTitle: 'Inspecionou? Agora mostre.',
     familyText:
-      'Da mesma família do Neruz Page View, para ver seu site em várias telas e capturar prints e vídeos.',
-    familyLink: 'Conhecer o Neruz Page View',
+      'O Neruz Page View abre o seu site em várias telas ao mesmo tempo, celular, tablet e desktop, e captura prints e vídeos prontos para apresentar. Grátis e de código aberto, como o Inspect.',
+    familyButton: 'Conhecer o Neruz Page View',
   },
   faq: {
     title: 'Perguntas rápidas',

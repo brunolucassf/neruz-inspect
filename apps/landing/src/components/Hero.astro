@@ -1,7 +1,6 @@
 ---
 import type { LandingCopy } from '../i18n';
 import { IS_STORE_LIVE, STORE_LINKS } from '../i18n';
-import DemoPage from './DemoPage.astro';
 import StoreButton from './StoreButton.astro';
 
 interface Props {
@@ -24,26 +23,5 @@ const { hero } = copy;
       <StoreButton copy={copy} withMeta />
       {IS_STORE_LIVE && <a class="btn btn--lg btn--ghost" href={STORE_LINKS.github} rel="noopener" data-wire><span>{copy.cta.viewOnGithub}</span></a>}
     </div>
-  </div>
-
-  <div class="stage" data-stage role="img" aria-label={hero.stageLabel}>
-    <canvas class="stage__gl" data-gl></canvas>
-    <div class="stage__page" data-page>
-      <DemoPage copy={copy} />
-      <div class="stage__proof" data-proof>
-        <div class="stage__proof-inner" data-proof-inner>
-          <DemoPage copy={copy} proof />
-        </div>
-      </div>
-      <span class="stage__scanline" data-scanline></span>
-    </div>
-    <div class="lens" data-lens>
-      <svg viewBox="-100 -100 200 200" aria-hidden="true">
-        <polygon class="lens__halo" points="-100,-41.4 -41.4,-100 41.4,-100 100,-41.4 100,41.4 41.4,100 -41.4,100 -100,41.4"></polygon>
-        <polygon class="lens__ring" points="-100,-41.4 -41.4,-100 41.4,-100 100,-41.4 100,41.4 41.4,100 -41.4,100 -100,41.4"></polygon>
-      </svg>
-      <span class="lens__label" data-lens-label></span>
-    </div>
-    <button type="button" class="stage__skip" data-skip-intro hidden>{hero.skipIntro}</button>
   </div>
 </section>

@@ -1,0 +1,20 @@
+---
+import type { LandingCopy } from '../../i18n';
+import DemoPage from '../DemoPage.astro';
+
+interface Props {
+  copy: LandingCopy;
+}
+
+const { copy } = Astro.props;
+---
+
+<div class="bframe">
+  <div class="bframe__bar">
+    <span class="bframe__strokes"><i></i><i></i><i></i></span>
+    <span class="bframe__url">{copy.visuals.ogHost}</span>
+  </div>
+  <div class="bframe__page" data-demo-page>
+    <DemoPage copy={copy} />
+  </div>
+</div>
