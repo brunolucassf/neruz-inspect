@@ -16,7 +16,8 @@ export const collectPageElements = (limit: number = SCAN_LIMIT): CollectedElemen
     const element = all[index];
     if (element && element.localName !== OVERLAY_HOST_TAG) elements.push(element);
   }
-  return { elements, total: all.length };
+  const ownHosts = document.body.querySelectorAll(OVERLAY_HOST_TAG).length;
+  return { elements, total: all.length - ownHosts };
 };
 
 const waitForIdle = (): Promise<void> =>

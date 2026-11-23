@@ -10,6 +10,7 @@ EQUIPE-FONTE-DEV-V4/
 # Dependências e build
 node_modules/
 .output/
+.output-test/
 .wxt/
 .astro/
 dist/

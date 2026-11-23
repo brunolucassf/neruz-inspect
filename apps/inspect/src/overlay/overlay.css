@@ -14,6 +14,7 @@
 .ni-overlay {
   position: fixed;
   inset: 0;
+  z-index: 2147483647;
   color: var(--ni-text);
   font-family: var(--ni-font-ui);
   font-size: 13px;

@@ -15,10 +15,12 @@
     "build:landing": "pnpm --filter @neruz/landing build",
     "lint": "biome check .",
     "typecheck": "pnpm -r --workspace-concurrency=1 --if-present typecheck",
-    "test": "vitest run --passWithNoTests"
+    "test": "vitest run --passWithNoTests",
+    "test:e2e": "node tests/e2e/run.mjs"
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.7",
+    "playwright": "1.65.1",
     "typescript": "6.0.3",
     "vitest": "4.1.12"
   }

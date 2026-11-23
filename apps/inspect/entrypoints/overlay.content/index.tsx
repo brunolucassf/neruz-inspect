@@ -14,6 +14,7 @@ type FlaggedWindow = Window & { [MOUNT_FLAG]?: OverlayHandle };
 
 export default defineContentScript({
   registration: 'runtime',
+  matches: ['http://*/*', 'https://*/*'], // preenche web_accessible_resources do CSS do overlay
   cssInjectionMode: 'ui',
   async main(ctx) {
     const host = window as FlaggedWindow;

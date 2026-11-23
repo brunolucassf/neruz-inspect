@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fixture Neruz — Página de teste rica</title>
+<meta name="description" content="Página fixture para testar todas as ferramentas do Neruz Inspect.">
+<meta name="generator" content="WordPress 6.5">
+<meta property="og:title" content="Fixture Neruz OG">
+<meta property="og:description" content="Descrição Open Graph">
+<meta property="og:image" content="http://localhost:4173/big.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="http://localhost:4173/">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"Organization","name":"Fixture Neruz","url":"http://localhost:4173/","logo":"http://localhost:4173/icon.svg"}
+</script>
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"http://localhost:4173/"}]}
+</script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<header class="top">
+  <strong>Fixture Neruz</strong>
+  <nav aria-label="Principal">
+    <a href="#cards">Cards</a>
+    <a href="page2.html">Página 2</a>
+    <a href="https://example.com/" target="_blank" rel="noopener">Externo</a>
+    <a href="#nao-existe">Âncora quebrada</a>
+    <a href="missing.html">Link 404</a>
+    <a href="mailto:oi@example.com">E-mail</a>
+  </nav>
+</header>
+<main>
+  <h1>Título principal do fixture</h1>
+  <p class="lead">Parágrafo de abertura com texto corrido para testar tipografia, cores e medidas. Lorem ipsum dolor sit amet.</p>
+  <span class="low-contrast">Texto com contraste baixo</span>
+  <h2>Cards em grid</h2>
+  <section class="cards" id="cards">
+    <article class="card"><h3>Card um</h3><p>Conteúdo do primeiro card.</p></article>
+    <article class="card"><h3>Card dois</h3><p>Fundo com gradiente.</p></article>
+    <article class="card"><h3>Card três</h3><p>Sombra e borda.</p></article>
+  </section>
+  <h2>Flex e chips</h2>
+  <div class="flexrow"><span class="chip">alfa</span><span class="chip">beta</span><span class="chip">gama</span></div>
+  <h2>Camadas</h2>
+  <div class="stack"><div class="a">z1</div><div class="b">z10</div><div class="c">z5</div></div>
+  <h2>Overflow</h2>
+  <div class="overflower" id="overflower"></div>
+  <h2>Animações</h2>
+  <div class="spinner"></div><span class="pulse"></span><div class="waapi"></div>
+  <a class="hoverable" href="#cards">Botão com transição</a>
+  <h2>Imagens e ícones</h2>
+  <img class="bigimg" src="big.png" alt="Imagem grande de teste">
+  <img src="big.png" alt="">
+  <div class="icons">
+    <svg viewBox="0 0 24 24" aria-label="círculo"><circle cx="12" cy="12" r="10" fill="#0b6bcb"/></svg>
+    <svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" fill="#e8590c"/></svg>
+    <svg viewBox="0 0 24 24" role="img" aria-label="estrela"><path d="M12 2l3 7h7l-5.5 4.5L18 21l-6-4-6 4 1.5-7.5L2 9h7z" fill="#059669"/></svg>
+  </div>
+  <h2>Formulário</h2>
+  <form id="f" action="#" onsubmit="return false">
+    <label>Nome <input name="name" type="text" required></label>
+    <label>E-mail <input name="email" type="email" required></label>
+    <label>Telefone <input name="phone" type="tel"></label>
+    <label>CPF <input name="cpf" type="text"></label>
+    <label>País <select name="country"><option>Brasil</option><option>Portugal</option></select></label>
+    <label>Mensagem <textarea name="msg"></textarea></label>
+    <input type="text" placeholder="sem label">
+    <button class="submit" type="submit">Enviar</button>
+  </form>
+  <h2>JSON na página</h2>
+  <pre id="json">{"hello":"world","n":[1,2,3],"nested":{"ok":true}}</pre>
+  <p><a href="/api.json">api.json</a></p>
+</main>
+<footer>Rodapé do fixture · <a href="#top">topo</a></footer>
+</body>
+</html>
