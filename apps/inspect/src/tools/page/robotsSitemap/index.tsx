@@ -82,6 +82,8 @@ const RobotsTabContent = ({ result }: { result: RobotsSitemapResult }) => {
   );
 };
 
+const isWebUrl = (value: string): boolean => /^https?:\/\//i.test(value);
+
 const SitemapBlock = ({ state, depth }: { state: SitemapState; depth: number }) => {
   const t = useT();
   const [visible, setVisible] = useState(PAGE_SIZE);
@@ -94,7 +96,7 @@ const SitemapBlock = ({ state, depth }: { state: SitemapState; depth: number }) 
   };
 
   const { parsed } = state;
-  const entries = parsed?.entries ?? [];
+  const entries = (parsed?.entries ?? []).filter((entry) => isWebUrl(entry.loc));
   return (
     <PanelSection
       title={state.url}

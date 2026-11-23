@@ -24,10 +24,11 @@ import {
   probeRequest,
 } from '../messages';
 import { isOverlayActive, setOverlayActive } from './activeTabs';
+import { isFetchAllowed } from './networkGuard';
 import { PROBES } from './probes';
 import { clearBadge, showActiveBadge } from './toggle';
 
-type SenderContext = { tabId: number; windowId: number | undefined };
+type SenderContext = { tabId: number; windowId: number | undefined; tabUrl: string | undefined };
 
 type Route = {
   definition: AnyMessageDefinition;
@@ -103,12 +104,31 @@ const captureRoute = defineRoute(captureRequest, true, async (_payload, { window
   }
 });
 
-const fetchRoute = defineRoute(fetchRequest, true, async ({ url, method }) => {
+const assertFetchAllowed = (url: string, tabUrl: string | undefined): void => {
+  if (isFetchAllowed(url, tabUrl)) return;
+  throw new NiException('NI-FORBIDDEN-SENDER', 'private network address blocked', {
+    origin: new URL(url).origin,
+  });
+};
+
+const fetchGuarded = async (
+  url: string,
+  method: string,
+  tabUrl: string | undefined,
+  signal: AbortSignal,
+): Promise<Response> => {
+  assertFetchAllowed(url, tabUrl);
+  const response = await fetch(url, { method, credentials: 'omit', redirect: 'follow', signal });
+  if (response.redirected) assertFetchAllowed(response.url, tabUrl);
+  return response;
+};
+
+const fetchRoute = defineRoute(fetchRequest, true, async ({ url, method }, { tabUrl }) => {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS);
   try {
     const response = await withTimeout(
-      fetch(url, { method, credentials: 'omit', redirect: 'follow', signal: controller.signal }),
+      fetchGuarded(url, method, tabUrl, controller.signal),
       FETCH_TIMEOUT_MS,
       'fetch',
     );
@@ -163,7 +183,7 @@ const toSenderContext = (sender: Browser.runtime.MessageSender): SenderContext |
   const tabId = sender.tab?.id;
   const isTrusted = sender.id === browser.runtime.id && sender.frameId === 0;
   if (!isTrusted || tabId === undefined) return null;
-  return { tabId, windowId: sender.tab?.windowId };
+  return { tabId, windowId: sender.tab?.windowId, tabUrl: sender.url ?? sender.tab?.url };
 };
 
 const answer = async (
