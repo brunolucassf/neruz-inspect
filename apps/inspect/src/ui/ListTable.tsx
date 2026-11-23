@@ -25,35 +25,37 @@ export const ListTable = <TKey extends string>({
   rows,
   emptyLabel,
 }: ListTableProps<TKey>) => (
-  <table className="ni-table">
-    <caption className="ni-visually-hidden">{caption}</caption>
-    <thead>
-      <tr>
-        {columns.map((column) => (
-          <th key={column.key} scope="col" data-align={column.align}>
-            {column.header}
-          </th>
-        ))}
-      </tr>
-    </thead>
-    <tbody>
-      {rows.length === 0 && emptyLabel ? (
+  <div className="ni-card ni-table-card">
+    <table className="ni-table">
+      <caption className="ni-visually-hidden">{caption}</caption>
+      <thead>
         <tr>
-          <td colSpan={columns.length} className="ni-table__empty">
-            {emptyLabel}
-          </td>
+          {columns.map((column) => (
+            <th key={column.key} scope="col" data-align={column.align}>
+              {column.header}
+            </th>
+          ))}
         </tr>
-      ) : (
-        rows.map((row) => (
-          <tr key={row.id}>
-            {columns.map((column) => (
-              <td key={column.key} data-align={column.align}>
-                {row.cells[column.key]}
-              </td>
-            ))}
+      </thead>
+      <tbody>
+        {rows.length === 0 && emptyLabel ? (
+          <tr>
+            <td colSpan={columns.length} className="ni-table__empty">
+              {emptyLabel}
+            </td>
           </tr>
-        ))
-      )}
-    </tbody>
-  </table>
+        ) : (
+          rows.map((row) => (
+            <tr key={row.id}>
+              {columns.map((column) => (
+                <td key={column.key} data-align={column.align}>
+                  {row.cells[column.key]}
+                </td>
+              ))}
+            </tr>
+          ))
+        )}
+      </tbody>
+    </table>
+  </div>
 );

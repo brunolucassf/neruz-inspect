@@ -66,7 +66,7 @@ export const Panel = ({ tool }: PanelProps) => {
   return (
     <aside
       ref={panelRef}
-      className="ni-panel ni-shell"
+      className={isNarrow ? 'ni-panel ni-shell ni-sheet' : 'ni-panel ni-shell'}
       data-dock={dock}
       data-sheet={isNarrow ? sheetSize : undefined}
       aria-label={t(`${toolKey}.name`)}

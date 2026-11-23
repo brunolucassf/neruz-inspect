@@ -302,7 +302,7 @@ export const Toolbar = ({ searchRef, onClose }: ToolbarProps) => {
   return (
     <div
       ref={barRef}
-      className="ni-toolbar ni-shell"
+      className={isNarrow ? 'ni-toolbar ni-shell ni-dock' : 'ni-toolbar ni-shell'}
       data-placed={shownPosition ? 'true' : undefined}
       data-dragging={dragPosition ? 'true' : undefined}
       data-dock={isNarrow ? 'true' : undefined}
