@@ -1,0 +1,98 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 440" width="1280" height="440" role="img" aria-label="Neruz Inspect: veja como qualquer site foi feito">
+  <style>
+    .t{font-family:"Segoe UI",Helvetica,Arial,sans-serif}
+    .tick{stroke:#1f2b3a;stroke-width:1}
+    .frame{fill:#0E1520;stroke:#304256;stroke-width:2}
+    .blk{fill:#1a2738}
+    .scan{animation:scan 6s cubic-bezier(.65,0,.35,1) infinite}
+    .pulse{animation:pulse 2.4s ease-in-out infinite}
+    .ind{animation:ind 8s linear infinite}
+    .cota{animation:cota 6s ease-in-out infinite}
+    .blink{animation:blink 1.4s ease-in-out infinite}
+    @keyframes scan{0%{transform:translateY(28px);opacity:0}10%{opacity:1}88%{transform:translateY(300px);opacity:1}100%{transform:translateY(300px);opacity:0}}
+    @keyframes pulse{50%{opacity:.35}}
+    @keyframes ind{0%,10%{transform:translateX(0)}12%,22%{transform:translateX(34px)}24%,34%{transform:translateX(68px)}36%,46%{transform:translateX(102px)}48%,58%{transform:translateX(136px)}60%,70%{transform:translateX(170px)}72%,82%{transform:translateX(204px)}84%,94%{transform:translateX(238px)}100%{transform:translateX(0)}}
+    @keyframes cota{0%,20%{opacity:0}35%,85%{opacity:1}100%{opacity:0}}
+    @keyframes blink{50%{opacity:.25}}
+    @media (prefers-reduced-motion:reduce){.scan{animation:none;opacity:0}.pulse,.ind,.blink{animation:none}.cota{animation:none;opacity:1}}
+  </style>
+  <defs>
+    <clipPath id="ip"><rect x="0" y="28" width="548" height="292"/></clipPath>
+  </defs>
+
+  <rect width="1280" height="440" fill="#080D14"/>
+  <path class="tick" d="M0 28H1280M40 18V28M80 22V28M120 22V28M160 18V28M200 22V28M240 22V28M280 18V28M320 22V28M360 22V28M400 18V28M440 22V28M480 22V28M520 18V28M560 22V28M600 22V28M640 18V28M680 22V28M720 22V28M760 18V28M800 22V28M840 22V28M880 18V28M920 22V28M960 22V28M1000 18V28M1040 22V28M1080 22V28M1120 18V28M1160 22V28M1200 22V28M1240 18V28"/>
+
+  <text class="t" x="64" y="150" fill="#FF4FD0" font-size="15" font-weight="600" letter-spacing="3">NERUZ EXTENSIONS · OPEN SOURCE</text>
+  <text class="t" x="62" y="210" fill="#F4F8FC" font-size="58" font-weight="700">Neruz Inspect</text>
+  <text class="t" x="64" y="254" fill="#A6B5C5" font-size="21">Veja como qualquer site foi feito.</text>
+  <text class="t" x="64" y="284" fill="#A6B5C5" font-size="21">Cores, fontes, medidas e tecnologias. Grátis e local.</text>
+  <g transform="translate(64 322)">
+    <rect width="96" height="30" rx="2" fill="none" stroke="#304256"/>
+    <text class="t" x="48" y="20" fill="#F4F8FC" font-size="13" text-anchor="middle">MIT</text>
+    <rect x="108" width="150" height="30" rx="2" fill="none" stroke="#304256"/>
+    <text class="t" x="183" y="20" fill="#F4F8FC" font-size="13" text-anchor="middle">Chrome · Edge · Firefox</text>
+    <rect x="270" width="112" height="30" rx="2" fill="none" stroke="#304256"/>
+    <text class="t" x="326" y="20" fill="#F4F8FC" font-size="13" text-anchor="middle">pt · en · es</text>
+  </g>
+
+  <g transform="translate(656 80)">
+    <rect class="frame" x="1" y="1" width="546" height="318" rx="6"/>
+    <rect width="548" height="28" rx="6" fill="#141D29"/>
+    <rect y="20" width="548" height="8" fill="#141D29"/>
+    <circle cx="16" cy="14" r="4" fill="#304256"/>
+    <circle cx="30" cy="14" r="4" fill="#304256"/>
+    <circle cx="44" cy="14" r="4" fill="#304256"/>
+    <rect x="96" y="8" width="240" height="12" rx="6" fill="#080D14"/>
+
+    <g clip-path="url(#ip)">
+      <g transform="translate(0 28)">
+        <rect class="blk" x="20" y="18" width="508" height="92" rx="2"/>
+        <rect x="44" y="40" width="210" height="14" rx="3" fill="#F4F8FC" opacity=".85"/>
+        <rect x="44" y="62" width="150" height="8" rx="3" fill="#F4F8FC" opacity=".4"/>
+        <rect class="blk" x="44" y="128" width="150" height="88" rx="2"/>
+        <rect class="blk" x="214" y="128" width="150" height="88" rx="2"/>
+        <rect class="blk" x="384" y="128" width="120" height="88" rx="2"/>
+        <rect x="44" y="236" width="300" height="8" rx="3" fill="#F4F8FC" opacity=".3"/>
+        <rect x="44" y="250" width="240" height="8" rx="3" fill="#F4F8FC" opacity=".3"/>
+      </g>
+      <g class="scan">
+        <rect x="0" y="-24" width="548" height="24" fill="#FF4FD0" opacity=".08"/>
+        <rect width="548" height="2" fill="#FF4FD0"/>
+      </g>
+    </g>
+
+    <g class="pulse">
+      <rect x="40" y="152" width="158" height="96" fill="none" stroke="#FF4FD0" stroke-width="2"/>
+    </g>
+    <path d="M24 152H36V140M202 152H214V140M24 248H36V260M202 248H214V260" fill="none" stroke="#FF4FD0" stroke-width="1.5"/>
+
+    <g class="cota">
+      <path d="M194 200H214M194 194V206M214 194V206" fill="none" stroke="#FF4FD0" stroke-width="1.5"/>
+      <rect x="193" y="174" width="22" height="16" rx="2" fill="#FF4FD0"/>
+      <text class="t" x="204" y="186" fill="#080D14" font-size="11" font-weight="600" text-anchor="middle">20</text>
+    </g>
+
+    <path d="M128 252H428V284L420 292H120V260Z" fill="#0E1520" stroke="#304256" stroke-width="1.5"/>
+    <rect x="132" y="259" width="26" height="26" rx="2" fill="none" stroke="#304256"/>
+    <rect x="139" y="266" width="12" height="12" rx="2" fill="none" stroke="#A6B5C5" stroke-width="1.5"/>
+    <rect x="166" y="259" width="26" height="26" rx="2" fill="none" stroke="#304256"/>
+    <rect x="173" y="266" width="12" height="12" rx="2" fill="none" stroke="#A6B5C5" stroke-width="1.5"/>
+    <rect x="200" y="259" width="26" height="26" rx="2" fill="none" stroke="#304256"/>
+    <rect x="207" y="266" width="12" height="12" rx="2" fill="none" stroke="#A6B5C5" stroke-width="1.5"/>
+    <rect x="234" y="259" width="26" height="26" rx="2" fill="none" stroke="#304256"/>
+    <rect x="241" y="266" width="12" height="12" rx="2" fill="none" stroke="#A6B5C5" stroke-width="1.5"/>
+    <rect x="268" y="259" width="26" height="26" rx="2" fill="none" stroke="#304256"/>
+    <rect x="275" y="266" width="12" height="12" rx="2" fill="none" stroke="#A6B5C5" stroke-width="1.5"/>
+    <rect x="302" y="259" width="26" height="26" rx="2" fill="none" stroke="#304256"/>
+    <rect x="309" y="266" width="12" height="12" rx="2" fill="none" stroke="#A6B5C5" stroke-width="1.5"/>
+    <rect x="336" y="259" width="26" height="26" rx="2" fill="none" stroke="#304256"/>
+    <rect x="343" y="266" width="12" height="12" rx="2" fill="none" stroke="#A6B5C5" stroke-width="1.5"/>
+    <rect x="370" y="259" width="26" height="26" rx="2" fill="none" stroke="#304256"/>
+    <rect x="377" y="266" width="12" height="12" rx="2" fill="none" stroke="#A6B5C5" stroke-width="1.5"/>
+    <rect class="ind" x="139" y="288" width="12" height="2" fill="#FF4FD0"/>
+  </g>
+
+  <circle class="blink" cx="932" cy="422" r="4" fill="#FF4FD0"/>
+  <text class="t" x="1216" y="426" fill="#8296AC" font-size="12" text-anchor="end">cor · fonte · medida · movimento · tecnologia</text>
+</svg>
