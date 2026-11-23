@@ -39,7 +39,7 @@ const COPY = {
     addCart: 'Adicionar',
     find: 'Buscar',
     note: 'Frete grátis acima de R$ 300.',
-    promoSub: 'Cor, tipografia, medidas, tecnologias e acessibilidade, direto na página.',
+    promoSub: 'Entenda como a página foi feita, sem sair dela.',
     promoTitle: ['Inspecione', 'qualquer site'],
   },
   en: {
@@ -60,7 +60,7 @@ const COPY = {
     addCart: 'Add',
     find: 'Search',
     note: 'Free shipping over $ 60.',
-    promoSub: 'Color, type, spacing, tech and accessibility, right on the page.',
+    promoSub: 'See how a page is built, without leaving it.',
     promoTitle: ['Inspect', 'any website'],
   },
   es: {
@@ -81,7 +81,7 @@ const COPY = {
     addCart: 'Añadir',
     find: 'Buscar',
     note: 'Envío gratis desde $ 60.',
-    promoSub: 'Color, tipografía, medidas, tecnologías y accesibilidad, directo en la página.',
+    promoSub: 'Entiende cómo se hizo la página, sin salir de ella.',
     promoTitle: ['Inspecciona', 'cualquier sitio'],
   },
 };

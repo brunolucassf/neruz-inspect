@@ -7,85 +7,44 @@ Rules: no tool count, user count, ratings or testimonials; no competitor names.
 Neruz Inspect
 
 ## Short summary (Chrome: read from the manifest, `extDescription` in `_locales/en`)
-Proposal (111/132 characters):
+Current text in the package (84/132), kept: "Pick colors, identify fonts, measure spacing and detect the tech behind any website." It has no format or brand lists, so it can stay. Optional safer proposal without any list (80/132), only if `extDescription` changes in `_locales` before the build:
 
 ```
-See how any website is built: colors, fonts, spacing, tech stack and SEO. Free, open source, no data collected.
+See how any page is built and copy what you need, from a toolbar right on top of it.
 ```
 
-Current text in the package (84/132): "Pick colors, identify fonts, measure spacing and detect the tech behind any website." Also works. To use the proposal, `extDescription` must change in `_locales` before the build (the Chrome Web Store reads the summary from the manifest).
-
-## AMO summary (≤250, approx. 200)
+## AMO summary (≤250, approx. 150)
 ```
-See how any website is built from a toolbar on top of the page: eyedropper, fonts, ruler, design tokens, slow-motion animations, tech stack, pixels, SEO and a PDF report. Free, open source (MIT), no data collected.
+Study how any page is built from a toolbar on top of it, and copy what you need as code ready to paste. Free, open source, with no data collected.
 ```
 
-## Long description (plain text; Chrome ≤16000, approx. 2,400)
+## Long description (plain text; Chrome ≤16000, approx. 1,650)
 ```
-See how any website is built and take what you need. Neruz Inspect opens a dark toolbar on top of the page with tools for color, typography, layout, code, motion, tech and page analysis. No DevTools, no juggling extensions.
+See how a page is built and take what you need. Neruz Inspect opens a toolbar over the page you're visiting, so you can study it without developer tools.
 
-COLOR
-• Eyedropper: grab any pixel's color and copy it as HEX, RGB, HSL or OKLCH
-• Page palette: every color on the site, grouped and counted
-• Contrast checker: WCAG and APCA scores, plus a color that passes
-• Color converter, gradients and shadows, color blindness simulator
+Grab any color with the eyedropper and copy it in the format you use, then check whether the text has enough contrast to read comfortably.
 
-TYPOGRAPHY
-• Font finder: hover any text to see its font, weight, size, line height and color
-• Page fonts: where each font appears and where it loads from
-• Font tester: swap the site's font for another and see the result right away
-• Type scale: the site's text sizes in order, with the ratio between them
+Hover over text to see its typeface and where it loads from, and try a different one on the live page to compare.
 
-LAYOUT
-• Ruler: the distance in pixels between any two elements
-• Box model: content, padding and margin drawn on the page
-• Grid and Flexbox, z-index map, breakpoints read from the CSS, and outlines
-• Overflow finder: find the element that makes the page scroll sideways
+Measure the gap between two elements and find what pushes the page sideways.
 
-CODE
-• Copy styles: an element's CSS ready to paste, with a Tailwind version too
-• Copy component: a whole block as HTML and CSS, Tailwind or JSX
-• Extract design system: colors, fonts, spacing and radii as CSS, Tailwind or JSON
-• Live edit: change text and styles, then export the edited CSS
-The Tailwind output is an approximation; review it before shipping.
+Copy the styles of an element, or a whole block, as code ready to paste. The Tailwind version is an approximation, so review it before shipping.
 
-MOTION
-• Motion inspector: animations in slow motion, with duration, easing and the library used, when it shows up on the page
-• Page toggles: turn off CSS, animations or images to see what's left
-
-TECH
-• Tech stack: framework, CMS, site builder and libraries, with the version when it's exposed
-• Pixels and tags: Meta Pixel, GA4, Google Tag Manager and others, with the events they fire
-• Cookies and storage, JSON viewer
-
-PAGE
-• SEO and meta tags, with a preview of the shared link
-• Structured data, robots.txt and sitemap
-• Link checker: internal and external links, and which ones are broken
-• Assets, icons and favicons to download
-• Core Web Vitals: LCP, INP and CLS measured in this tab, on your machine
-• Accessibility: missing alt text, heading order, labels and low contrast
-• PDF report: SEO, tech, performance and accessibility in one file to share
-
-UTILITIES
-• px, rem, em and % converter, lorem ipsum, form filler with fake data, a QR code for the page and your copy history
-
-WHO IT'S FOR
-Front-end developers, designers, agencies, paid traffic managers and anyone who studies reference sites.
+Slow down animations to study their timing and find out what the page is built with. You can also check how fast it loads in your tab and spot common accessibility issues. When you're done, export a report to share with your team or client.
 
 YOUR DATA STAYS IN YOUR BROWSER
-• No server, no account, no data collection
+• No server, no account and nothing collected
 • Runs only on the tab where you click the icon
-• Changes to the page show only on your screen; reloading undoes them
-• Access to other sites is optional, requested only when you check links or download files, and can be removed anytime
-• Open source (MIT): read every line on GitHub
+• Edits show only on your screen; reloading undoes them
+• Access to other sites is optional and only requested to check links or download files
+• Open source: every line of code is public
 
 HOW TO USE
-1. Open a site and click the Neruz Inspect icon (or press Alt+Shift+I)
+1. Open a page and click the Neruz Inspect icon (or press Alt+Shift+I)
 2. Pick a tool from the toolbar or press / to search
 3. Esc exits the tool; Esc again closes everything
 
-Good to know: browsers don't let extensions run on internal pages, the extension store or the PDF viewer. The Font tester loads the font you choose from Google Fonts into the open page.
+Good to know: extensions can't run on the browser's internal pages. The font tester loads the typeface you pick from Google Fonts into the open page.
 
 Code: https://github.com/brunolucassf/neruz-inspect
 Privacy: https://inspect.neruz.tech/en/privacy/
@@ -104,13 +63,13 @@ Chrome accepts at most 5 screenshots: use 1, 2, 3, 4 and 6. AMO takes all 6. On 
 
 | # | Scene | Title | Support line |
 |---|---|---|---|
-| 1 | Toolbar + color/palette | Grab any color and see the site's palette | Eyedropper in HEX, RGB, HSL or OKLCH, with WCAG and APCA contrast. |
-| 2 | Typography | Hover to find the font | Font, weight, size, line height and where it loads from. |
-| 3 | Measure/inspect | Measure distances, see margin and padding | Ruler and box model drawn right on the page. |
-| 4 | Tech + SEO | See what the site is built with | Framework, CMS, pixels and tags, plus SEO and link preview. |
-| 5 | Performance/accessibility | Check performance and accessibility | LCP, INP and CLS measured in your tab, plus common accessibility issues. |
-| 6 | PDF report | Export a PDF report of the site | SEO, tech, performance and accessibility in one file to share. |
+| 1 | Toolbar + color/palette | Grab any color on the page | Copy it in the format you use and check the contrast. |
+| 2 | Typography | Hover to find the typeface | See its details and where it loads from. |
+| 3 | Measure/inspect | Measure the space between elements | Guides drawn right on the page you're viewing. |
+| 4 | Tech + SEO | See what the page is built with | And how it shows up when someone shares the link. |
+| 5 | Performance/accessibility | Check speed and accessibility | Measured in your own tab, with common issues pointed out. |
+| 6 | PDF report | Export a report of the page | Everything you found in one file to share. |
 
 ## Promo art (≤6 words)
-- Main: See how any website is built (6)
-- Alternative: Colors, fonts, spacing and tech (5)
+- Main: See how any page is built (6)
+- Alternative: Learn from any page you visit (6)

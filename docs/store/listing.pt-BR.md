@@ -7,85 +7,44 @@ Regras: sem número de ferramentas, usuários, notas ou depoimentos; sem nome de
 Neruz Inspect
 
 ## Resumo curto (Chrome: vem do manifest, `extDescription` em `_locales/pt_BR`)
-Proposta (120/132 caracteres):
+Texto atual no pacote (94/132), mantido: "Pegue cores, descubra fontes, meça espaçamentos e veja a tecnologia por trás de qualquer site." Não tem lista de formatos nem marcas, então pode ficar. Proposta opcional mais segura, sem lista (91/132), só se o `extDescription` for trocado no `_locales` antes do build:
 
 ```
-Veja como qualquer site foi feito: cores, fontes, medidas, tecnologias e SEO. Grátis, código aberto e sem coletar dados.
+Veja como qualquer página foi feita e copie o que precisar, numa barra por cima dela.
 ```
 
-Texto atual no pacote (94/132): "Pegue cores, descubra fontes, meça espaçamentos e veja a tecnologia por trás de qualquer site." Também serve. Para usar a proposta, o `extDescription` precisa ser trocado no `_locales` antes do build (a Chrome Web Store lê o resumo do manifest).
-
-## Resumo AMO (≤250, aprox. 205)
+## Resumo AMO (≤250, aprox. 160)
 ```
-Veja como qualquer site foi feito numa barra por cima da página: conta-gotas, fontes, régua, design system, animações em câmera lenta, tecnologias, pixels, SEO e relatório em PDF. Grátis, código aberto (MIT) e sem coleta de dados.
+Estude como qualquer página foi feita numa barra por cima dela e copie o que precisar como código pronto para colar. Grátis, código aberto e sem coleta de dados.
 ```
 
-## Descrição longa (texto puro; Chrome ≤16000, aprox. 2.600)
+## Descrição longa (texto puro; Chrome ≤16000, aprox. 1.750)
 ```
-Veja como qualquer site foi feito e leve o que precisa. O Neruz Inspect abre uma barra escura por cima da página com ferramentas de cor, tipografia, layout, código, movimento, tecnologia e análise da página. Sem abrir o DevTools e sem alternar entre várias extensões.
+Veja como uma página foi feita e leve o que precisa. O Neruz Inspect abre uma barra por cima da página que você está visitando, para estudá-la sem ferramentas de desenvolvedor.
 
-COR
-• Conta-gotas: pegue a cor de qualquer pixel e copie em HEX, RGB, HSL ou OKLCH
-• Paleta da página: todas as cores do site, agrupadas e com quantas vezes aparecem
-• Checar contraste: nota WCAG e APCA e uma cor que passa
-• Conversor de cor, gradientes e sombras, simulador de daltonismo
+Pegue qualquer cor com o conta-gotas e copie no formato que você usa. Depois, confira se o texto tem contraste suficiente para ler com conforto.
 
-TIPOGRAFIA
-• Qual é a fonte: passe o mouse e veja fonte, peso, tamanho, entrelinha e cor
-• Fontes da página: onde cada fonte aparece e de onde vem
-• Testar fonte: troque a fonte do site e veja na hora como fica
-• Escala tipográfica: os tamanhos de texto em ordem, com a proporção entre eles
+Passe o mouse sobre um texto para descobrir a fonte e de onde ela vem, e teste outra na própria página para comparar.
 
-LAYOUT
-• Régua: a distância em pixels entre dois elementos
-• Caixa do elemento: conteúdo, padding e margin desenhados sobre a página
-• Grid e Flexbox, mapa de camadas (z-index), breakpoints lidos do CSS e contornos
-• Rolagem lateral: ache o elemento que faz a página rolar para o lado
+Meça o espaço entre dois elementos e encontre o que faz a página rolar para o lado.
 
-CÓDIGO
-• Copiar estilos: o CSS de um elemento pronto para colar, também em Tailwind
-• Copiar componente: um bloco inteiro em HTML e CSS, Tailwind ou JSX
-• Extrair design system: cores, fontes, espaços e raios em CSS, Tailwind ou JSON
-• Editar ao vivo: mude textos e estilos e exporte o CSS alterado
-A versão em Tailwind é aproximada; revise antes de usar em produção.
+Copie os estilos de um elemento, ou de um bloco inteiro, como código pronto para colar. A versão em Tailwind é aproximada, então revise antes de publicar.
 
-MOVIMENTO
-• Inspetor de movimento: animações em câmera lenta, com duração, easing e a biblioteca usada, quando ela aparece na página
-• Liga e desliga: desative CSS, animações ou imagens para ver o que sobra
-
-TECNOLOGIA
-• Tecnologias do site: framework, CMS, construtor e bibliotecas, com versão quando aparece
-• Pixels e tags: Meta Pixel, GA4, Google Tag Manager e outras, com os eventos disparados
-• Cookies e storage, visualizador de JSON
-
-PÁGINA
-• SEO e meta tags, com a prévia do link compartilhado
-• Dados estruturados, robots.txt e sitemap
-• Links da página: internos, externos e quais estão quebrados
-• Imagens e arquivos, ícones e favicons para baixar
-• Desempenho: LCP, INP e CLS medidos nesta aba, no seu computador
-• Acessibilidade: imagens sem alt, ordem dos títulos, rótulos e contraste baixo
-• Relatório em PDF: SEO, tecnologias, desempenho e acessibilidade num arquivo para enviar
-
-UTILITÁRIOS
-• Conversor de px, rem, em e %, lorem ipsum, preencher formulário com dados fictícios, QR code da página e histórico de cópias
-
-PARA QUEM É
-Devs front-end, designers, agências, gestores de tráfego e quem estuda sites de referência.
+Veja animações em câmera lenta e descubra com que tecnologia a página foi feita. Também dá para medir a velocidade de carregamento na sua aba e achar problemas comuns de acessibilidade. No fim, gere um relatório para enviar à equipe ou ao cliente.
 
 SEUS DADOS FICAM NO SEU NAVEGADOR
-• Sem servidor, sem conta e sem coleta de dados
+• Sem servidor, sem conta e nada coletado
 • Só roda na aba em que você clica no ícone
-• Mudanças na página aparecem só na sua tela; recarregar a página desfaz tudo
-• Acesso a outros sites é opcional, pedido só quando você checa links ou baixa arquivos, e pode ser removido quando quiser
-• Código aberto (MIT): confira cada linha no GitHub
+• As mudanças aparecem só na sua tela; recarregar desfaz tudo
+• Acesso a outros sites é opcional e só é pedido para checar links ou baixar arquivos
+• Código aberto: cada linha é pública
 
 COMO USAR
-1. Abra um site e clique no ícone do Neruz Inspect (ou Alt+Shift+I)
+1. Abra uma página e clique no ícone do Neruz Inspect (ou Alt+Shift+I)
 2. Escolha uma ferramenta na barra ou aperte / para buscar
 3. Esc sai da ferramenta; Esc de novo fecha tudo
 
-Bom saber: o navegador não deixa extensões rodarem em páginas internas, na loja de extensões e no visualizador de PDF. "Testar fonte" carrega a fonte escolhida do Google Fonts na página aberta.
+Bom saber: extensões não rodam nas páginas internas do navegador. O "Testar fonte" carrega do Google Fonts a fonte escolhida na página aberta.
 
 Código: https://github.com/brunolucassf/neruz-inspect
 Privacidade: https://inspect.neruz.tech/privacy/
@@ -104,13 +63,13 @@ A Chrome aceita no máximo 5 capturas: use 1, 2, 3, 4 e 6. O AMO aceita todas as
 
 | # | Cena | Título | Linha de apoio |
 |---|---|---|---|
-| 1 | Barra + cor/paleta | Pegue qualquer cor e veja a paleta do site | Conta-gotas em HEX, RGB, HSL ou OKLCH, com contraste WCAG e APCA. |
-| 2 | Tipografia | Descubra a fonte passando o mouse | Fonte, peso, tamanho, entrelinha e de onde ela vem. |
-| 3 | Medir/inspecionar | Meça distâncias e veja margin e padding | Régua e caixa do elemento desenhadas sobre a página. |
-| 4 | Tecnologias + SEO | Veja com o que o site foi feito | Framework, CMS, pixels e tags, mais SEO e prévia do link. |
-| 5 | Desempenho/acessibilidade | Confira desempenho e acessibilidade | LCP, INP e CLS medidos na sua aba, e os erros de acessibilidade mais comuns. |
-| 6 | Relatório PDF | Gere um relatório do site em PDF | SEO, tecnologias, desempenho e acessibilidade num arquivo para enviar. |
+| 1 | Barra + cor/paleta | Pegue qualquer cor da página | Copie no formato que você usa e confira o contraste. |
+| 2 | Tipografia | Descubra a fonte passando o mouse | Veja os detalhes dela e de onde ela vem. |
+| 3 | Medir/inspecionar | Meça o espaço entre os elementos | Guias desenhadas sobre a própria página. |
+| 4 | Tecnologias + SEO | Veja com o que a página foi feita | E como ela aparece quando alguém compartilha o link. |
+| 5 | Desempenho/acessibilidade | Confira velocidade e acessibilidade | Medido na sua aba, com os problemas comuns apontados. |
+| 6 | Relatório PDF | Gere um relatório da página | Tudo o que você encontrou num arquivo para enviar. |
 
 ## Arte promocional (≤6 palavras)
-- Principal: Veja como qualquer site foi feito (6)
-- Alternativa: Cor, fonte, medida e tecnologia (5)
+- Principal: Veja como qualquer página foi feita (6)
+- Alternativa: Aprenda com cada página que visita (6)
