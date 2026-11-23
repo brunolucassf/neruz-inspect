@@ -1,16 +1,19 @@
-import { Radar, RefreshCw } from 'lucide-react';
+import { Check, CircleDashed, Radar, RefreshCw, TriangleAlert } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { runProbe } from '../../../lib/bridge';
 import { useT } from '../../../lib/i18n';
-import { Badge, CopyRow, EmptyState, PanelSection } from '../../../ui';
+import { Card, EmptyState, IdChip, PanelSection, StatusPill, Tile, Tiles } from '../../../ui';
+import { PanelMeta } from '../../../ui/PanelSlots';
 import type { ToolModule } from '../../types';
 import '../tech.css';
+import { PLATFORM_MARKS } from './platformMarks';
 import {
   analyzeTags,
   buildTagsProbeArgs,
   eventsSince,
   isInternalLayerEntry,
   type LayerReport,
+  type MissingPlatform,
   type PlatformReport,
   type TagsAnalysis,
   type TagsProbeResult,
@@ -22,6 +25,7 @@ type ScanState =
   | { status: 'ready'; analysis: TagsAnalysis; fresh: ReadonlySet<string>; at: number };
 
 const PROBE_ARGS = buildTagsProbeArgs();
+const MISSING_OPEN_LIMIT = 12;
 
 const formatClock = (at: number): string =>
   new Date(at).toLocaleTimeString(undefined, {
@@ -29,6 +33,52 @@ const formatClock = (at: number): string =>
     minute: '2-digit',
     second: '2-digit',
   });
+
+const totalEventCount = (platform: PlatformReport): number =>
+  platform.events.reduce((sum, event) => sum + event.count, 0);
+
+const EventChips = ({
+  platform,
+  fresh,
+}: {
+  platform: PlatformReport;
+  fresh: ReadonlySet<string>;
+}) => {
+  const t = useT();
+  const hasManyIds = platform.ids.length > 1;
+  return (
+    <ul className="ni-tech-events" aria-label={t('tech.tagsPixels.events')}>
+      {platform.events.map((event) => (
+        <li
+          key={event.key}
+          className={fresh.has(event.key) ? 'ni-tech-event ni-tech-event--new' : 'ni-tech-event'}
+        >
+          {event.name ?? t('tech.tagsPixels.hit')}
+          {hasManyIds && event.id ? <em>{event.id}</em> : null}
+          {event.count > 1 ? <em>×{event.count}</em> : null}
+          {fresh.has(event.key) ? <strong>{t('tech.tagsPixels.new')}</strong> : null}
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+const NotLoadedNote = ({ signals }: { signals: readonly string[] }) => {
+  const t = useT();
+  return (
+    <p className="ni-tag-card__note">
+      {t('tech.tagsPixels.notLoadedBefore')}{' '}
+      {signals.map((signal, index) => (
+        <span key={signal}>
+          {index > 0 ? ', ' : ''}
+          <code>{signal}</code>
+        </span>
+      ))}
+      {', '}
+      {t('tech.tagsPixels.notLoadedAfter')}
+    </p>
+  );
+};
 
 const PlatformCard = ({
   platform,
@@ -39,47 +89,74 @@ const PlatformCard = ({
 }) => {
   const t = useT();
   const isActive = platform.status === 'active';
+  const source =
+    platform.ids.length === 0 ? t('tech.tagsPixels.noId') : platform.foundBy.join(' · ');
   return (
-    <section className="ni-tech-card" aria-label={platform.name}>
-      <div className="ni-tech-card__head">
-        <h3 className="ni-tech-card__title">{platform.name}</h3>
-        <Badge tone={isActive ? 'success' : 'warning'}>
-          {t(isActive ? 'tech.tagsPixels.status.active' : 'tech.tagsPixels.status.notLoaded')}
-        </Badge>
+    <article className="ni-tag-card" data-status={platform.status} aria-label={platform.name}>
+      <div className="ni-tag-card__head">
+        <span className="ni-tag-card__mark" aria-hidden="true">
+          {PLATFORM_MARKS[platform.id]}
+        </span>
+        <div className="ni-tag-card__titles">
+          <h4 className="ni-tag-card__title">{platform.name}</h4>
+          <div className="ni-tag-card__src">{source}</div>
+        </div>
+        <StatusPill
+          status={platform.status}
+          label={t(isActive ? 'tech.tagsPixels.status.active' : 'tech.tagsPixels.status.notLoaded')}
+        />
       </div>
-      {platform.ids.map((id) => (
-        <CopyRow key={id} label={t('tech.tagsPixels.id')} value={id} />
-      ))}
-      {platform.ids.length === 0 ? (
-        <p className="ni-tech-muted">{t('tech.tagsPixels.noId')}</p>
+      {platform.ids.length > 0 ? (
+        <div className="ni-tag-card__ids">
+          {platform.ids.map((id) => (
+            <IdChip key={id} value={id} label={t('tech.tagsPixels.id')} />
+          ))}
+        </div>
       ) : null}
       {platform.events.length > 0 ? (
-        <ul className="ni-tech-events" aria-label={t('tech.tagsPixels.events')}>
-          {platform.events.map((event) => (
-            <li
-              key={event.key}
-              className={
-                fresh.has(event.key) ? 'ni-tech-event ni-tech-event--new' : 'ni-tech-event'
-              }
-            >
-              <span className="ni-tech-event__name">{event.name ?? t('tech.tagsPixels.hit')}</span>
-              {event.id ? <Badge>{event.id}</Badge> : null}
-              {event.count > 1 ? <Badge>×{event.count}</Badge> : null}
-              {fresh.has(event.key) ? (
-                <Badge tone="accent">{t('tech.tagsPixels.new')}</Badge>
-              ) : null}
+        <div className="ni-tag-card__events">
+          <div className="ni-tag-card__events-head">
+            <span>{t('tech.tagsPixels.events')}</span>
+            <b>{totalEventCount(platform)}</b>
+          </div>
+          <EventChips platform={platform} fresh={fresh} />
+        </div>
+      ) : isActive ? (
+        <p className="ni-tag-card__note">{t('tech.tagsPixels.noEvents')}</p>
+      ) : null}
+      {isActive ? null : <NotLoadedNote signals={platform.foundBy} />}
+    </article>
+  );
+};
+
+const MissingPlatforms = ({ missing }: { missing: readonly MissingPlatform[] }) => {
+  const t = useT();
+  const [isOpen, setIsOpen] = useState(missing.length <= MISSING_OPEN_LIMIT);
+  return (
+    <PanelSection
+      title={t('tech.tagsPixels.summary.missing')}
+      count={missing.length}
+      actions={
+        <button
+          type="button"
+          className="ni-button ni-button--sm"
+          aria-expanded={isOpen}
+          onClick={() => setIsOpen((current) => !current)}
+        >
+          {t(isOpen ? 'tech.tagsPixels.missing.hide' : 'tech.tagsPixels.missing.show')}
+        </button>
+      }
+    >
+      {isOpen ? (
+        <ul className="ni-tags-missing">
+          {missing.map((platform) => (
+            <li key={platform.id}>
+              <StatusPill status="missing" label={platform.name} />
             </li>
           ))}
         </ul>
-      ) : isActive ? (
-        <p className="ni-tech-muted">{t('tech.tagsPixels.noEvents')}</p>
       ) : null}
-      {isActive ? null : (
-        <p className="ni-tech-muted">
-          {t('tech.tagsPixels.notLoadedHint', { found: platform.foundBy.join(', ') })}
-        </p>
-      )}
-    </section>
+    </PanelSection>
   );
 };
 
@@ -90,43 +167,79 @@ const LayerList = ({ layer }: { layer: LayerReport }) => {
   const label = (kind: string, name: string): string => name || t(`tech.tagsPixels.layer.${kind}`);
   return (
     <PanelSection
-      title={`${layer.name} · ${t('tech.tagsPixels.layerCount', { n: layer.total })}`}
+      title={layer.name}
+      count={layer.total}
       actions={
-        <label className="ni-tech-muted">
+        <label className="ni-tech-check">
           <input
             type="checkbox"
             checked={showInternal}
             onChange={(event) => setShowInternal(event.target.checked)}
-          />{' '}
+          />
           {t('tech.tagsPixels.showInternal')}
         </label>
       }
     >
       {entries.length === 0 ? (
-        <p className="ni-tech-muted">{t('tech.tagsPixels.layerEmpty')}</p>
+        <p className="ni-hint">{t('tech.tagsPixels.layerEmpty')}</p>
       ) : (
-        <ul className="ni-tech-events">
-          {entries.map((entry) => (
-            <li
-              key={entry.index}
-              className={
-                isInternalLayerEntry(entry) ? 'ni-tech-event ni-tech-event--muted' : 'ni-tech-event'
-              }
-            >
-              <details>
-                <summary>
-                  <span className="ni-tech-event__name">
+        <Card variant="rows">
+          <ul className="ni-tech-layer">
+            {entries.map((entry) => (
+              <li
+                key={entry.index}
+                className={
+                  isInternalLayerEntry(entry)
+                    ? 'ni-tech-layer__item ni-tech-layer__item--muted'
+                    : 'ni-tech-layer__item'
+                }
+              >
+                <details>
+                  <summary>
                     #{entry.index + 1} {label(entry.kind, entry.name)}
                     {entry.id ? ` ${entry.id}` : ''}
-                  </span>
-                </summary>
-                <pre className="ni-tech-pre">{entry.preview || '—'}</pre>
-              </details>
-            </li>
-          ))}
-        </ul>
+                  </summary>
+                  <pre className="ni-tech-pre">{entry.preview || '—'}</pre>
+                </details>
+              </li>
+            ))}
+          </ul>
+        </Card>
       )}
     </PanelSection>
+  );
+};
+
+const TagsSummary = ({
+  active,
+  notLoaded,
+  missing,
+}: {
+  active: number;
+  notLoaded: number;
+  missing: number;
+}) => {
+  const t = useT();
+  return (
+    <Tiles columns={3} className="ni-tags-summary">
+      <Tile
+        label={t('tech.tagsPixels.summary.active')}
+        value={active}
+        tone="success"
+        icon={<Check size={16} aria-hidden="true" />}
+      />
+      <Tile
+        label={t('tech.tagsPixels.status.notLoaded')}
+        value={notLoaded}
+        tone="warning"
+        icon={<TriangleAlert size={16} aria-hidden="true" />}
+      />
+      <Tile
+        label={t('tech.tagsPixels.summary.missing')}
+        value={missing}
+        icon={<CircleDashed size={16} aria-hidden="true" />}
+      />
+    </Tiles>
   );
 };
 
@@ -163,7 +276,7 @@ const TagsPixelsPanel = () => {
   }, [scan]);
 
   const refresh = (
-    <button type="button" className="ni-button ni-tech-button" onClick={() => void scan()}>
+    <button type="button" className="ni-button ni-button--sm" onClick={() => void scan()}>
       <RefreshCw size={13} aria-hidden="true" />
       {t('tech.tagsPixels.refresh')}
     </button>
@@ -184,39 +297,59 @@ const TagsPixelsPanel = () => {
   }
 
   const { analysis, fresh, at } = state;
+  const activePlatforms = analysis.platforms.filter((platform) => platform.status === 'active');
+  const attentionPlatforms = analysis.platforms.filter(
+    (platform) => platform.status === 'notLoaded',
+  );
   const hasData = analysis.platforms.length > 0 || analysis.layers.some((l) => l.total > 0);
 
   return (
     <>
-      <div className="ni-tech-bar">
-        <span className="ni-tech-bar__status" aria-live="polite">
+      <PanelMeta>
+        <span className="ni-live" style={{ color: 'var(--ni-success)' }}>
+          <i className="ni-dot ni-dot--pulse" aria-hidden="true" />
+        </span>
+        <span className="ni-tech-updated" aria-live="polite">
           {t('tech.tagsPixels.updatedAt', { time: formatClock(at) })}
           {fresh.size > 0 ? ` · ${t('tech.tagsPixels.newCount', { n: fresh.size })}` : ''}
         </span>
-        <span className="ni-tech-bar__spacer" />
+        <span className="ni-tech-spacer" />
         {refresh}
-      </div>
-      {hasData ? (
-        <>
-          {analysis.platforms.length > 0 ? (
-            <PanelSection title={t('tech.tagsPixels.section.tags')}>
-              {analysis.platforms.map((platform) => (
-                <PlatformCard key={platform.id} platform={platform} fresh={fresh} />
-              ))}
-            </PanelSection>
-          ) : null}
-          {analysis.layers
-            .filter((layer) => layer.total > 0)
-            .map((layer) => (
-              <LayerList key={layer.name} layer={layer} />
-            ))}
-        </>
-      ) : (
+      </PanelMeta>
+      <TagsSummary
+        active={activePlatforms.length}
+        notLoaded={attentionPlatforms.length}
+        missing={analysis.missing.length}
+      />
+      {activePlatforms.length > 0 ? (
+        <PanelSection title={t('tech.tagsPixels.summary.active')} count={activePlatforms.length}>
+          {activePlatforms.map((platform) => (
+            <PlatformCard key={platform.id} platform={platform} fresh={fresh} />
+          ))}
+        </PanelSection>
+      ) : null}
+      {attentionPlatforms.length > 0 ? (
+        <PanelSection
+          title={t('tech.tagsPixels.section.attention')}
+          count={attentionPlatforms.length}
+        >
+          {attentionPlatforms.map((platform) => (
+            <PlatformCard key={platform.id} platform={platform} fresh={fresh} />
+          ))}
+        </PanelSection>
+      ) : null}
+      {hasData ? null : (
         <EmptyState
           title={t('tech.tagsPixels.empty.title')}
           hint={t('tech.tagsPixels.empty.hint')}
         />
       )}
+      {analysis.missing.length > 0 ? <MissingPlatforms missing={analysis.missing} /> : null}
+      {analysis.layers
+        .filter((layer) => layer.total > 0)
+        .map((layer) => (
+          <LayerList key={layer.name} layer={layer} />
+        ))}
       <p className="ni-hint">{t('tech.tagsPixels.note')}</p>
     </>
   );

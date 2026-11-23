@@ -9,7 +9,8 @@ import {
 } from '../../../lib/highlight';
 import { useT } from '../../../lib/i18n';
 import { getElementLabel, useElementPicker } from '../../../lib/picker';
-import { CopyRow, EmptyState, PanelSection, Swatch, Tabs } from '../../../ui';
+import { Card, CodeChip, CopyRow, EmptyState, PanelSection, Swatch, Tabs } from '../../../ui';
+import { PanelMeta } from '../../../ui/PanelSlots';
 import type { ToolModule } from '../../types';
 import { CodeBlock } from '../shared/CodeBlock';
 import {
@@ -95,6 +96,9 @@ const CopyStylesPanel = () => {
 
   return (
     <>
+      <PanelMeta>
+        <CodeChip>{analysis.selector}</CodeChip>
+      </PanelMeta>
       <Tabs
         label={t('code.copyStyles.tabs')}
         value={tab}
@@ -105,28 +109,32 @@ const CopyStylesPanel = () => {
           { id: 'variables', label: t('code.copyStyles.tab.variables') },
         ]}
       >
-        <div className="ni-stack">
+        <div className="ni-cd-stack">
           {tab === 'css' ? (
             <CodeBlock code={cssText} label="CSS" filename="styles.css" mime="text/css" />
           ) : null}
           {tab === 'tailwind' ? (
             <>
               <CodeBlock code={tailwindText} label="Tailwind" />
-              <p className="ni-note">{t('code.shared.tailwindApprox')}</p>
+              <p className="ni-cd-note">{t('code.shared.tailwindApprox')}</p>
             </>
           ) : null}
           {tab === 'variables' ? (
             variables.length > 0 ? (
-              <PanelSection title={t('code.copyStyles.section.variables')}>
-                {variables.map(([name, value]) => (
-                  <CopyRow
-                    key={name}
-                    label={name}
-                    value={value || '—'}
-                    copyValue={`${name}: ${value};`}
-                    leading={parseCssColor(value) ? <Swatch color={value} size={14} /> : undefined}
-                  />
-                ))}
+              <PanelSection title={t('code.copyStyles.section.variables')} count={variables.length}>
+                <Card variant="rows">
+                  {variables.map(([name, value]) => (
+                    <CopyRow
+                      key={name}
+                      label={name}
+                      value={value || '—'}
+                      copyValue={`${name}: ${value};`}
+                      leading={
+                        parseCssColor(value) ? <Swatch color={value} size={14} /> : undefined
+                      }
+                    />
+                  ))}
+                </Card>
               </PanelSection>
             ) : (
               <EmptyState
@@ -138,7 +146,7 @@ const CopyStylesPanel = () => {
         </div>
       </Tabs>
       {tab !== 'variables' && Object.keys(analysis.hover).length === 0 ? (
-        <p className="ni-note ni-stack">
+        <p className="ni-cd-note">
           {t(
             analysis.rulesScanned ? 'code.copyStyles.hover.none' : 'code.copyStyles.hover.lockHint',
           )}

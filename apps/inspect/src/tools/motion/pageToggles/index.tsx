@@ -1,6 +1,7 @@
 import { ToggleRight } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useT } from '../../../lib/i18n';
+import { Card, PanelSection } from '../../../ui';
 import type { ToolModule } from '../../types';
 import { createPageToggles, TOGGLE_IDS, type ToggleId } from './pageToggles';
 import './page-toggles.css';
@@ -39,35 +40,44 @@ const PageTogglesPanel = () => {
 
   return (
     <>
-      <ul className="ni-toggles">
-        {TOGGLE_IDS.map((id) => (
-          <li key={id} className="ni-toggles__item">
-            <div className="ni-toggles__text">
-              <span className="ni-toggles__title" id={`ni-toggle-${id}`}>
-                {t(`motion.pageToggles.${id}.title`)}
-              </span>
-              <span className="ni-toggles__desc">{t(`motion.pageToggles.${id}.desc`)}</span>
-              {id === 'reducedMotion' && state.reducedMotion ? (
-                <span className="ni-toggles__desc">
-                  {t('motion.pageToggles.reducedMotion.applied', { n: reducedRules })}
-                </span>
-              ) : null}
-            </div>
-            <button
-              type="button"
-              role="switch"
-              aria-checked={state[id]}
-              aria-labelledby={`ni-toggle-${id}`}
-              className="ni-switch"
-              onClick={() => flip(id)}
-            >
-              <span className="ni-switch__thumb" aria-hidden="true" />
-            </button>
-          </li>
-        ))}
-      </ul>
-      <div className="ni-toggles__footer">
-        <button type="button" className="ni-button" disabled={!anyOn} onClick={turnAllOff}>
+      <PanelSection title={t('motion.pageToggles.name')}>
+        <Card variant="rows">
+          <ul className="ni-toggles">
+            {TOGGLE_IDS.map((id) => (
+              <li key={id} className="ni-toggles__item">
+                <div className="ni-toggles__text">
+                  <span className="ni-toggles__title" id={`ni-toggle-${id}`}>
+                    {t(`motion.pageToggles.${id}.title`)}
+                  </span>
+                  <span className="ni-toggles__desc">{t(`motion.pageToggles.${id}.desc`)}</span>
+                  {id === 'reducedMotion' && state.reducedMotion ? (
+                    <span className="ni-toggles__desc">
+                      {t('motion.pageToggles.reducedMotion.applied', { n: reducedRules })}
+                    </span>
+                  ) : null}
+                </div>
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={state[id]}
+                  aria-labelledby={`ni-toggle-${id}`}
+                  className="ni-switch"
+                  onClick={() => flip(id)}
+                >
+                  <span className="ni-switch__thumb" aria-hidden="true" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      </PanelSection>
+      <div className="ni-actions">
+        <button
+          type="button"
+          className="ni-button ni-button--primary ni-toggles__reset"
+          disabled={!anyOn}
+          onClick={turnAllOff}
+        >
           {t('motion.pageToggles.reset')}
         </button>
       </div>

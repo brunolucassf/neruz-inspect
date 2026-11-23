@@ -7,6 +7,8 @@ export default {
       'Animações em câmera lenta, com duração, easing e biblioteca usada.',
     'motion.motionInspector.keywords':
       'câmera lenta, animação, transição, gsap, lenis, three, easing, duração, slow motion',
+    'motion.motionInspector.retry': 'Tentar de novo',
+    'motion.motionInspector.section.animations': 'Animações',
     'motion.motionInspector.libraries': 'Bibliotecas detectadas',
     'motion.motionInspector.probeError':
       'Não foi possível detectar bibliotecas nesta página. As animações CSS continuam na lista.',
@@ -57,6 +59,8 @@ export default {
       'Play animations in slow motion and see duration, easing and library.',
     'motion.motionInspector.keywords':
       'slow motion, animation, transition, gsap, lenis, three.js, easing, duration',
+    'motion.motionInspector.retry': 'Try again',
+    'motion.motionInspector.section.animations': 'Animations',
     'motion.motionInspector.libraries': 'Detected libraries',
     'motion.motionInspector.probeError':
       "Couldn't detect libraries on this page. CSS animations are still listed.",
@@ -107,6 +111,8 @@ export default {
       'Animaciones en cámara lenta, con duración, easing y librería usada.',
     'motion.motionInspector.keywords':
       'cámara lenta, animación, transición, gsap, lenis, three, easing, duración',
+    'motion.motionInspector.retry': 'Reintentar',
+    'motion.motionInspector.section.animations': 'Animaciones',
     'motion.motionInspector.libraries': 'Librerías detectadas',
     'motion.motionInspector.probeError':
       'No se pudieron detectar librerías en esta página. Las animaciones CSS siguen en la lista.',

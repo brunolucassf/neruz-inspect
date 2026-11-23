@@ -1,7 +1,7 @@
 import { FileSearch } from 'lucide-react';
 import { useState } from 'react';
 import { useT } from '../../../lib/i18n';
-import { Badge, CopyRow, PanelSection, Tabs } from '../../../ui';
+import { Badge, Card, CopyRow, PanelSection, Tabs } from '../../../ui';
 import type { ToolModule } from '../../types';
 import { Alert } from '../shared/Alert';
 import { ScanView } from '../shared/ScanView';
@@ -40,19 +40,22 @@ const LengthField = ({
   const t = useT();
   const rating = rateLength(value.length, range);
   return (
-    <div className="ni-pg-pad">
-      <div className="ni-pg-inline">
-        <strong>{label}</strong>
+    <PanelSection
+      title={label}
+      actions={
         <Badge tone={RATING_TONE[rating]}>
           {t('page.seoMeta.chars', { n: value.length, min: range.min, max: range.max })}
         </Badge>
-      </div>
+      }
+    >
       {value ? (
-        <CopyRow label={t('page.common.copy')} value={value} />
+        <Card variant="rows">
+          <CopyRow label={t('page.common.copy')} value={value} />
+        </Card>
       ) : (
-        <p className="ni-pg-muted">{t('page.seoMeta.none')}</p>
+        <p className="ni-hint">{t('page.seoMeta.none')}</p>
       )}
-    </div>
+    </PanelSection>
   );
 };
 
@@ -76,39 +79,47 @@ const GeneralTab = ({ seo }: { seo: SeoResult }) => {
         range={DESCRIPTION_RANGE}
       />
       <PanelSection title={t('page.seoMeta.section.tags')}>
-        {simple.map(([label, value]) => (
-          <CopyRow key={label} label={label} value={value || none} copyValue={value || none} />
-        ))}
+        <Card variant="rows">
+          {simple.map(([label, value]) => (
+            <CopyRow key={label} label={label} value={value || none} copyValue={value || none} />
+          ))}
+        </Card>
       </PanelSection>
       {seo.hreflangs.length > 0 ? (
         <PanelSection title={t('page.seoMeta.field.hreflang')}>
-          {seo.hreflangs.map((entry) => (
-            <CopyRow key={`${entry.lang}-${entry.href}`} label={entry.lang} value={entry.href} />
-          ))}
+          <Card variant="rows">
+            {seo.hreflangs.map((entry) => (
+              <CopyRow key={`${entry.lang}-${entry.href}`} label={entry.lang} value={entry.href} />
+            ))}
+          </Card>
         </PanelSection>
       ) : null}
       <PanelSection title={t('page.seoMeta.field.og')}>
         {Object.entries(seo.openGraph).length === 0 ? (
-          <p className="ni-pg-muted">{none}</p>
+          <p className="ni-hint">{none}</p>
         ) : (
-          Object.entries(seo.openGraph).map(([key, value]) => (
-            <CopyRow key={key} label={key.replace('og:', '')} value={value} />
-          ))
+          <Card variant="rows">
+            {Object.entries(seo.openGraph).map(([key, value]) => (
+              <CopyRow key={key} label={key.replace('og:', '')} value={value} />
+            ))}
+          </Card>
         )}
       </PanelSection>
       <PanelSection title={t('page.seoMeta.field.twitter')}>
         {Object.entries(seo.twitter).length === 0 ? (
-          <p className="ni-pg-muted">{none}</p>
+          <p className="ni-hint">{none}</p>
         ) : (
-          Object.entries(seo.twitter).map(([key, value]) => (
-            <CopyRow key={key} label={key.replace('twitter:', '')} value={value} />
-          ))
+          <Card variant="rows">
+            {Object.entries(seo.twitter).map(([key, value]) => (
+              <CopyRow key={key} label={key.replace('twitter:', '')} value={value} />
+            ))}
+          </Card>
         )}
       </PanelSection>
       <PanelSection
         title={t('page.seoMeta.section.alerts')}
         actions={
-          <span className="ni-pg-muted">
+          <span className="ni-pg-muted ni-pg-count">
             {SEVERITY_ORDER.map(
               (severity) => `${counts[severity]} ${t(`page.common.severity.${severity}`)}`,
             ).join(' · ')}
@@ -116,17 +127,21 @@ const GeneralTab = ({ seo }: { seo: SeoResult }) => {
         }
       >
         {seo.alerts.length === 0 ? (
-          <p className="ni-pg-muted">{t('page.seoMeta.noAlerts')}</p>
+          <Badge tone="success">{t('page.seoMeta.noAlerts')}</Badge>
         ) : (
-          [...seo.alerts]
-            .sort((a, b) => SEVERITY_ORDER.indexOf(a.severity) - SEVERITY_ORDER.indexOf(b.severity))
-            .map((alert) => (
-              <Alert
-                key={`${alert.id}-${JSON.stringify(alert.params ?? {})}`}
-                severity={alert.severity}
-                message={t(`page.seoMeta.alert.${alert.id}`, alert.params)}
-              />
-            ))
+          <Card variant="rows">
+            {[...seo.alerts]
+              .sort(
+                (a, b) => SEVERITY_ORDER.indexOf(a.severity) - SEVERITY_ORDER.indexOf(b.severity),
+              )
+              .map((alert) => (
+                <Alert
+                  key={`${alert.id}-${JSON.stringify(alert.params ?? {})}`}
+                  severity={alert.severity}
+                  message={t(`page.seoMeta.alert.${alert.id}`, alert.params)}
+                />
+              ))}
+          </Card>
         )}
       </PanelSection>
     </>
@@ -144,35 +159,39 @@ const HeadingsTab = ({ seo }: { seo: SeoResult }) => {
     <>
       <PanelSection title={t('page.seoMeta.section.headings')}>
         {seo.headings.length === 0 ? (
-          <p className="ni-pg-muted">{t('page.seoMeta.headings.none')}</p>
+          <p className="ni-hint">{t('page.seoMeta.headings.none')}</p>
         ) : (
-          seo.headings.map((heading, index) => (
-            <button
-              key={heading.id}
-              type="button"
-              className="ni-pg-row ni-pg-row--button"
-              style={{ gridTemplateColumns: 'auto 1fr', paddingLeft: 6 + (heading.level - 1) * 12 }}
-              onClick={() => focus(heading.element, `H${heading.level}`)}
-            >
-              <Badge tone={skippedIndexes.has(index) ? 'warning' : 'accent'}>
-                H{heading.level}
-              </Badge>
-              <span className="ni-pg-row__title">
-                {heading.text || t('page.seoMeta.headings.emptyText')}
-              </span>
-            </button>
-          ))
+          <Card variant="rows">
+            {seo.headings.map((heading, index) => (
+              <button
+                key={heading.id}
+                type="button"
+                className="ni-pg-row ni-pg-row--button ni-pg-row--heading"
+                style={{ paddingLeft: 8 + (heading.level - 1) * 12 }}
+                onClick={() => focus(heading.element, `H${heading.level}`)}
+              >
+                <Badge tone={skippedIndexes.has(index) ? 'warning' : 'accent'}>
+                  H{heading.level}
+                </Badge>
+                <span className="ni-pg-row__title">
+                  {heading.text || t('page.seoMeta.headings.emptyText')}
+                </span>
+              </button>
+            ))}
+          </Card>
         )}
       </PanelSection>
       {outlineAlerts.length > 0 ? (
         <PanelSection title={t('page.seoMeta.section.alerts')}>
-          {outlineAlerts.map((alert) => (
-            <Alert
-              key={`${alert.id}-${JSON.stringify(alert.params ?? {})}`}
-              severity={alert.severity}
-              message={t(`page.seoMeta.alert.${alert.id}`, alert.params)}
-            />
-          ))}
+          <Card variant="rows">
+            {outlineAlerts.map((alert) => (
+              <Alert
+                key={`${alert.id}-${JSON.stringify(alert.params ?? {})}`}
+                severity={alert.severity}
+                message={t(`page.seoMeta.alert.${alert.id}`, alert.params)}
+              />
+            ))}
+          </Card>
         </PanelSection>
       ) : null}
       <p className="ni-hint">{t('page.seoMeta.headings.hint')}</p>
@@ -187,22 +206,20 @@ const SeoMetaPanel = () => {
   return (
     <ScanView state={state} onRescan={rescan}>
       {(seo) => (
-        <div className="ni-pg-pad">
-          <Tabs
-            label={t('page.seoMeta.name')}
-            value={tab}
-            onChange={setTab}
-            items={[
-              { id: 'general', label: t('page.seoMeta.tab.general') },
-              { id: 'previews', label: t('page.seoMeta.tab.previews') },
-              { id: 'headings', label: t('page.seoMeta.tab.headings') },
-            ]}
-          >
-            {tab === 'general' ? <GeneralTab seo={seo} /> : null}
-            {tab === 'previews' ? <SeoPreviews seo={seo} /> : null}
-            {tab === 'headings' ? <HeadingsTab seo={seo} /> : null}
-          </Tabs>
-        </div>
+        <Tabs
+          label={t('page.seoMeta.name')}
+          value={tab}
+          onChange={setTab}
+          items={[
+            { id: 'general', label: t('page.seoMeta.tab.general') },
+            { id: 'previews', label: t('page.seoMeta.tab.previews') },
+            { id: 'headings', label: t('page.seoMeta.tab.headings') },
+          ]}
+        >
+          {tab === 'general' ? <GeneralTab seo={seo} /> : null}
+          {tab === 'previews' ? <SeoPreviews seo={seo} /> : null}
+          {tab === 'headings' ? <HeadingsTab seo={seo} /> : null}
+        </Tabs>
       )}
     </ScanView>
   );

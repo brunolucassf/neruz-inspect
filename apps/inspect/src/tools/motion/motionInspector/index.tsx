@@ -9,7 +9,17 @@ import {
 } from '../../../lib/highlight';
 import { useT } from '../../../lib/i18n';
 import type { MotionProbeResult } from '../../../probes/motion';
-import { Badge, CopyRow, EmptyState } from '../../../ui';
+import {
+  Badge,
+  Card,
+  CodeChip,
+  CopyRow,
+  EmptyState,
+  ErrorState,
+  FilterChips,
+  LoadingState,
+  PanelSection,
+} from '../../../ui';
 import type { ToolModule } from '../../types';
 import {
   type AnimationInfo,
@@ -30,6 +40,8 @@ const SPEEDS = [
 ] as const;
 
 const REFRESH_MS = 400;
+
+const SPEED_CHIPS = SPEEDS.map(({ value, label }) => ({ id: String(value), label }));
 
 type ProbeState =
   | { status: 'loading' }
@@ -104,16 +116,26 @@ const MotionInspectorPanel = () => {
 
   return (
     <>
-      <div className="ni-motion-stack">
-        <p className="ni-motion-label">{t('motion.motionInspector.libraries')}</p>
+      <PanelSection
+        title={t('motion.motionInspector.libraries')}
+        count={probe.status === 'ready' ? libraries.length : undefined}
+      >
         {probe.status === 'loading' ? (
-          <p className="ni-motion-note">{t('core.state.loading')}</p>
+          <LoadingState title={t('core.state.loading')} blocks={1} />
         ) : null}
         {probe.status === 'error' ? (
-          <p className="ni-motion-note">{t('motion.motionInspector.probeError')}</p>
+          <ErrorState
+            title={t('core.state.error')}
+            hint={t('motion.motionInspector.probeError')}
+            action={
+              <button type="button" className="ni-button" onClick={() => void runMotionProbe()}>
+                {t('motion.motionInspector.retry')}
+              </button>
+            }
+          />
         ) : null}
         {probe.status === 'ready' && libraries.length === 0 ? (
-          <p className="ni-motion-note">{t('motion.motionInspector.noLibraries')}</p>
+          <p className="ni-hint">{t('motion.motionInspector.noLibraries')}</p>
         ) : null}
         {libraries.length > 0 ? (
           <div className="ni-motion-libs">
@@ -127,63 +149,58 @@ const MotionInspectorPanel = () => {
         {libraries
           .filter((library) => library.detail)
           .map((library) => (
-            <p key={library.name} className="ni-motion-note">
+            <p key={library.name} className="ni-hint">
               {library.name}: {library.detail}
             </p>
           ))}
-      </div>
+      </PanelSection>
 
-      <div className="ni-motion-stack">
-        <fieldset className="ni-motion-fieldset">
-          <legend className="ni-motion-label">{t('motion.motionInspector.speed')}</legend>
-          <div className="ni-motion-group">
-            {SPEEDS.map((option) => (
-              <button
-                key={option.value}
-                type="button"
-                className="ni-button"
-                aria-pressed={speed === option.value}
-                onClick={() => chooseSpeed(option.value)}
-              >
-                {option.label}
-              </button>
-            ))}
-          </div>
-        </fieldset>
-        <div className="ni-motion-group">
-          <button type="button" className="ni-button" aria-pressed={paused} onClick={togglePause}>
+      <PanelSection title={t('motion.motionInspector.speed')}>
+        <FilterChips
+          label={t('motion.motionInspector.speed')}
+          items={SPEED_CHIPS}
+          value={String(speed)}
+          onChange={(id) => chooseSpeed(Number(id))}
+        />
+        <div className="ni-actions">
+          <button
+            type="button"
+            className="ni-button ni-button--primary ni-motion-pause"
+            aria-pressed={paused}
+            onClick={togglePause}
+          >
             {paused ? (
-              <Play size={13} aria-hidden="true" />
+              <Play size={14} aria-hidden="true" />
             ) : (
-              <Pause size={13} aria-hidden="true" />
-            )}{' '}
+              <Pause size={14} aria-hidden="true" />
+            )}
             {t(paused ? 'motion.motionInspector.resume' : 'motion.motionInspector.pause')}
           </button>
           <button
             type="button"
-            className="ni-button"
+            className="ni-button ni-motion-step"
             disabled={!paused}
             aria-label={t('motion.motionInspector.stepBack')}
             onClick={() => controllerRef.current?.stepFrame(-1)}
           >
-            <StepBack size={13} aria-hidden="true" />
+            <StepBack size={14} aria-hidden="true" />
           </button>
           <button
             type="button"
-            className="ni-button"
+            className="ni-button ni-motion-step"
             disabled={!paused}
             aria-label={t('motion.motionInspector.stepForward')}
             onClick={() => controllerRef.current?.stepFrame(1)}
           >
-            <StepForward size={13} aria-hidden="true" />
+            <StepForward size={14} aria-hidden="true" />
           </button>
         </div>
         {appliedLibraries.length > 0 ? (
-          <p className="ni-motion-note">
+          <p className="ni-hint">
             {t('motion.motionInspector.appliedTo', { list: appliedLibraries.join(', ') })}
           </p>
         ) : null}
-      </div>
+      </PanelSection>
 
       {items.length === 0 ? (
         <EmptyState
@@ -191,56 +208,57 @@ const MotionInspectorPanel = () => {
           hint={t('motion.motionInspector.empty.hint')}
         />
       ) : (
-        <ul className="ni-motion-list">
-          {items.map((item) => (
-            <li
-              key={item.key}
-              className="ni-motion-item"
-              onPointerEnter={() => setHighlighted(item.target)}
-              onPointerLeave={() => setHighlighted(null)}
-            >
-              <div className="ni-motion-item__head">
-                <Badge tone={item.kind === 'css-transition' ? 'success' : 'accent'}>
-                  {t(kindKey(item.kind))}
-                </Badge>
-                <span className="ni-motion-item__target" title={item.targetLabel}>
-                  {item.targetLabel}
-                </span>
-              </div>
-              <div className="ni-motion-item__curve">
-                <EasingCurve
-                  easing={item.easing}
-                  label={`${t('motion.motionInspector.easing')} ${item.easing}`}
-                />
-              </div>
-              <dl className="ni-motion-item__facts">
-                <div>
-                  <dt>{t('motion.motionInspector.name.label')}</dt>
-                  <dd>{item.name}</dd>
-                </div>
-                <div>
-                  <dt>{t('motion.motionInspector.duration')}</dt>
-                  <dd>
-                    {item.isScrollDriven
-                      ? t('motion.motionInspector.scroll')
-                      : formatDuration(item.duration)}
-                  </dd>
-                </div>
-                <div>
-                  <dt>{t('motion.motionInspector.delay')}</dt>
-                  <dd>{formatDuration(item.delay)}</dd>
-                </div>
-                <div>
-                  <dt>{t('motion.motionInspector.iterations')}</dt>
-                  <dd>{Number.isFinite(item.iterations) ? item.iterations : '∞'}</dd>
-                </div>
-              </dl>
-              <div className="ni-motion-item__easing">
-                <CopyRow label={t('motion.motionInspector.easing')} value={item.easing} />
-              </div>
-            </li>
-          ))}
-        </ul>
+        <PanelSection title={t('motion.motionInspector.section.animations')} count={items.length}>
+          <ul className="ni-motion-list">
+            {items.map((item) => (
+              <li
+                key={item.key}
+                onPointerEnter={() => setHighlighted(item.target)}
+                onPointerLeave={() => setHighlighted(null)}
+              >
+                <Card variant="padded" className="ni-motion-item">
+                  <div className="ni-motion-item__head">
+                    <Badge tone={item.kind === 'css-transition' ? 'success' : 'accent'}>
+                      {t(kindKey(item.kind))}
+                    </Badge>
+                    <CodeChip className="ni-motion-item__target">{item.targetLabel}</CodeChip>
+                  </div>
+                  <div className="ni-motion-item__curve">
+                    <EasingCurve
+                      easing={item.easing}
+                      label={`${t('motion.motionInspector.easing')} ${item.easing}`}
+                    />
+                  </div>
+                  <dl className="ni-motion-item__facts">
+                    <div>
+                      <dt>{t('motion.motionInspector.name.label')}</dt>
+                      <dd>{item.name}</dd>
+                    </div>
+                    <div>
+                      <dt>{t('motion.motionInspector.duration')}</dt>
+                      <dd>
+                        {item.isScrollDriven
+                          ? t('motion.motionInspector.scroll')
+                          : formatDuration(item.duration)}
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>{t('motion.motionInspector.delay')}</dt>
+                      <dd>{formatDuration(item.delay)}</dd>
+                    </div>
+                    <div>
+                      <dt>{t('motion.motionInspector.iterations')}</dt>
+                      <dd>{Number.isFinite(item.iterations) ? item.iterations : '∞'}</dd>
+                    </div>
+                  </dl>
+                  <div className="ni-motion-item__easing">
+                    <CopyRow label={t('motion.motionInspector.easing')} value={item.easing} />
+                  </div>
+                </Card>
+              </li>
+            ))}
+          </ul>
+        </PanelSection>
       )}
       <p className="ni-hint">{t('motion.motionInspector.note')}</p>
     </>

@@ -1,6 +1,6 @@
 import { Crosshair, Database } from 'lucide-react';
 import { useT } from '../../../lib/i18n';
-import { Badge, EmptyState, PanelSection } from '../../../ui';
+import { Badge, Card, EmptyState, PanelSection } from '../../../ui';
 import type { ToolModule } from '../../types';
 import { Alert } from '../shared/Alert';
 import { ScanView } from '../shared/ScanView';
@@ -64,12 +64,16 @@ const ItemCard = ({ item, onFocus }: { item: SchemaItem; onFocus: (item: SchemaI
       }
     >
       {item.missing.length > 0 ? (
-        <Alert
-          severity="warning"
-          message={t('page.structuredData.alert.missing', { fields: item.missing.join(', ') })}
-        />
+        <Card variant="rows">
+          <Alert
+            severity="warning"
+            message={t('page.structuredData.alert.missing', { fields: item.missing.join(', ') })}
+          />
+        </Card>
       ) : null}
-      <DataTree value={item.data} />
+      <Card variant="padded">
+        <DataTree value={item.data} />
+      </Card>
     </PanelSection>
   );
 };
@@ -105,12 +109,14 @@ const StructuredDataPanel = () => {
               <PanelSection title={t('page.structuredData.section.invalid')}>
                 {result.invalid.map((entry) => (
                   <div key={entry.id} className="ni-pg-stack">
-                    <Alert
-                      severity="error"
-                      message={t('page.structuredData.alert.invalidJson', {
-                        message: entry.message,
-                      })}
-                    />
+                    <Card variant="rows">
+                      <Alert
+                        severity="error"
+                        message={t('page.structuredData.alert.invalidJson', {
+                          message: entry.message,
+                        })}
+                      />
+                    </Card>
                     <pre className="ni-pg-code">{entry.snippet}</pre>
                   </div>
                 ))}

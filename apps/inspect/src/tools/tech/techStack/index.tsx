@@ -3,7 +3,8 @@ import { type CSSProperties, useEffect, useState } from 'react';
 import { fetchViaBackground, runProbe } from '../../../lib/bridge';
 import { copyText } from '../../../lib/clipboard';
 import { useT } from '../../../lib/i18n';
-import { Badge, EmptyState, PanelSection } from '../../../ui';
+import { Badge, Card, EmptyState, PanelSection } from '../../../ui';
+import { PanelMeta } from '../../../ui/PanelSlots';
 import type { ToolModule } from '../../types';
 import '../tech.css';
 import { buildProbeArgs, detectTechnologies, groupByCategory } from './detect';
@@ -21,12 +22,6 @@ const CONFIDENCE_TONE: Record<Confidence, 'success' | 'accent' | 'neutral'> = {
 };
 
 const PROBE_ARGS = buildProbeArgs();
-
-const hueFromId = (id: string): number => {
-  let hash = 0;
-  for (const character of id) hash = (hash * 31 + character.charCodeAt(0)) % 360;
-  return hash;
-};
 
 const initialsOf = (name: string): string => name.replace(/[^A-Za-z0-9]/g, '').slice(0, 2);
 
@@ -46,7 +41,7 @@ const scanPage = async (): Promise<Exclude<ScanState, { status: 'loading' }>> =>
 
 const TechRow = ({ item, index }: { item: DetectedTech; index: number }) => {
   const t = useT();
-  const style = { '--ni-tech-hue': hueFromId(item.id), '--ni-tech-index': index } as CSSProperties;
+  const style = { '--ni-tech-index': index } as CSSProperties;
   return (
     <li className="ni-tech-item" style={style}>
       <span className="ni-tech-avatar" aria-hidden="true">
@@ -112,7 +107,7 @@ const TechStackPanel = () => {
   const rescan = (
     <button
       type="button"
-      className="ni-button ni-tech-button"
+      className="ni-button ni-button--sm ni-tech-button"
       onClick={() => setScanId(scanId + 1)}
     >
       <RefreshCw size={13} aria-hidden="true" />
@@ -144,11 +139,11 @@ const TechStackPanel = () => {
 
   return (
     <>
-      <div className="ni-tech-bar">
-        <span className="ni-tech-bar__status">
+      <PanelMeta>
+        <span className="ni-tech-updated">
           {t('tech.techStack.count', { n: state.list.length })}
         </span>
-        <span className="ni-tech-bar__spacer" />
+        <span className="ni-tech-spacer" />
         {state.list.length > 0 ? (
           <button
             type="button"
@@ -169,20 +164,23 @@ const TechStackPanel = () => {
         >
           <RefreshCw size={14} aria-hidden="true" />
         </button>
-      </div>
+      </PanelMeta>
       {groups.length === 0 ? (
         <EmptyState title={t('tech.techStack.empty.title')} hint={t('tech.techStack.empty.hint')} />
       ) : (
         groups.map((group) => (
           <PanelSection
             key={group.category}
-            title={`${t(`tech.techStack.cat.${group.category}`)} · ${group.items.length}`}
+            title={t(`tech.techStack.cat.${group.category}`)}
+            count={group.items.length}
           >
-            <ul className="ni-tech-list">
-              {group.items.map((item) => (
-                <TechRow key={item.id} item={item} index={rowIndex++} />
-              ))}
-            </ul>
+            <Card variant="rows">
+              <ul className="ni-tech-list">
+                {group.items.map((item) => (
+                  <TechRow key={item.id} item={item} index={rowIndex++} />
+                ))}
+              </ul>
+            </Card>
           </PanelSection>
         ))
       )}

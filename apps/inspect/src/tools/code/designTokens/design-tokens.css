@@ -1,22 +1,13 @@
-.ni-token-font,
-.ni-token-type,
-.ni-token-bar,
-.ni-token-radius,
-.ni-token-shadow {
+.ni-token-sample {
   display: grid;
-  gap: 2px;
-  margin-bottom: 4px;
+  gap: 8px;
+  padding: 12px 12px 4px;
 }
 
-.ni-token-font__sample {
+.ni-token-sample__text {
   color: var(--ni-text);
   font-size: 20px;
   line-height: 1.3;
-}
-
-.ni-token-type__sample {
-  color: var(--ni-text);
-  line-height: 1.1;
 }
 
 .ni-token-bar__fill {
@@ -24,20 +15,19 @@
   height: 6px;
   background: var(--ni-accent);
   border-radius: 3px;
-  transform-origin: left;
 }
 
 .ni-token-radius__box,
 .ni-token-shadow__box {
   display: block;
-  width: 44px;
-  height: 28px;
-  background: var(--ni-bg-raised);
-  border: 1px solid var(--ni-line-strong);
+  width: 56px;
+  height: 32px;
+  background: var(--ni-surface-3);
+  box-shadow: inset 0 0 0 1px var(--ni-line-strong);
 }
 
 .ni-token-shadow__box {
-  margin: 6px 0 8px;
+  margin-bottom: 4px;
   background: #fff;
-  border-color: transparent;
+  box-shadow: none;
 }

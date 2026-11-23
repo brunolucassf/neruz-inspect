@@ -2,7 +2,7 @@ import { ExternalLink, ListTree } from 'lucide-react';
 import { useState } from 'react';
 import { useHighlights, useViewportVersion } from '../../../lib/highlight';
 import { useT } from '../../../lib/i18n';
-import { Badge, CopyRow, EmptyState, PanelSection } from '../../../ui';
+import { Badge, Card, CopyRow, EmptyState, PanelSection, Tile, Tiles } from '../../../ui';
 import { buildElementHighlights, revealFirstOffscreen } from '../../color/shared/ElementHighlights';
 import { scanElements } from '../../color/shared/scan';
 import '../../color/shared/tools.css';
@@ -49,6 +49,8 @@ const FontListPanel = () => {
       : [],
   );
 
+  const totalUses = fonts.reduce((sum, font) => sum + font.count, 0);
+
   const select = (font: FontUsage): void => {
     if (selectedFamily === font.family) {
       setSelectedFamily(null);
@@ -70,7 +72,7 @@ const FontListPanel = () => {
   }
 
   const rescanButton = (
-    <button type="button" className="ni-button" onClick={rescan}>
+    <button type="button" className="ni-button ni-button--sm" onClick={rescan}>
       {t('type.fontList.rescan')}
     </button>
   );
@@ -99,45 +101,56 @@ const FontListPanel = () => {
   return (
     <>
       {state.truncated ? <p className="ni-notice">{t('type.fontList.limit')}</p> : null}
+      <Tiles columns={2}>
+        <Tile label={t('type.fontList.tile.fonts')} value={fonts.length} />
+        <Tile label={t('type.fontList.tile.uses')} value={totalUses} />
+      </Tiles>
       <PanelSection
-        title={t('type.fontList.section.fonts', { n: fonts.length })}
+        title={t('type.fontList.section.fonts')}
+        count={fonts.length}
         actions={rescanButton}
       >
-        {fonts.map((font) => (
-          <button
-            key={font.family}
-            type="button"
-            className="ni-listbtn"
-            aria-pressed={font.family === selectedFamily}
-            onClick={() => select(font)}
-          >
-            <Badge tone={SOURCE_TONE[font.source]}>
-              {t(`type.fontList.source.${font.source}`)}
-            </Badge>
-            <span className="ni-listbtn__main">
-              <span className="ni-listbtn__title">{font.family}</span>
-              <span className="ni-listbtn__sub">
-                {t('type.fontList.weights', { list: font.weights.join(', ') })}
+        <Card variant="rows">
+          {fonts.map((font) => (
+            <button
+              key={font.family}
+              type="button"
+              className="ni-listbtn"
+              aria-pressed={font.family === selectedFamily}
+              onClick={() => select(font)}
+            >
+              <Badge tone={SOURCE_TONE[font.source]}>
+                {t(`type.fontList.source.${font.source}`)}
+              </Badge>
+              <span className="ni-listbtn__main">
+                <span className="ni-listbtn__title">{font.family}</span>
+                <span className="ni-listbtn__sub">
+                  {t('type.fontList.weights', { list: font.weights.join(', ') })}
+                </span>
               </span>
-            </span>
-            <Badge tone={font.family === selectedFamily ? 'accent' : 'neutral'}>{font.count}</Badge>
-          </button>
-        ))}
+              <Badge tone={font.family === selectedFamily ? 'accent' : 'neutral'}>
+                {font.count}
+              </Badge>
+            </button>
+          ))}
+        </Card>
       </PanelSection>
       {selected ? (
         <PanelSection title={t('type.fontList.section.selected')}>
-          <CopyRow
-            label={t('type.fontList.family')}
-            value={selected.family}
-            copyValue={`font-family: ${selected.family};`}
-          />
-          <CopyRow
-            label={t('type.fontList.origin')}
-            value={t(`type.fontList.source.${selected.source}`)}
-          />
+          <Card variant="rows">
+            <CopyRow
+              label={t('type.fontList.family')}
+              value={selected.family}
+              copyValue={`font-family: ${selected.family};`}
+            />
+            <CopyRow
+              label={t('type.fontList.origin')}
+              value={t(`type.fontList.source.${selected.source}`)}
+            />
+          </Card>
           {selected.source === 'google' ? (
             <a
-              className="ni-button ni-link-button"
+              className="ni-button ni-button--sm ni-link-button"
               href={googleSpecimenUrl(selected.family)}
               target="_blank"
               rel="noopener noreferrer"

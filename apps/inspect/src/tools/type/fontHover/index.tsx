@@ -12,7 +12,7 @@ import {
 import { useT } from '../../../lib/i18n';
 import { getElementLabel, useElementPicker } from '../../../lib/picker';
 import { useSettingsStore } from '../../../lib/settings';
-import { Badge, CopyRow, EmptyState, PanelSection, Swatch } from '../../../ui';
+import { Badge, Card, CopyRow, EmptyState, PanelSection, Swatch } from '../../../ui';
 import '../../color/shared/tools.css';
 import type { ToolModule } from '../../types';
 import { createFamilyProbe, inferRenderedFamily, parseFontFamilyList } from '../shared/fonts';
@@ -85,63 +85,71 @@ const FontHoverPanel = () => {
         title={t('type.fontHover.section.family')}
         actions={<Badge tone="accent">{t(`type.fontHover.kind.${rendered.kind}`)}</Badge>}
       >
-        <CopyRow
-          label={t('type.fontHover.rendered')}
-          value={rendered.family}
-          copyValue={`font-family: ${rendered.family};`}
-        />
-        <CopyRow
-          label={t('type.fontHover.declared')}
-          value={style.fontFamily}
-          copyValue={`font-family: ${style.fontFamily};`}
-        />
+        <Card variant="rows">
+          <CopyRow
+            label={t('type.fontHover.rendered')}
+            value={rendered.family}
+            copyValue={`font-family: ${rendered.family};`}
+          />
+          <CopyRow
+            label={t('type.fontHover.declared')}
+            value={style.fontFamily}
+            copyValue={`font-family: ${style.fontFamily};`}
+          />
+        </Card>
         {rendered.fellBack ? (
           <p className="ni-hint">{t('type.fontHover.fallback', { family: rendered.declared })}</p>
         ) : null}
       </PanelSection>
       <PanelSection title={t('type.fontHover.section.text')}>
-        <CopyRow
-          label={t('type.fontHover.weight')}
-          value={style.fontWeight}
-          copyValue={`font-weight: ${style.fontWeight};`}
-        />
-        <CopyRow
-          label={t('type.fontHover.size')}
-          value={formatLength(fontSize, unit)}
-          copyValue={`font-size: ${formatLength(fontSize, unit)};`}
-        />
-        <CopyRow
-          label={t('type.fontHover.lineHeight')}
-          value={lineHeightLabel(style.lineHeight, fontSize, unit)}
-          copyValue={`line-height: ${style.lineHeight};`}
-        />
-        <CopyRow
-          label={t('type.fontHover.letterSpacing')}
-          value={letterSpacing}
-          copyValue={`letter-spacing: ${style.letterSpacing};`}
-        />
-        <CopyRow
-          label={t('type.fontHover.transform')}
-          value={style.textTransform}
-          copyValue={`text-transform: ${style.textTransform};`}
-        />
-        {style.fontStyle !== 'normal' ? (
+        <Card variant="rows">
           <CopyRow
-            label={t('type.fontHover.style')}
-            value={style.fontStyle}
-            copyValue={`font-style: ${style.fontStyle};`}
+            label={t('type.fontHover.weight')}
+            value={style.fontWeight}
+            copyValue={`font-weight: ${style.fontWeight};`}
           />
-        ) : null}
-        {color ? (
           <CopyRow
-            label={t('type.fontHover.color')}
-            value={formatColor(color, colorFormat)}
-            leading={<Swatch color={toHex(color)} />}
+            label={t('type.fontHover.size')}
+            value={formatLength(fontSize, unit)}
+            copyValue={`font-size: ${formatLength(fontSize, unit)};`}
           />
-        ) : null}
+          <CopyRow
+            label={t('type.fontHover.lineHeight')}
+            value={lineHeightLabel(style.lineHeight, fontSize, unit)}
+            copyValue={`line-height: ${style.lineHeight};`}
+          />
+          <CopyRow
+            label={t('type.fontHover.letterSpacing')}
+            value={letterSpacing}
+            copyValue={`letter-spacing: ${style.letterSpacing};`}
+          />
+          <CopyRow
+            label={t('type.fontHover.transform')}
+            value={style.textTransform}
+            copyValue={`text-transform: ${style.textTransform};`}
+          />
+          {style.fontStyle !== 'normal' ? (
+            <CopyRow
+              label={t('type.fontHover.style')}
+              value={style.fontStyle}
+              copyValue={`font-style: ${style.fontStyle};`}
+            />
+          ) : null}
+          {color ? (
+            <CopyRow
+              label={t('type.fontHover.color')}
+              value={formatColor(color, colorFormat)}
+              leading={<Swatch color={toHex(color)} />}
+            />
+          ) : null}
+        </Card>
       </PanelSection>
-      <div className="ni-tool-pad">
-        <button type="button" className="ni-button" onClick={() => void copyText(cssBlock, 'CSS')}>
+      <div className="ni-actions">
+        <button
+          type="button"
+          className="ni-button ni-button--primary"
+          onClick={() => void copyText(cssBlock, 'CSS')}
+        >
           {t('type.fontHover.copyCss')}
         </button>
       </div>

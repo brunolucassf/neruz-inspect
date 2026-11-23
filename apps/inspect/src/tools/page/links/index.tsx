@@ -3,10 +3,9 @@ import { useEffect, useRef, useState } from 'react';
 import { downloadText } from '../../../lib/download';
 import { useT } from '../../../lib/i18n';
 import { toast } from '../../../lib/toast';
-import { Badge, EmptyState, PanelSection } from '../../../ui';
+import { Badge, Card, EmptyState, FilterChips, PanelSection, Tile, Tiles } from '../../../ui';
 import type { ToolModule } from '../../types';
 import { Alert } from '../shared/Alert';
-import { ChipGroup } from '../shared/ChipGroup';
 import { runPool } from '../shared/concurrency';
 import { isSameOrigin, readStatus } from '../shared/readers';
 import { ScanView } from '../shared/ScanView';
@@ -89,7 +88,7 @@ const LinkRow = ({
         <span className="ni-pg-row__sub" title={item.url}>
           {item.rawHref}
         </span>
-        <span className="ni-pg-inline">
+        <span className="ni-pg-inline ni-pg-row__flags">
           {item.rel.nofollow ? <Badge>nofollow</Badge> : null}
           {item.rel.sponsored ? <Badge>sponsored</Badge> : null}
           {item.rel.ugc ? <Badge>ugc</Badge> : null}
@@ -156,22 +155,17 @@ const LinksView = ({ items, truncated }: { items: LinkItem[]; truncated: boolean
 
   return (
     <>
-      <PanelSection
-        title={t('page.links.section.summary', { n: items.length })}
-        actions={
-          <button type="button" className="ni-button" onClick={exportCsv}>
-            <Download size={12} aria-hidden="true" /> CSV
-          </button>
-        }
-      >
-        <div className="ni-pg-inline">
-          <Badge>{t('page.links.count.internal', { n: counts.internal })}</Badge>
-          <Badge tone="accent">{t('page.links.count.external', { n: counts.external })}</Badge>
-          <Badge tone={counts.problems > 0 ? 'danger' : 'success'}>
-            {t('page.links.count.problems', { n: counts.problems })}
-          </Badge>
-        </div>
-        {truncated ? <p className="ni-pg-muted">{t('page.links.truncated')}</p> : null}
+      <Tiles columns={3}>
+        <Tile label={t('page.links.filter.internal')} value={counts.internal} />
+        <Tile label={t('page.links.filter.external')} value={counts.external} />
+        <Tile
+          label={t('page.links.filter.problems')}
+          value={counts.problems}
+          tone={counts.problems > 0 ? 'danger' : 'success'}
+        />
+      </Tiles>
+      {truncated ? <p className="ni-hint">{t('page.links.truncated')}</p> : null}
+      <div className="ni-actions">
         <button
           type="button"
           className="ni-button ni-button--primary"
@@ -180,80 +174,83 @@ const LinksView = ({ items, truncated }: { items: LinkItem[]; truncated: boolean
         >
           {t(checking ? 'page.links.checking' : 'page.links.check', { n: targets.length })}
         </button>
-        {totalCheckable > MAX_CHECKED_LINKS ? (
-          <p className="ni-pg-muted">{t('page.links.limit', { max: MAX_CHECKED_LINKS })}</p>
-        ) : null}
-        {progress ? (
-          <>
+        <button type="button" className="ni-button" onClick={exportCsv}>
+          <Download size={12} aria-hidden="true" /> CSV
+        </button>
+      </div>
+      {totalCheckable > MAX_CHECKED_LINKS ? (
+        <p className="ni-hint">{t('page.links.limit', { max: MAX_CHECKED_LINKS })}</p>
+      ) : null}
+      {progress ? (
+        <div className="ni-pg-stack">
+          <div
+            className="ni-pg-progress"
+            role="progressbar"
+            aria-valuemin={0}
+            aria-valuemax={progress.total}
+            aria-valuenow={progress.done}
+            aria-label={t('page.links.progress', { done: progress.done, total: progress.total })}
+          >
             <div
-              className="ni-pg-progress"
-              role="progressbar"
-              aria-valuemin={0}
-              aria-valuemax={progress.total}
-              aria-valuenow={progress.done}
-              aria-label={t('page.links.progress', { done: progress.done, total: progress.total })}
-            >
-              <div
-                className="ni-pg-progress__bar"
-                style={{ width: `${(progress.done / Math.max(progress.total, 1)) * 100}%` }}
-              />
-            </div>
-            <p className="ni-pg-muted" aria-live="polite">
-              {t('page.links.progress', { done: progress.done, total: progress.total })}
-            </p>
-          </>
-        ) : null}
-        {crossOriginFailures > 0 && !checking ? (
+              className="ni-pg-progress__bar"
+              style={{ width: `${(progress.done / Math.max(progress.total, 1)) * 100}%` }}
+            />
+          </div>
+          <p className="ni-hint" aria-live="polite">
+            {t('page.links.progress', { done: progress.done, total: progress.total })}
+          </p>
+        </div>
+      ) : null}
+      {crossOriginFailures > 0 && !checking ? (
+        <Card variant="rows">
           <Alert
             severity="warning"
             message={t('page.links.permissionHint', { n: crossOriginFailures })}
           />
-        ) : null}
-        {items.some((item) => item.kind === 'external' && !isSameOrigin(item.url)) ? (
-          <p className="ni-pg-muted">{t('page.links.permissionNote')}</p>
-        ) : null}
-      </PanelSection>
-      <ChipGroup label={t('page.links.filter')}>
-        {FILTERS.map((entry) => (
-          <button
-            key={entry}
-            type="button"
-            className="ni-pg-chip"
-            aria-pressed={filter === entry}
-            onClick={() => {
-              setFilter(entry);
-              setVisible(PAGE_SIZE);
-            }}
-          >
-            {t(`page.links.filter.${entry}`)}
-          </button>
-        ))}
-      </ChipGroup>
-      <div className="ni-pg-pad">
-        {filtered.length === 0 ? (
-          <EmptyState title={t('page.links.empty')} />
-        ) : (
-          filtered
-            .slice(0, visible)
-            .map((item) => (
+        </Card>
+      ) : null}
+      {items.some((item) => item.kind === 'external' && !isSameOrigin(item.url)) ? (
+        <p className="ni-hint">{t('page.links.permissionNote')}</p>
+      ) : null}
+      <FilterChips
+        label={t('page.links.filter')}
+        items={FILTERS.map((entry) => ({
+          id: entry,
+          label: t(`page.links.filter.${entry}`),
+          count: items.filter((item) => matchesFilter(item, entry, statuses)).length,
+          isWarning: entry === 'problems',
+        }))}
+        value={filter}
+        onChange={(entry) => {
+          setFilter(entry);
+          setVisible(PAGE_SIZE);
+        }}
+      />
+      {filtered.length === 0 ? (
+        <EmptyState title={t('page.links.empty')} />
+      ) : (
+        <PanelSection title={t('page.links.section.summary')} count={filtered.length}>
+          <Card variant="rows">
+            {filtered.slice(0, visible).map((item) => (
               <LinkRow
                 key={item.id}
                 item={item}
                 status={statuses.get(stripHash(item.url))}
                 onSelect={(selected) => focus(selected.element, selected.kind)}
               />
-            ))
-        )}
-        {filtered.length > visible ? (
-          <button
-            type="button"
-            className="ni-button"
-            onClick={() => setVisible((n) => n + PAGE_SIZE)}
-          >
-            {t('page.common.showMore', { n: filtered.length - visible })}
-          </button>
-        ) : null}
-      </div>
+            ))}
+          </Card>
+          {filtered.length > visible ? (
+            <button
+              type="button"
+              className="ni-button"
+              onClick={() => setVisible((n) => n + PAGE_SIZE)}
+            >
+              {t('page.common.showMore', { n: filtered.length - visible })}
+            </button>
+          ) : null}
+        </PanelSection>
+      )}
     </>
   );
 };

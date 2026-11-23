@@ -1,7 +1,8 @@
 import { SwatchBook } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useT } from '../../../lib/i18n';
-import { CopyRow, EmptyState, PanelSection, Swatch, Tabs } from '../../../ui';
+import { Card, CopyRow, EmptyState, PanelSection, Swatch, Tabs } from '../../../ui';
+import { PanelActions } from '../../../ui/PanelSlots';
 import type { ToolModule } from '../../types';
 import { CodeBlock } from '../shared/CodeBlock';
 import { MAX_SCANNED_ELEMENTS, type ScanHandle, scanPage } from './scan';
@@ -31,100 +32,126 @@ const TokensPreview = ({ tokens }: { tokens: DesignTokens }) => {
   return (
     <>
       {tokens.colors.length > 0 ? (
-        <PanelSection title={t('code.designTokens.section.colors')}>
-          {tokens.colors.map((color) => (
-            <CopyRow
-              key={color.name}
-              label={color.name}
-              value={color.hex}
-              leading={<Swatch color={color.hex} size={16} />}
-            />
-          ))}
+        <PanelSection title={t('code.designTokens.section.colors')} count={tokens.colors.length}>
+          <Card variant="rows">
+            {tokens.colors.map((color) => (
+              <CopyRow
+                key={color.name}
+                label={color.name}
+                value={color.hex}
+                leading={<Swatch color={color.hex} size={16} />}
+              />
+            ))}
+          </Card>
         </PanelSection>
       ) : null}
       {tokens.fontFamilies.length > 0 ? (
-        <PanelSection title={t('code.designTokens.section.fonts')}>
+        <PanelSection
+          title={t('code.designTokens.section.fonts')}
+          count={tokens.fontFamilies.length}
+        >
           {tokens.fontFamilies.map((family) => (
-            <div key={family.name} className="ni-token-font">
-              <span className="ni-token-font__sample" style={{ fontFamily: family.stack }}>
-                Aa Bb Cc 123
-              </span>
+            <Card key={family.name} variant="rows">
+              <div className="ni-token-sample">
+                <span className="ni-token-sample__text" style={{ fontFamily: family.stack }}>
+                  Aa Bb Cc 123
+                </span>
+              </div>
               <CopyRow label={family.name} value={family.stack} />
-            </div>
+            </Card>
           ))}
         </PanelSection>
       ) : null}
       {tokens.typeScale.length > 0 ? (
-        <PanelSection title={t('code.designTokens.section.type')}>
+        <PanelSection title={t('code.designTokens.section.type')} count={tokens.typeScale.length}>
           {tokens.typeScale.map((step) => (
-            <div key={step.name} className="ni-token-type">
-              <span
-                className="ni-token-type__sample"
-                style={{
-                  fontSize: Math.min(step.px, 40),
-                  fontFamily: tokens.fontFamilies[0]?.stack,
-                }}
-              >
-                Aa
-              </span>
+            <Card key={step.name} variant="rows">
+              <div className="ni-token-sample">
+                <span
+                  className="ni-token-sample__text"
+                  style={{
+                    fontSize: Math.min(step.px, 40),
+                    lineHeight: 1.1,
+                    fontFamily: tokens.fontFamilies[0]?.stack,
+                  }}
+                >
+                  Aa
+                </span>
+              </div>
               <CopyRow label={step.name} value={formatPx(step.px)} />
-            </div>
+            </Card>
           ))}
         </PanelSection>
       ) : null}
       {tokens.spacing.length > 0 ? (
-        <PanelSection title={t('code.designTokens.section.spacing')}>
+        <PanelSection title={t('code.designTokens.section.spacing')} count={tokens.spacing.length}>
           {tokens.spacing.map((step) => (
-            <div key={step.name} className="ni-token-bar">
-              <span
-                className="ni-token-bar__fill"
-                style={{ width: `${Math.max(2, (step.px / maxSpacing) * 100)}%` }}
-              />
+            <Card key={step.name} variant="rows">
+              <div className="ni-token-sample">
+                <span
+                  className="ni-token-bar__fill"
+                  style={{ width: `${Math.max(2, (step.px / maxSpacing) * 100)}%` }}
+                />
+              </div>
               <CopyRow label={step.name} value={formatPx(step.px)} />
-            </div>
+            </Card>
           ))}
         </PanelSection>
       ) : null}
       {tokens.radii.length > 0 ? (
-        <PanelSection title={t('code.designTokens.section.radii')}>
+        <PanelSection title={t('code.designTokens.section.radii')} count={tokens.radii.length}>
           {tokens.radii.map((step) => (
-            <div key={step.name} className="ni-token-radius">
-              <span
-                className="ni-token-radius__box"
-                style={{ borderRadius: Math.min(step.px, 20) }}
-                aria-hidden="true"
-              />
+            <Card key={step.name} variant="rows">
+              <div className="ni-token-sample">
+                <span
+                  className="ni-token-radius__box"
+                  style={{ borderRadius: Math.min(step.px, 20) }}
+                  aria-hidden="true"
+                />
+              </div>
               <CopyRow label={step.name} value={formatPx(step.px)} />
-            </div>
+            </Card>
           ))}
         </PanelSection>
       ) : null}
       {tokens.shadows.length > 0 ? (
-        <PanelSection title={t('code.designTokens.section.shadows')}>
+        <PanelSection title={t('code.designTokens.section.shadows')} count={tokens.shadows.length}>
           {tokens.shadows.map((item) => (
-            <div key={item.name} className="ni-token-shadow">
-              <span
-                className="ni-token-shadow__box"
-                style={{ boxShadow: item.value }}
-                aria-hidden="true"
-              />
+            <Card key={item.name} variant="rows">
+              <div className="ni-token-sample">
+                <span
+                  className="ni-token-shadow__box"
+                  style={{ boxShadow: item.value, borderRadius: 6 }}
+                  aria-hidden="true"
+                />
+              </div>
               <CopyRow label={item.name} value={item.value} />
-            </div>
+            </Card>
           ))}
         </PanelSection>
       ) : null}
       {tokens.breakpoints.length > 0 ? (
-        <PanelSection title={t('code.designTokens.section.breakpoints')}>
-          {tokens.breakpoints.map((step) => (
-            <CopyRow key={step.name} label={step.name} value={formatPx(step.px)} />
-          ))}
+        <PanelSection
+          title={t('code.designTokens.section.breakpoints')}
+          count={tokens.breakpoints.length}
+        >
+          <Card variant="rows">
+            {tokens.breakpoints.map((step) => (
+              <CopyRow key={step.name} label={step.name} value={formatPx(step.px)} />
+            ))}
+          </Card>
         </PanelSection>
       ) : null}
       {tokens.containers.length > 0 ? (
-        <PanelSection title={t('code.designTokens.section.containers')}>
-          {tokens.containers.map((step) => (
-            <CopyRow key={step.name} label={step.name} value={formatPx(step.px)} />
-          ))}
+        <PanelSection
+          title={t('code.designTokens.section.containers')}
+          count={tokens.containers.length}
+        >
+          <Card variant="rows">
+            {tokens.containers.map((step) => (
+              <CopyRow key={step.name} label={step.name} value={formatPx(step.px)} />
+            ))}
+          </Card>
         </PanelSection>
       ) : null}
     </>
@@ -212,18 +239,16 @@ const DesignTokensPanel = () => {
 
   return (
     <>
-      <div className="ni-stack">
-        <div className="ni-row">
-          <button type="button" className="ni-button" onClick={startScan}>
-            {t('code.designTokens.scanAgain')}
-          </button>
-        </div>
-        {limited ? (
-          <p className="ni-note ni-note--warning" role="status">
-            {t('code.designTokens.limited', { n: MAX_SCANNED_ELEMENTS })}
-          </p>
-        ) : null}
-      </div>
+      <PanelActions>
+        <button type="button" className="ni-button ni-button--sm" onClick={startScan}>
+          {t('code.designTokens.scanAgain')}
+        </button>
+      </PanelActions>
+      {limited ? (
+        <p className="ni-cd-note ni-cd-note--warning" role="status">
+          {t('code.designTokens.limited', { n: MAX_SCANNED_ELEMENTS })}
+        </p>
+      ) : null}
       <TokensPreview tokens={tokens} />
       <PanelSection title={t('code.designTokens.section.export')}>
         <Tabs
@@ -236,7 +261,7 @@ const DesignTokensPanel = () => {
             { id: 'json', label: 'JSON' },
           ]}
         >
-          <div className="ni-stack">
+          <div className="ni-cd-stack">
             {exportTab === 'css' ? (
               <CodeBlock
                 code={toCssVariables(tokens)}

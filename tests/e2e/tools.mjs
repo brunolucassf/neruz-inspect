@@ -1,5 +1,4 @@
 // Ação principal de cada ferramenta. Cada função recebe o contexto e lança Error se algo estiver errado.
-import { Buffer } from 'node:buffer';
 
 export const TOOL_LAYOUT = {
   color: ['eyedropper', 'palette', 'contrast', 'colorTools', 'gradientShadow', 'colorblind'],
@@ -28,10 +27,6 @@ export const TOOL_LAYOUT = {
   ],
   utils: ['units', 'lorem', 'formFill', 'qrCode', 'clipboardHistory'],
 };
-
-  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
-  'base64',
-);
 
 const need = (condition, message) => {
   if (!condition) throw new Error(message);
@@ -63,7 +58,7 @@ export const ACTIONS = {
       await page.locator('neruz-inspect .ni-hl').count(),
       'selecionar a cor não destacou os usos na página',
     );
-    need(/CORES \(\d+\)/i.test(await text()), 'contagem de cores ausente');
+    need(/CORES · \d+/i.test(await text()), 'contagem de cores ausente');
     await panel
       .getByRole('button', { name: /^Copiar/ })
       .last()
@@ -106,7 +101,7 @@ export const ACTIONS = {
     await waitText(/Playfair/i, 'fonte do h1 (Playfair Display) não identificada');
   },
   async fontList({ panel, page, waitText }) {
-    await waitText(/FONTES \(\d+\)/i, 'lista de fontes não apareceu');
+    await waitText(/FONTES · \d+/i, 'lista de fontes não apareceu');
     await panel.locator('button', { hasText: 'LocalSerif' }).first().click();
     await page.waitForTimeout(500);
   },
@@ -128,7 +123,7 @@ export const ACTIONS = {
     );
   },
   async typeScale({ panel, text, waitText }) {
-    await waitText(/TAMANHOS \(\d+\)/i, 'tamanhos não listados');
+    await waitText(/TAMANHOS · \d+/i, 'tamanhos não listados');
     await panel.getByText('Tailwind fontSize').first().click();
     need(/fontSize|text-/.test(await text()), 'export Tailwind não apareceu');
   },
@@ -152,7 +147,7 @@ export const ACTIONS = {
     need(/16/.test(await text()), 'padding 16 do card não aparece');
   },
   async gridFlex({ panel, page, text }) {
-    await panel.getByText('Grid', { exact: true }).first().click();
+    await panel.getByRole('button', { name: /^Grid\s*\d*$/ }).first().click();
     await panel.locator('button', { hasText: 'section#cards' }).first().click();
     await page.waitForTimeout(500);
     need(/section#cards/.test(await text()), 'container grid não listado');
@@ -303,7 +298,7 @@ export const ACTIONS = {
   async assets({ panel, page, text }) {
     need(/big\.png/.test(await text()), 'big.png não listada');
     need(/sem width e height/.test(await text()), 'alerta "sem width e height" ausente');
-    await panel.getByRole('button', { name: 'Imagens', exact: true }).click();
+    await panel.getByRole('button', { name: /^Imagens\s*\d*$/ }).click();
     await page.waitForTimeout(300);
     const download = page.waitForEvent('download', { timeout: 4000 }).catch(() => null);
     await panel.getByRole('button', { name: /Baixar \d+ SVG/ }).click();
@@ -313,7 +308,7 @@ export const ACTIONS = {
       : 'clique em baixar SVGs não gerou download';
   },
   async icons({ panel, page, text }) {
-    need(/FAVICONS \(1\)/i.test(await text()), 'favicon não listado');
+    need(/FAVICONS · 1/i.test(await text()), 'favicon não listado');
     await panel.getByRole('button', { name: 'Copiar SVG de estrela' }).click();
     await page.waitForTimeout(300);
     await panel.getByRole('button', { name: 'Destacar na página' }).first().click();

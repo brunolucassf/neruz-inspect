@@ -219,7 +219,13 @@ export type PlatformReport = {
 
 export type LayerReport = { name: string; total: number; entries: LayerEntry[] };
 
-export type TagsAnalysis = { platforms: PlatformReport[]; layers: LayerReport[] };
+export type MissingPlatform = { id: PlatformId; name: string };
+
+export type TagsAnalysis = {
+  platforms: PlatformReport[];
+  missing: MissingPlatform[];
+  layers: LayerReport[];
+};
 
 export type ParsedHit = { platform: PlatformId; id: string | undefined; event: string | undefined };
 
@@ -388,6 +394,7 @@ export const analyzeTags = (result: TagsProbeResult): TagsAnalysis => {
   }
 
   const platforms: PlatformReport[] = [];
+  const missing: MissingPlatform[] = [];
   for (const platform of PLATFORMS) {
     const collector = collectorOf(platform.id);
     const hitTotal = [...collector.events.values()].reduce((sum, event) => sum + event.count, 0);
@@ -397,7 +404,10 @@ export const analyzeTags = (result: TagsProbeResult): TagsAnalysis => {
       collector.scriptLoaded ||
       collector.declared ||
       hitTotal > 0;
-    if (!found) continue;
+    if (!found) {
+      missing.push({ id: platform.id, name: platform.name });
+      continue;
+    }
     const loaded = collector.scriptLoaded || hitTotal > 0 || collector.loadedByGlobal;
     platforms.push({
       id: platform.id,
@@ -411,6 +421,7 @@ export const analyzeTags = (result: TagsProbeResult): TagsAnalysis => {
 
   return {
     platforms,
+    missing,
     layers: result.layers.map((layer) => ({
       name: layer.name,
       total: layer.total,

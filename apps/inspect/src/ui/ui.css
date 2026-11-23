@@ -74,6 +74,13 @@
   color: var(--ni-text-2);
 }
 
+.ni-section__actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
 .ni-section__body {
   display: grid;
   gap: 8px;
@@ -234,6 +241,8 @@
 }
 
 .ni-tile {
+  display: flex;
+  flex-direction: column;
   padding: 10px 12px 11px;
   background: var(--ni-surface-1);
   border-radius: var(--ni-radius-control);
@@ -248,18 +257,37 @@
   gap: 6px;
   color: var(--ni-text-3);
   font: 600 11px / 16px var(--ni-font-ui);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
+  hyphens: auto;
 }
 
 .ni-tile__value {
-  margin-top: 4px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 4px;
   overflow: hidden;
   color: var(--ni-text);
   font: 500 var(--ni-fs-stat) / 28px var(--ni-font-mono);
   letter-spacing: -0.02em;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.ni-tile__value > svg {
+  flex-shrink: 0;
+}
+
+.ni-tiles[style*="--cols: 3"] .ni-tile {
+  padding-inline: 10px;
+}
+
+.ni-tiles[style*="--cols: 3"] .ni-tile__label {
+  font-size: 12px;
+  letter-spacing: 0;
+  text-transform: none;
 }
 
 .ni-tile__value small {

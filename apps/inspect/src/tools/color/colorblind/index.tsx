@@ -1,7 +1,7 @@
 import { Eye } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useT } from '../../../lib/i18n';
-import { PanelSection } from '../../../ui';
+import { FilterChips, PanelSection } from '../../../ui';
 import type { ToolModule } from '../../types';
 import '../shared/tools.css';
 import { applyVisionMode, VISION_MODES, type VisionMode } from './colorblind';
@@ -25,20 +25,12 @@ const ColorblindPanel = () => {
   return (
     <>
       <PanelSection title={t('color.colorblind.section.mode')}>
-        <fieldset className="ni-segments">
-          <legend className="ni-visually-hidden">{t('color.colorblind.section.mode')}</legend>
-          {CHOICES.map((item) => (
-            <button
-              key={item}
-              type="button"
-              className="ni-segment"
-              aria-pressed={item === choice}
-              onClick={() => setChoice(item)}
-            >
-              {t(`color.colorblind.mode.${item}`)}
-            </button>
-          ))}
-        </fieldset>
+        <FilterChips
+          label={t('color.colorblind.section.mode')}
+          items={CHOICES.map((id) => ({ id, label: t(`color.colorblind.mode.${id}`) }))}
+          value={choice}
+          onChange={setChoice}
+        />
         <p className="ni-hint" aria-live="polite">
           {t(`color.colorblind.desc.${choice}`)}
         </p>

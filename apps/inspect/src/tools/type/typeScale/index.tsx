@@ -6,7 +6,7 @@ import { downloadText } from '../../../lib/download';
 import { useHighlights, useViewportVersion } from '../../../lib/highlight';
 import { useT } from '../../../lib/i18n';
 import { useSettingsStore } from '../../../lib/settings';
-import { Badge, EmptyState, PanelSection, Tabs } from '../../../ui';
+import { Badge, Card, EmptyState, PanelSection, Tabs, Tile, Tiles } from '../../../ui';
 import { buildElementHighlights, revealFirstOffscreen } from '../../color/shared/ElementHighlights';
 import { scanElements } from '../../color/shared/scan';
 import '../../color/shared/tools.css';
@@ -74,7 +74,7 @@ const TypeScalePanel = () => {
   };
 
   const rescanButton = (
-    <button type="button" className="ni-button" onClick={rescan}>
+    <button type="button" className="ni-button ni-button--sm" onClick={rescan}>
       {t('type.typeScale.rescan')}
     </button>
   );
@@ -124,41 +124,46 @@ const TypeScalePanel = () => {
   return (
     <>
       {state.truncated ? <p className="ni-notice">{t('type.typeScale.limit')}</p> : null}
+      <Tiles columns={3}>
+        <Tile label={t('type.typeScale.tile.sizes')} value={sizes.length} />
+        <Tile label={t('type.typeScale.tile.ratio')} value={detection ? detection.ratio : '—'} />
+        <Tile
+          label={t('type.typeScale.tile.base')}
+          value={detection ? formatLength(detection.base, unit) : '—'}
+        />
+      </Tiles>
       <PanelSection title={t('type.typeScale.section.scale')} actions={rescanButton}>
         <p className="ni-hint" aria-live="polite">
           {scaleSummary}
         </p>
-        {detection ? (
-          <p className="ni-hint">
-            {t('type.typeScale.base', { size: formatLength(detection.base, unit) })}
-          </p>
-        ) : null}
       </PanelSection>
-      <PanelSection title={t('type.typeScale.section.sizes', { n: sizes.length })}>
-        {sizes.map((entry) => (
-          <button
-            key={entry.size}
-            type="button"
-            className="ni-listbtn"
-            aria-pressed={entry.size === selectedSize}
-            onClick={() => select(entry)}
-          >
-            <span
-              className="ni-sample-text"
-              style={{ fontSize: Math.min(entry.size, SAMPLE_MAX_PX), lineHeight: 1.1 }}
-              aria-hidden="true"
+      <PanelSection title={t('type.typeScale.section.sizes')} count={sizes.length}>
+        <Card variant="rows">
+          {sizes.map((entry) => (
+            <button
+              key={entry.size}
+              type="button"
+              className="ni-listbtn"
+              aria-pressed={entry.size === selectedSize}
+              onClick={() => select(entry)}
             >
-              Aa
-            </span>
-            <span className="ni-listbtn__main">
-              <span className="ni-listbtn__title">{formatLength(entry.size, unit)}</span>
-              <span className="ni-listbtn__sub">
-                {entry.tags.map((tag) => `<${tag}>`).join(' ')}
+              <span
+                className="ni-sample-text"
+                style={{ fontSize: Math.min(entry.size, SAMPLE_MAX_PX), lineHeight: 1.1 }}
+                aria-hidden="true"
+              >
+                Aa
               </span>
-            </span>
-            <Badge tone={entry.size === selectedSize ? 'accent' : 'neutral'}>{entry.count}</Badge>
-          </button>
-        ))}
+              <span className="ni-listbtn__main">
+                <span className="ni-listbtn__title">{formatLength(entry.size, unit)}</span>
+                <span className="ni-listbtn__sub">
+                  {entry.tags.map((tag) => `<${tag}>`).join(' ')}
+                </span>
+              </span>
+              <Badge tone={entry.size === selectedSize ? 'accent' : 'neutral'}>{entry.count}</Badge>
+            </button>
+          ))}
+        </Card>
       </PanelSection>
       <PanelSection title={t('type.typeScale.section.export')}>
         <Tabs
@@ -168,10 +173,10 @@ const TypeScalePanel = () => {
           onChange={setFormat}
         >
           <pre className="ni-code">{tokens}</pre>
-          <div className="ni-tool-actions">
+          <div className="ni-actions">
             <button
               type="button"
-              className="ni-button"
+              className="ni-button ni-button--primary"
               onClick={() => void copyText(tokens, t(`type.typeScale.export.${format}`))}
             >
               {t('type.typeScale.copy')}

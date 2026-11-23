@@ -24,11 +24,9 @@ export const Tiles = ({ columns = 2, className, children }: TilesProps) => (
 
 export const Tile = ({ label, value, unit, icon, tone }: TileProps) => (
   <div className={cx('ni-tile', tone && `ni-tile--${tone}`)}>
-    <div className="ni-tile__label">
-      {icon}
-      {label}
-    </div>
+    <div className="ni-tile__label">{label}</div>
     <div className="ni-tile__value">
+      {icon}
       {value}
       {unit ? <small>{unit}</small> : null}
     </div>

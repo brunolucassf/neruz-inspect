@@ -1,10 +1,10 @@
 import { Wand } from 'lucide-react';
-import { useId, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { copyText } from '../../../lib/clipboard';
 import { nearestTailwind, parseCssColor, toHex } from '../../../lib/color';
 import { downloadText } from '../../../lib/download';
 import { useT } from '../../../lib/i18n';
-import { CopyRow, EmptyState, PanelSection, Swatch, Tabs } from '../../../ui';
+import { Card, CopyRow, EmptyState, PanelSection, Swatch, Tabs } from '../../../ui';
 import type { ToolModule } from '../../types';
 import { ColorReadout } from '../shared/ColorReadout';
 import {
@@ -39,7 +39,6 @@ const SCALE_FILES: Readonly<Record<ScaleFormat, { name: string; mime: string }>>
 
 const ColorToolsPanel = () => {
   const t = useT();
-  const fieldId = useId();
   const [text, setText] = useState(DEFAULT_COLOR);
   const [scaleFormat, setScaleFormat] = useState<ScaleFormat>('css');
   const color = useMemo(() => parseCssColor(text), [text]);
@@ -56,14 +55,11 @@ const ColorToolsPanel = () => {
 
   return (
     <>
-      <div className="ni-tool-pad">
-        <label htmlFor={fieldId} className="ni-hint">
-          {t('color.colorTools.input.label')}
-        </label>
+      <PanelSection title={t('color.colorTools.input.label')}>
         <div className="ni-field-row">
           <input
-            id={fieldId}
-            className="ni-field"
+            aria-label={t('color.colorTools.input.label')}
+            className="ni-input"
             type="text"
             value={text}
             spellCheck={false}
@@ -80,7 +76,7 @@ const ColorToolsPanel = () => {
             onChange={(event) => setText(event.target.value)}
           />
         </div>
-      </div>
+      </PanelSection>
       {!color || !nearest ? (
         <EmptyState
           kind="error"
@@ -93,24 +89,28 @@ const ColorToolsPanel = () => {
             <ColorReadout color={color} />
           </PanelSection>
           <PanelSection title={t('color.colorTools.section.tailwind')}>
-            <CopyRow
-              label={t('color.colorTools.nearest')}
-              value={nearest.name}
-              leading={<Swatch color={nearest.hex} />}
-            />
-            <CopyRow label={t('color.colorTools.nearestHex')} value={nearest.hex} />
-            <CopyRow label={t('color.colorTools.distance')} value={String(nearest.distance)} />
+            <Card variant="rows">
+              <CopyRow
+                label={t('color.colorTools.nearest')}
+                value={nearest.name}
+                leading={<Swatch color={nearest.hex} />}
+              />
+              <CopyRow label={t('color.colorTools.nearestHex')} value={nearest.hex} />
+              <CopyRow label={t('color.colorTools.distance')} value={String(nearest.distance)} />
+            </Card>
           </PanelSection>
           {harmonies.map((harmony) => (
             <PanelSection key={harmony.id} title={t(`color.colorTools.harmony.${harmony.id}`)}>
-              {harmony.colors.map((harmonyColor, index) => (
-                <CopyRow
-                  key={`${harmony.id}-${HARMONY_LABELS[harmony.id][index]}`}
-                  label={HARMONY_LABELS[harmony.id][index] ?? ''}
-                  value={toHex(harmonyColor)}
-                  leading={<Swatch color={toHex(harmonyColor)} />}
-                />
-              ))}
+              <Card variant="rows">
+                {harmony.colors.map((harmonyColor, index) => (
+                  <CopyRow
+                    key={`${harmony.id}-${HARMONY_LABELS[harmony.id][index]}`}
+                    label={HARMONY_LABELS[harmony.id][index] ?? ''}
+                    value={toHex(harmonyColor)}
+                    leading={<Swatch color={toHex(harmonyColor)} />}
+                  />
+                ))}
+              </Card>
             </PanelSection>
           ))}
           <PanelSection title={t('color.colorTools.section.scale')}>
@@ -135,10 +135,10 @@ const ColorToolsPanel = () => {
               onChange={setScaleFormat}
             >
               <pre className="ni-code">{scaleText}</pre>
-              <div className="ni-tool-actions">
+              <div className="ni-actions">
                 <button
                   type="button"
-                  className="ni-button"
+                  className="ni-button ni-button--primary"
                   onClick={() =>
                     void copyText(scaleText, t(`color.colorTools.scale.${scaleFormat}`))
                   }

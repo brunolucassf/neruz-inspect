@@ -9,8 +9,10 @@ import {
 import { useT } from '../../../lib/i18n';
 import { getElementLabel, useElementPicker } from '../../../lib/picker';
 import { useSettingsStore } from '../../../lib/settings';
-import { CopyRow, EmptyState, PanelSection } from '../../../ui';
+import { Card, CopyRow, EmptyState, PanelSection, Tile, Tiles } from '../../../ui';
 import type { ToolModule } from '../../types';
+import { ElementMeta } from '../shared/ElementMeta';
+import { splitLength } from '../shared/splitLength';
 import { BoxDiagram } from './BoxDiagram';
 import { type BoxMetrics, formatEdges, formatRadius, formatSize, readBoxMetrics } from './boxModel';
 
@@ -52,8 +54,12 @@ const BoxModelPanel = () => {
   const border = formatEdges(metrics.border, unit);
   const radius = formatRadius(metrics.radius, unit);
 
+  const width = splitLength(formatLength(metrics.width, unit));
+  const height = splitLength(formatLength(metrics.height, unit));
+
   return (
     <>
+      <ElementMeta element={target} isLocked={locked !== null} />
       <BoxDiagram
         label={t('layout.boxModel.diagram')}
         margin={metrics.margin}
@@ -63,45 +69,43 @@ const BoxModelPanel = () => {
         {formatSize(metrics.rects.content.width, metrics.rects.content.height)}
       </BoxDiagram>
       <PanelSection title={t('layout.boxModel.section.size')}>
-        <CopyRow
-          label={t('layout.boxModel.width')}
-          value={formatLength(metrics.width, unit)}
-          copyValue={`width: ${formatLength(metrics.width, unit)};`}
-        />
-        <CopyRow
-          label={t('layout.boxModel.height')}
-          value={formatLength(metrics.height, unit)}
-          copyValue={`height: ${formatLength(metrics.height, unit)};`}
-        />
+        <Tiles>
+          <Tile label={t('layout.boxModel.width')} value={width.value} unit={width.unit} />
+          <Tile label={t('layout.boxModel.height')} value={height.value} unit={height.unit} />
+        </Tiles>
       </PanelSection>
       <PanelSection title={t('layout.boxModel.section.spacing')}>
-        <CopyRow
-          label={t('layout.boxModel.margin')}
-          value={margin}
-          copyValue={`margin: ${margin};`}
-        />
-        <CopyRow
-          label={t('layout.boxModel.padding')}
-          value={padding}
-          copyValue={`padding: ${padding};`}
-        />
+        <Card variant="rows">
+          <CopyRow
+            label={t('layout.boxModel.margin')}
+            value={margin}
+            copyValue={`margin: ${margin};`}
+          />
+          <CopyRow
+            label={t('layout.boxModel.padding')}
+            value={padding}
+            copyValue={`padding: ${padding};`}
+          />
+        </Card>
       </PanelSection>
       <PanelSection title={t('layout.boxModel.section.box')}>
-        <CopyRow
-          label={t('layout.boxModel.border')}
-          value={border}
-          copyValue={`border-width: ${border};`}
-        />
-        <CopyRow
-          label={t('layout.boxModel.radius')}
-          value={radius}
-          copyValue={`border-radius: ${radius};`}
-        />
-        <CopyRow
-          label={t('layout.boxModel.display')}
-          value={metrics.display}
-          copyValue={`display: ${metrics.display};`}
-        />
+        <Card variant="rows">
+          <CopyRow
+            label={t('layout.boxModel.border')}
+            value={border}
+            copyValue={`border-width: ${border};`}
+          />
+          <CopyRow
+            label={t('layout.boxModel.radius')}
+            value={radius}
+            copyValue={`border-radius: ${radius};`}
+          />
+          <CopyRow
+            label={t('layout.boxModel.display')}
+            value={metrics.display}
+            copyValue={`display: ${metrics.display};`}
+          />
+        </Card>
       </PanelSection>
       <p className="ni-hint">{t(locked ? 'core.picker.locked' : 'core.picker.hint')}</p>
     </>

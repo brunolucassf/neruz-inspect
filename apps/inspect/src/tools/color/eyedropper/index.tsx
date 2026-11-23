@@ -93,7 +93,7 @@ const EyedropperPanel = () => {
 
   return (
     <>
-      <div className="ni-tool-pad">
+      <div className="ni-actions">
         <button
           type="button"
           className="ni-button ni-button--primary"
@@ -102,8 +102,8 @@ const EyedropperPanel = () => {
         >
           {t(busy ? 'color.eyedropper.picking' : 'color.eyedropper.start')}
         </button>
-        {EyeDropperApi ? null : <p className="ni-notice">{t('color.eyedropper.fallbackHint')}</p>}
       </div>
+      {EyeDropperApi ? null : <p className="ni-notice">{t('color.eyedropper.fallbackHint')}</p>}
       {phase === 'failed' ? (
         <EmptyState
           kind="error"

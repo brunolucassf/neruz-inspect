@@ -4,7 +4,8 @@ import { formatLength } from '../../../lib/css';
 import { useViewportVersion } from '../../../lib/highlight';
 import { useT } from '../../../lib/i18n';
 import { useSettingsStore } from '../../../lib/settings';
-import { Badge, CopyRow, EmptyState, PanelSection } from '../../../ui';
+import { Card, CopyRow, EmptyState, PanelSection, Tile, Tiles } from '../../../ui';
+import { PanelActions } from '../../../ui/PanelSlots';
 import type { ToolModule } from '../../types';
 import '../shared/layout-tools.css';
 import {
@@ -53,6 +54,7 @@ const BreakpointsPanel = () => {
       <RefreshCw size={14} aria-hidden="true" />
     </button>
   );
+  const rescanAction = <PanelActions>{rescanButton}</PanelActions>;
 
   const blockedNotice =
     blockedSheets > 0 ? (
@@ -64,10 +66,19 @@ const BreakpointsPanel = () => {
   if (points.length === 0) {
     return (
       <>
+        {rescanAction}
         <EmptyState
           title={t('layout.breakpoints.empty.title')}
           hint={t('layout.breakpoints.empty.hint')}
-          action={rescanButton}
+          action={
+            <button
+              type="button"
+              className="ni-button"
+              onClick={() => setRun((current) => current + 1)}
+            >
+              {t('layout.breakpoints.rescan')}
+            </button>
+          }
         />
         {blockedNotice}
       </>
@@ -89,56 +100,59 @@ const BreakpointsPanel = () => {
 
   return (
     <>
-      <div className="ni-lt-stat">
-        <Badge tone="accent">{`${viewportWidth}px`}</Badge>
-        <span>{rangeText}</span>
-      </div>
-      <div
-        className="ni-lt-bp"
-        role="img"
-        aria-label={t('layout.breakpoints.ruler.label', { n: points.length })}
-      >
-        <div className="ni-lt-bp__axis" />
-        {points.map((point, index) => {
-          const left = `${rulerPercent(point.px, scaleMax)}%`;
-          const row = index % TICK_ROWS;
-          const below = row === 1;
-          return (
-            <div key={point.px}>
-              <span className="ni-lt-bp__tick" style={{ left }} />
-              <span
-                className="ni-lt-bp__tick-label"
-                style={{ left, top: below ? 48 : row === 2 ? 60 : 14 }}
-              >
-                {point.px}
-              </span>
-            </div>
-          );
-        })}
-        <span
-          className="ni-lt-bp__now"
-          style={{ left: `${rulerPercent(viewportWidth, scaleMax)}%` }}
-        />
-        <span
-          className="ni-lt-bp__now-label"
-          style={{ left: `${rulerPercent(viewportWidth, scaleMax)}%` }}
+      {rescanAction}
+      <Tiles>
+        <Tile label={t('layout.breakpoints.tile.viewport')} value={viewportWidth} unit="px" />
+        <Tile label={t('layout.breakpoints.tile.count')} value={points.length} />
+      </Tiles>
+      <p className="ni-hint">{rangeText}</p>
+      <Card variant="padded">
+        <div
+          className="ni-lt-bp"
+          role="img"
+          aria-label={t('layout.breakpoints.ruler.label', { n: points.length })}
         >
-          {viewportWidth}
-        </span>
-      </div>
-      <PanelSection
-        title={t('layout.breakpoints.list.title', { n: points.length })}
-        actions={rescanButton}
-      >
-        {points.map((point) => (
-          <CopyRow
-            key={point.px}
-            label={format(point.px)}
-            value={t('layout.breakpoints.usage', { min: point.min, max: point.max })}
-            copyValue={`@media (min-width: ${point.px}px)`}
-            className={lower?.px === point.px ? 'ni-copyrow--active' : undefined}
+          <div className="ni-lt-bp__axis" />
+          {points.map((point, index) => {
+            const left = `${rulerPercent(point.px, scaleMax)}%`;
+            const row = index % TICK_ROWS;
+            const below = row === 1;
+            return (
+              <div key={point.px}>
+                <span className="ni-lt-bp__tick" style={{ left }} />
+                <span
+                  className="ni-lt-bp__tick-label"
+                  style={{ left, top: below ? 48 : row === 2 ? 60 : 14 }}
+                >
+                  {point.px}
+                </span>
+              </div>
+            );
+          })}
+          <span
+            className="ni-lt-bp__now"
+            style={{ left: `${rulerPercent(viewportWidth, scaleMax)}%` }}
           />
-        ))}
+          <span
+            className="ni-lt-bp__now-label"
+            style={{ left: `${rulerPercent(viewportWidth, scaleMax)}%` }}
+          >
+            {viewportWidth}
+          </span>
+        </div>
+      </Card>
+      <PanelSection title={t('layout.breakpoints.list.title', { n: points.length })}>
+        <Card variant="rows">
+          {points.map((point) => (
+            <CopyRow
+              key={point.px}
+              label={format(point.px)}
+              value={t('layout.breakpoints.usage', { min: point.min, max: point.max })}
+              copyValue={`@media (min-width: ${point.px}px)`}
+              className={lower?.px === point.px ? 'ni-copyrow--active' : undefined}
+            />
+          ))}
+        </Card>
       </PanelSection>
       {blockedNotice}
     </>

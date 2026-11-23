@@ -6,6 +6,7 @@ export default {
     'layout.boxModel.desc': 'Passe o mouse e veja conteúdo, padding e margin. Clique para travar.',
     'layout.boxModel.keywords':
       'box model, margin, padding, border, borda, espaçamento, tamanho, raio, display',
+    'layout.meta.locked': 'Travado',
     'layout.boxModel.section.size': 'Tamanho',
     'layout.boxModel.section.spacing': 'Espaçamento',
     'layout.boxModel.section.box': 'Caixa',
@@ -50,8 +51,6 @@ export default {
     'layout.gridFlex.section.props': 'Propriedades',
     'layout.gridFlex.filter.label': 'Tipo de container',
     'layout.gridFlex.filter.all': 'Todos',
-    'layout.gridFlex.list.count_one': '{n} container',
-    'layout.gridFlex.list.count_other': '{n} containers',
     'layout.gridFlex.rescan': 'Procurar de novo',
     'layout.gridFlex.copy.all': 'Copiar tudo',
     'layout.gridFlex.select.hint':
@@ -65,8 +64,11 @@ export default {
     'layout.overflow.loading.title': 'Procurando o culpado',
     'layout.overflow.ok.title': 'Sem rolagem lateral',
     'layout.overflow.ok.hint': 'A página cabe na janela de {n}px.',
-    'layout.overflow.summary': 'Vaza {n}',
-    'layout.overflow.widths': 'Janela {viewport}px · página {page}px',
+    'layout.overflow.tile.excess': 'Excesso',
+    'layout.overflow.tile.viewport': 'Janela',
+    'layout.overflow.tile.page': 'Página',
+    'layout.breakpoints.tile.viewport': 'Largura atual',
+    'layout.breakpoints.tile.count': 'Pontos',
     'layout.overflow.none.title': 'Culpado não encontrado',
     'layout.overflow.none.hint':
       'A página rola para o lado, mas nenhum elemento visível passa da borda. Pode ser algo oculto ou cortado.',
@@ -142,6 +144,7 @@ export default {
     'layout.boxModel.desc': 'Hover to see content, padding and margin. Click to lock.',
     'layout.boxModel.keywords':
       'box model, margin, padding, border, spacing, size, radius, display',
+    'layout.meta.locked': 'Locked',
     'layout.boxModel.section.size': 'Size',
     'layout.boxModel.section.spacing': 'Spacing',
     'layout.boxModel.section.box': 'Box',
@@ -186,8 +189,6 @@ export default {
     'layout.gridFlex.section.props': 'Properties',
     'layout.gridFlex.filter.label': 'Container type',
     'layout.gridFlex.filter.all': 'All',
-    'layout.gridFlex.list.count_one': '{n} container',
-    'layout.gridFlex.list.count_other': '{n} containers',
     'layout.gridFlex.rescan': 'Scan again',
     'layout.gridFlex.copy.all': 'Copy all',
     'layout.gridFlex.select.hint':
@@ -201,8 +202,11 @@ export default {
     'layout.overflow.loading.title': 'Hunting the culprit',
     'layout.overflow.ok.title': 'No sideways scroll',
     'layout.overflow.ok.hint': 'The page fits the {n}px window.',
-    'layout.overflow.summary': 'Overflows {n}',
-    'layout.overflow.widths': 'Window {viewport}px · page {page}px',
+    'layout.overflow.tile.excess': 'Excess',
+    'layout.overflow.tile.viewport': 'Window',
+    'layout.overflow.tile.page': 'Page',
+    'layout.breakpoints.tile.viewport': 'Current width',
+    'layout.breakpoints.tile.count': 'Points',
     'layout.overflow.none.title': 'Culprit not found',
     'layout.overflow.none.hint':
       'The page scrolls sideways, but no visible element crosses the edge. It may be hidden or clipped.',
@@ -278,6 +282,7 @@ export default {
     'layout.boxModel.desc': 'Pasa el mouse para ver contenido, padding y margin. Clic para fijar.',
     'layout.boxModel.keywords':
       'box model, margin, padding, border, borde, espaciado, tamaño, radio, display',
+    'layout.meta.locked': 'Fijado',
     'layout.boxModel.section.size': 'Tamaño',
     'layout.boxModel.section.spacing': 'Espaciado',
     'layout.boxModel.section.box': 'Caja',
@@ -322,8 +327,6 @@ export default {
     'layout.gridFlex.section.props': 'Propiedades',
     'layout.gridFlex.filter.label': 'Tipo de contenedor',
     'layout.gridFlex.filter.all': 'Todos',
-    'layout.gridFlex.list.count_one': '{n} contenedor',
-    'layout.gridFlex.list.count_other': '{n} contenedores',
     'layout.gridFlex.rescan': 'Buscar de nuevo',
     'layout.gridFlex.copy.all': 'Copiar todo',
     'layout.gridFlex.select.hint':
@@ -337,8 +340,11 @@ export default {
     'layout.overflow.loading.title': 'Buscando al culpable',
     'layout.overflow.ok.title': 'Sin scroll lateral',
     'layout.overflow.ok.hint': 'La página cabe en la ventana de {n}px.',
-    'layout.overflow.summary': 'Desborda {n}',
-    'layout.overflow.widths': 'Ventana {viewport}px · página {page}px',
+    'layout.overflow.tile.excess': 'Exceso',
+    'layout.overflow.tile.viewport': 'Ventana',
+    'layout.overflow.tile.page': 'Página',
+    'layout.breakpoints.tile.viewport': 'Ancho actual',
+    'layout.breakpoints.tile.count': 'Puntos',
     'layout.overflow.none.title': 'Culpable no encontrado',
     'layout.overflow.none.hint':
       'La página se desplaza de lado, pero ningún elemento visible pasa del borde. Puede ser algo oculto o recortado.',

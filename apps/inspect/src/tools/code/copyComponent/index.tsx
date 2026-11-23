@@ -9,7 +9,8 @@ import {
 } from '../../../lib/highlight';
 import { useT } from '../../../lib/i18n';
 import { getElementLabel, useElementPicker } from '../../../lib/picker';
-import { EmptyState, Tabs } from '../../../ui';
+import { Card, EmptyState, Tabs } from '../../../ui';
+import { PanelMeta } from '../../../ui/PanelSlots';
 import type { ToolModule } from '../../types';
 import { CodeBlock } from '../shared/CodeBlock';
 import {
@@ -95,8 +96,9 @@ const CopyComponentPanel = () => {
 
   return (
     <>
-      <div className="ni-stack">
-        <label className="ni-check">
+      <PanelMeta>{t('code.copyComponent.nodes', { n: output.nodeCount })}</PanelMeta>
+      <Card variant="padded" className="ni-cd-stack">
+        <label className="ni-cd-check">
           <input
             type="checkbox"
             checked={keepDataAttributes}
@@ -105,12 +107,11 @@ const CopyComponentPanel = () => {
           {t('code.copyComponent.keepData')}
         </label>
         {output.truncated ? (
-          <p className="ni-note ni-note--warning" role="status">
+          <p className="ni-cd-note ni-cd-note--warning" role="status">
             {t('code.copyComponent.truncated')}
           </p>
         ) : null}
-        <p className="ni-note">{t('code.copyComponent.nodes', { n: output.nodeCount })}</p>
-      </div>
+      </Card>
       <Tabs
         label={t('code.copyComponent.tabs')}
         value={tab}
@@ -121,7 +122,7 @@ const CopyComponentPanel = () => {
           { id: 'jsx', label: 'React JSX' },
         ]}
       >
-        <div className="ni-stack">
+        <div className="ni-cd-stack">
           {tab === 'htmlCss' ? (
             <>
               <CodeBlock
@@ -136,7 +137,7 @@ const CopyComponentPanel = () => {
           {tab === 'tailwind' ? (
             <>
               <CodeBlock code={output.tailwindHtml} label="HTML Tailwind" />
-              <p className="ni-note">{t('code.shared.tailwindApprox')}</p>
+              <p className="ni-cd-note">{t('code.shared.tailwindApprox')}</p>
             </>
           ) : null}
           {tab === 'jsx' ? (

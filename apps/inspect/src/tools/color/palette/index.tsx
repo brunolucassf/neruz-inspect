@@ -4,7 +4,7 @@ import { copyText } from '../../../lib/clipboard';
 import { downloadText } from '../../../lib/download';
 import { useHighlights, useViewportVersion } from '../../../lib/highlight';
 import { useT } from '../../../lib/i18n';
-import { Badge, EmptyState, PanelSection, Swatch, Tabs } from '../../../ui';
+import { Badge, Card, EmptyState, PanelSection, Swatch, Tabs, Tile, Tiles } from '../../../ui';
 import type { ToolModule } from '../../types';
 import { ColorReadout } from '../shared/ColorReadout';
 import { buildElementHighlights, revealFirstOffscreen } from '../shared/ElementHighlights';
@@ -64,6 +64,8 @@ const PalettePanel = () => {
       : [],
   );
 
+  const totalUses = entries.reduce((sum, entry) => sum + entry.count, 0);
+
   const select = (entry: PaletteEntry): void => {
     if (selectedHex === entry.hex) {
       setSelectedHex(null);
@@ -116,35 +118,42 @@ const PalettePanel = () => {
   return (
     <>
       {state.truncated ? <p className="ni-notice">{t('color.palette.limit')}</p> : null}
+      <Tiles columns={2}>
+        <Tile label={t('color.palette.tile.colors')} value={entries.length} />
+        <Tile label={t('color.palette.tile.uses')} value={totalUses} />
+      </Tiles>
       <PanelSection
-        title={t('color.palette.section.colors', { n: entries.length })}
+        title={t('color.palette.section.colors')}
+        count={entries.length}
         actions={
-          <button type="button" className="ni-button" onClick={rescan}>
+          <button type="button" className="ni-button ni-button--sm" onClick={rescan}>
             {t('color.palette.rescan')}
           </button>
         }
       >
-        {entries.map((entry) => (
-          <button
-            key={entry.hex}
-            type="button"
-            className="ni-listbtn"
-            aria-pressed={entry.hex === selectedHex}
-            onClick={() => select(entry)}
-          >
-            <Swatch color={entry.hex} size={22} />
-            <span className="ni-listbtn__main">
-              <span className="ni-listbtn__title">{entry.hex}</span>
-              <span className="ni-listbtn__sub">
-                {entry.roles.map((role) => t(`color.palette.role.${role}`)).join(' · ')}
-                {entry.hexes.length > 1
-                  ? ` · ${t('color.palette.similar', { n: entry.hexes.length - 1 })}`
-                  : ''}
+        <Card variant="rows">
+          {entries.map((entry) => (
+            <button
+              key={entry.hex}
+              type="button"
+              className="ni-listbtn"
+              aria-pressed={entry.hex === selectedHex}
+              onClick={() => select(entry)}
+            >
+              <Swatch color={entry.hex} size={22} />
+              <span className="ni-listbtn__main">
+                <span className="ni-listbtn__title">{entry.hex}</span>
+                <span className="ni-listbtn__sub">
+                  {entry.roles.map((role) => t(`color.palette.role.${role}`)).join(' · ')}
+                  {entry.hexes.length > 1
+                    ? ` · ${t('color.palette.similar', { n: entry.hexes.length - 1 })}`
+                    : ''}
+                </span>
               </span>
-            </span>
-            <Badge tone={entry.hex === selectedHex ? 'accent' : 'neutral'}>{entry.count}</Badge>
-          </button>
-        ))}
+              <Badge tone={entry.hex === selectedHex ? 'accent' : 'neutral'}>{entry.count}</Badge>
+            </button>
+          ))}
+        </Card>
       </PanelSection>
       {selected ? (
         <PanelSection title={t('color.palette.section.selected')}>
@@ -161,10 +170,10 @@ const PalettePanel = () => {
           onChange={setFormat}
         >
           <pre className="ni-code">{exportText}</pre>
-          <div className="ni-tool-actions">
+          <div className="ni-actions">
             <button
               type="button"
-              className="ni-button"
+              className="ni-button ni-button--primary"
               onClick={() => void copyText(exportText, t(`color.palette.export.${format}`))}
             >
               {t('color.copy')}

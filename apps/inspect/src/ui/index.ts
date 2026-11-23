@@ -22,3 +22,4 @@ export { Tabs } from './Tabs';
 export { Thumb } from './Thumb';
 export { Tile, Tiles } from './Tiles';
 export { Toaster } from './Toaster';
+export { PanelActions, PanelMeta } from './PanelSlots';

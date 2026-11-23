@@ -4,8 +4,10 @@ import { copyText } from '../../../lib/clipboard';
 import { useHighlights, useViewportVersion } from '../../../lib/highlight';
 import { useT } from '../../../lib/i18n';
 import { getElementLabel } from '../../../lib/picker';
-import { Badge, CopyRow, EmptyState, PanelSection, Tabs } from '../../../ui';
+import { Badge, Card, CopyRow, EmptyState, FilterChips, PanelSection } from '../../../ui';
+import { PanelActions } from '../../../ui/PanelSlots';
 import type { ToolModule } from '../../types';
+import { ElementMeta } from '../shared/ElementMeta';
 import { isVisibleRect, revealElement, useElementScan } from '../shared/scan';
 import '../shared/layout-tools.css';
 import { buildContainerHighlights } from './containerHighlights';
@@ -49,27 +51,30 @@ const SelectedContainer = ({ entry }: { entry: ContainerEntry }) => {
   );
 
   return (
-    <PanelSection
-      title={t('layout.gridFlex.section.props')}
-      actions={
+    <>
+      <ElementMeta element={entry.element} isLocked={false} />
+      <PanelSection title={t('layout.gridFlex.section.props')} count={properties.length}>
+        <Card variant="rows">
+          {properties.map((property) => (
+            <CopyRow
+              key={property.name}
+              label={property.name}
+              value={property.value}
+              copyValue={`${property.name}: ${property.value};`}
+            />
+          ))}
+        </Card>
+      </PanelSection>
+      <div className="ni-actions">
         <button
           type="button"
-          className="ni-button"
+          className="ni-button ni-button--primary"
           onClick={() => void copyText(propertiesToCss(properties), entry.label)}
         >
           {t('layout.gridFlex.copy.all')}
         </button>
-      }
-    >
-      {properties.map((property) => (
-        <CopyRow
-          key={property.name}
-          label={property.name}
-          value={property.value}
-          copyValue={`${property.name}: ${property.value};`}
-        />
-      ))}
-    </PanelSection>
+      </div>
+    </>
   );
 };
 
@@ -89,7 +94,7 @@ const GridFlexPanel = () => {
         title={t('layout.gridFlex.empty.title')}
         hint={t('layout.gridFlex.empty.hint')}
         action={
-          <button type="button" className="ni-button" onClick={rescan}>
+          <button type="button" className="ni-button ni-button--primary" onClick={rescan}>
             {t('layout.gridFlex.rescan')}
           </button>
         }
@@ -99,48 +104,49 @@ const GridFlexPanel = () => {
 
   const visible = state.items.filter((entry) => filter === 'all' || entry.kind === filter);
 
+  const countOf = (kind: ContainerKind): number =>
+    state.items.filter((entry) => entry.kind === kind).length;
+
   return (
     <>
-      <PanelSection title={t('layout.gridFlex.section.list')}>
-        <Tabs
+      <PanelActions>
+        <button
+          type="button"
+          className="ni-icon-button"
+          aria-label={t('layout.gridFlex.rescan')}
+          onClick={rescan}
+        >
+          <RefreshCw size={14} aria-hidden="true" />
+        </button>
+      </PanelActions>
+      <PanelSection title={t('layout.gridFlex.section.list')} count={visible.length}>
+        <FilterChips
           label={t('layout.gridFlex.filter.label')}
           value={filter}
           onChange={setFilter}
           items={[
-            { id: 'all', label: t('layout.gridFlex.filter.all') },
-            { id: 'grid', label: 'Grid' },
-            { id: 'flex', label: 'Flex' },
+            { id: 'all', label: t('layout.gridFlex.filter.all'), count: state.items.length },
+            { id: 'grid', label: 'Grid', count: countOf('grid') },
+            { id: 'flex', label: 'Flex', count: countOf('flex') },
           ]}
-        >
-          <div className="ni-lt-toolbar">
-            <span>{t('layout.gridFlex.list.count', { n: visible.length })}</span>
+        />
+        <Card variant="rows" className="ni-lt-list">
+          {visible.map((entry) => (
             <button
+              key={entry.id}
               type="button"
-              className="ni-icon-button"
-              aria-label={t('layout.gridFlex.rescan')}
-              onClick={rescan}
+              className="ni-lt-item"
+              aria-pressed={selected?.element === entry.element}
+              onClick={() => {
+                setSelected(entry);
+                revealElement(entry.element);
+              }}
             >
-              <RefreshCw size={14} aria-hidden="true" />
+              <span className="ni-lt-item__main">{entry.label}</span>
+              <Badge tone={entry.kind === 'grid' ? 'accent' : 'neutral'}>{entry.kind}</Badge>
             </button>
-          </div>
-          <div className="ni-lt-list">
-            {visible.map((entry) => (
-              <button
-                key={entry.id}
-                type="button"
-                className="ni-lt-item"
-                aria-pressed={selected?.element === entry.element}
-                onClick={() => {
-                  setSelected(entry);
-                  revealElement(entry.element);
-                }}
-              >
-                <span className="ni-lt-item__main">{entry.label}</span>
-                <Badge tone={entry.kind === 'grid' ? 'accent' : 'neutral'}>{entry.kind}</Badge>
-              </button>
-            ))}
-          </div>
-        </Tabs>
+          ))}
+        </Card>
         {state.truncated ? (
           <p className="ni-lt-warning">{t('layout.gridFlex.truncated', { n: 5000 })}</p>
         ) : null}

@@ -2,7 +2,7 @@ import { Eraser, RefreshCw, TextCursorInput } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useT } from '../../../lib/i18n';
 import { toast } from '../../../lib/toast';
-import { Badge, CopyRow, PanelSection } from '../../../ui';
+import { Badge, Card, CopyRow, PanelSection } from '../../../ui';
 import type { ToolModule } from '../../types';
 import '../utils.css';
 import { type FakePerson, generatePerson } from './fakeData';
@@ -83,7 +83,7 @@ const FormFillPanel = () => {
 
   return (
     <>
-      <div className="ni-ut-body">
+      <Card variant="padded" className="ni-ut-form">
         <label className="ni-ut-check">
           <input
             type="checkbox"
@@ -100,63 +100,69 @@ const FormFillPanel = () => {
           />
           {t('utils.formFill.overwrite')}
         </label>
-        <div className="ni-ut-row">
-          <button
-            type="button"
-            className="ni-button ni-button--primary ni-ut-button"
-            onClick={() => runFill(person)}
-          >
-            <TextCursorInput size={13} aria-hidden="true" />
-            {t('utils.formFill.fill')}
-          </button>
-          <button type="button" className="ni-button ni-ut-button" onClick={handleRegenerate}>
-            <RefreshCw size={13} aria-hidden="true" />
-            {t('utils.formFill.regenerate')}
-          </button>
-          <button
-            type="button"
-            className="ni-button ni-ut-button"
-            disabled={!report || report.filled.length === 0}
-            onClick={handleClear}
-          >
-            <Eraser size={13} aria-hidden="true" />
-            {t('utils.formFill.clear')}
-          </button>
-        </div>
-        {report ? (
-          <p className="ni-ut-muted" role="status">
-            {t('utils.formFill.summary', {
-              filled: report.filled.length,
-              skipped: report.skipped,
-            })}
-            {report.passwordsSkipped > 0
-              ? ` ${t('utils.formFill.passwordsSkipped', { n: report.passwordsSkipped })}`
-              : ''}
-          </p>
-        ) : (
-          <p className="ni-ut-muted">{t('utils.formFill.hint')}</p>
-        )}
-      </div>
+      </Card>
       {report && report.filled.length > 0 ? (
-        <PanelSection title={t('utils.formFill.section.filled')}>
-          <ul className="ni-ut-result">
-            {report.filled.map((item) => (
-              <li key={item.id}>
-                <span className="ni-ut-result__kind">{t(`utils.formFill.kind.${item.kind}`)}</span>
-                <span className="ni-ut-result__value" title={item.value}>
-                  {item.kind === 'password' ? '••••••••' : item.value}
-                </span>
-                {TEST_KINDS.has(item.kind) ? (
-                  <Badge tone="warning">{t('utils.formFill.test')}</Badge>
-                ) : null}
-              </li>
-            ))}
-          </ul>
+        <PanelSection title={t('utils.formFill.section.filled')} count={report.filled.length}>
+          <Card variant="rows">
+            <ul className="ni-ut-result">
+              {report.filled.map((item) => (
+                <li key={item.id}>
+                  <span className="ni-ut-result__kind">
+                    {t(`utils.formFill.kind.${item.kind}`)}
+                  </span>
+                  <span className="ni-ut-result__value" title={item.value}>
+                    {item.kind === 'password' ? '••••••••' : item.value}
+                  </span>
+                  {TEST_KINDS.has(item.kind) ? (
+                    <Badge tone="warning">{t('utils.formFill.test')}</Badge>
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </Card>
         </PanelSection>
       ) : null}
       <PanelSection title={t('utils.formFill.section.data')}>
-        <PersonRows person={person} />
+        <Card variant="rows">
+          <PersonRows person={person} />
+        </Card>
       </PanelSection>
+      {report ? (
+        <p className="ni-ut-muted" role="status">
+          {t('utils.formFill.summary', {
+            filled: report.filled.length,
+            skipped: report.skipped,
+          })}
+          {report.passwordsSkipped > 0
+            ? ` ${t('utils.formFill.passwordsSkipped', { n: report.passwordsSkipped })}`
+            : ''}
+        </p>
+      ) : (
+        <p className="ni-ut-muted">{t('utils.formFill.hint')}</p>
+      )}
+      <div className="ni-actions">
+        <button
+          type="button"
+          className="ni-button ni-button--primary"
+          onClick={() => runFill(person)}
+        >
+          <TextCursorInput size={14} aria-hidden="true" />
+          {t('utils.formFill.fill')}
+        </button>
+        <button type="button" className="ni-button" onClick={handleRegenerate}>
+          <RefreshCw size={14} aria-hidden="true" />
+          {t('utils.formFill.regenerate')}
+        </button>
+        <button
+          type="button"
+          className="ni-button ni-ut-button"
+          disabled={!report || report.filled.length === 0}
+          onClick={handleClear}
+        >
+          <Eraser size={14} aria-hidden="true" />
+          {t('utils.formFill.clear')}
+        </button>
+      </div>
       <p className="ni-hint">{t('utils.formFill.note')}</p>
     </>
   );

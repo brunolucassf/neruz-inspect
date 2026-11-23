@@ -4,6 +4,7 @@ import {
   buildTagsProbeArgs,
   eventsSince,
   isInternalLayerEntry,
+  PLATFORM_IDS,
   parseHit,
   type TagsProbeResult,
 } from './tags';
@@ -136,6 +137,19 @@ describe('analyzeTags', () => {
 
   it('returns nothing for a page without tags', () => {
     expect(analyzeTags(emptyResult).platforms).toEqual([]);
+  });
+
+  it('lists every known platform as missing when nothing was found', () => {
+    const analysis = analyzeTags(emptyResult);
+    expect(analysis.missing).toHaveLength(PLATFORM_IDS.length);
+    expect(analysis.missing[0]).toEqual({ id: 'gtm', name: 'Google Tag Manager' });
+  });
+
+  it('keeps found platforms out of the missing list', () => {
+    const analysis = analyzeTags(resultWith({ globals: { fbq: true } }));
+    expect(analysis.platforms.map((platform) => platform.id)).toEqual(['metaPixel']);
+    expect(analysis.missing.map((platform) => platform.id)).not.toContain('metaPixel');
+    expect(analysis.missing).toHaveLength(PLATFORM_IDS.length - 1);
   });
 });
 

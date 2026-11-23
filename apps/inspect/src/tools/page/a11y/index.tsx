@@ -2,9 +2,8 @@ import { Accessibility } from 'lucide-react';
 import { useState } from 'react';
 import { useT } from '../../../lib/i18n';
 import { getElementLabel } from '../../../lib/picker';
-import { Badge, EmptyState, PanelSection } from '../../../ui';
+import { Badge, Card, EmptyState, FilterChips, PanelSection, Tile, Tiles } from '../../../ui';
 import type { ToolModule } from '../../types';
-import { ChipGroup } from '../shared/ChipGroup';
 import { ScanView } from '../shared/ScanView';
 import { countBySeverity, SEVERITY_ORDER, type Severity, severityTone } from '../shared/severity';
 import { useElementFocus } from '../shared/useElementFocus';
@@ -15,6 +14,12 @@ import '../shared/page.css';
 type SeverityFilter = 'all' | Severity;
 
 const MAX_PER_RULE = 40;
+
+const SEVERITY_TILE_TONE: Record<Severity, 'danger' | 'warning' | undefined> = {
+  error: 'danger',
+  warning: 'warning',
+  info: undefined,
+};
 
 const IssueRow = ({
   issue,
@@ -66,27 +71,30 @@ const A11yView = ({
   return (
     <>
       <p className="ni-hint">{t('page.a11y.note')}</p>
-      <div className="ni-pg-score">
+      <Tiles columns={3}>
         {SEVERITY_ORDER.map((severity) => (
-          <div key={severity} className="ni-pg-score__item">
-            <span className="ni-pg-score__number">{counts[severity]}</span>
-            <Badge tone={severityTone(severity)}>{t(`page.common.severity.${severity}`)}</Badge>
-          </div>
+          <Tile
+            key={severity}
+            label={t(`page.common.severity.${severity}`)}
+            value={counts[severity]}
+            tone={SEVERITY_TILE_TONE[severity]}
+          />
         ))}
-      </div>
-      <ChipGroup label={t('page.a11y.filter')}>
-        {(['all', ...SEVERITY_ORDER] as const).map((entry) => (
-          <button
-            key={entry}
-            type="button"
-            className="ni-pg-chip"
-            aria-pressed={filter === entry}
-            onClick={() => setFilter(entry)}
-          >
-            {entry === 'all' ? t('page.a11y.filter.all') : t(`page.common.severity.${entry}`)}
-          </button>
-        ))}
-      </ChipGroup>
+      </Tiles>
+      <FilterChips
+        label={t('page.a11y.filter')}
+        items={[
+          { id: 'all', label: t('page.a11y.filter.all'), count: issues.length },
+          ...SEVERITY_ORDER.map((severity) => ({
+            id: severity,
+            label: t(`page.common.severity.${severity}`),
+            count: counts[severity],
+            isWarning: severity !== 'info',
+          })),
+        ]}
+        value={filter}
+        onChange={setFilter}
+      />
       {truncated ? <p className="ni-hint">{t('page.common.limit5000')}</p> : null}
       {focusSheetsSkipped > 0 ? (
         <p className="ni-hint">{t('page.a11y.sheetsSkipped', { n: focusSheetsSkipped })}</p>
@@ -102,12 +110,13 @@ const A11yView = ({
           return (
             <PanelSection
               key={rule}
-              title={`${t(`page.a11y.rule.${rule}`)} (${group.length})`}
+              title={t(`page.a11y.rule.${rule}`)}
+              count={group.length}
               actions={
                 elements.length > 1 ? (
                   <button
                     type="button"
-                    className="ni-button"
+                    className="ni-button ni-button--sm"
                     onClick={() => focus(elements, t(`page.a11y.rule.${rule}`))}
                   >
                     {t('page.a11y.highlightAll')}
@@ -115,18 +124,20 @@ const A11yView = ({
                 ) : undefined
               }
             >
-              <p className="ni-pg-muted">{t(`page.a11y.hint.${rule}`)}</p>
-              {group.slice(0, MAX_PER_RULE).map((issue) => (
-                <IssueRow
-                  key={issue.id}
-                  issue={issue}
-                  onSelect={(selected) =>
-                    selected.element && focus(selected.element, t(`page.a11y.rule.${rule}`))
-                  }
-                />
-              ))}
+              <p className="ni-hint">{t(`page.a11y.hint.${rule}`)}</p>
+              <Card variant="rows">
+                {group.slice(0, MAX_PER_RULE).map((issue) => (
+                  <IssueRow
+                    key={issue.id}
+                    issue={issue}
+                    onSelect={(selected) =>
+                      selected.element && focus(selected.element, t(`page.a11y.rule.${rule}`))
+                    }
+                  />
+                ))}
+              </Card>
               {group.length > MAX_PER_RULE ? (
-                <p className="ni-pg-muted">
+                <p className="ni-hint">
                   {t('page.a11y.moreIssues', { n: group.length - MAX_PER_RULE })}
                 </p>
               ) : null}

@@ -10,7 +10,8 @@ import {
 import { useLocale, useT } from '../../../lib/i18n';
 import { STORAGE_KEYS } from '../../../lib/storage-keys';
 import { toast } from '../../../lib/toast';
-import { EmptyState } from '../../../ui';
+import { Card, EmptyState } from '../../../ui';
+import { PanelMeta } from '../../../ui/PanelSlots';
 import type { ToolModule } from '../../types';
 import '../utils.css';
 
@@ -90,16 +91,52 @@ const ClipboardHistoryPanel = () => {
 
   return (
     <>
+      <PanelMeta>
+        <span aria-live="polite">
+          {t('utils.clipboardHistory.count', { n: state.entries.length })}
+        </span>
+      </PanelMeta>
       <div className="ni-ut-body">
-        <div className="ni-ut-row">
-          <span className="ni-ut-muted" aria-live="polite">
-            {t('utils.clipboardHistory.count', { n: state.entries.length })}
-          </span>
+        <Card variant="rows">
+          <ul className="ni-ut-list">
+            {state.entries.map((entry) => (
+              <li key={`${entry.at}-${entry.text}`} className="ni-ut-item">
+                <div className="ni-ut-item__text">
+                  <span className="ni-ut-item__value" title={entry.text}>
+                    {entry.text.replace(/\s+/g, ' ')}
+                  </span>
+                  <span className="ni-ut-item__meta">
+                    {entry.label} · {formatter.format(entry.at)}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className="ni-icon-button"
+                  aria-label={t('utils.clipboardHistory.copyAgain', { label: entry.label })}
+                  title={t('utils.clipboardHistory.copyAgain', { label: entry.label })}
+                  onClick={() => void copyText(entry.text, entry.label)}
+                >
+                  <Copy size={14} aria-hidden="true" />
+                </button>
+                <button
+                  type="button"
+                  className="ni-icon-button"
+                  aria-label={t('utils.clipboardHistory.delete', { label: entry.label })}
+                  title={t('utils.clipboardHistory.delete', { label: entry.label })}
+                  onClick={() => void removeEntry(entry)}
+                >
+                  <Trash2 size={14} aria-hidden="true" />
+                </button>
+              </li>
+            ))}
+          </ul>
+        </Card>
+        <div className="ni-actions">
           {isConfirmingClear ? (
             <>
               <button
                 type="button"
-                className="ni-button ni-ut-button"
+                className="ni-button ni-button--primary"
                 onClick={() => void handleClear()}
               >
                 {t('utils.clipboardHistory.confirmClear')}
@@ -113,48 +150,12 @@ const ClipboardHistoryPanel = () => {
               </button>
             </>
           ) : (
-            <button
-              type="button"
-              className="ni-button ni-ut-button"
-              onClick={() => setIsConfirmingClear(true)}
-            >
-              <Trash2 size={13} aria-hidden="true" />
+            <button type="button" className="ni-button" onClick={() => setIsConfirmingClear(true)}>
+              <Trash2 size={14} aria-hidden="true" />
               {t('utils.clipboardHistory.clear')}
             </button>
           )}
         </div>
-        <ul className="ni-ut-list">
-          {state.entries.map((entry) => (
-            <li key={`${entry.at}-${entry.text}`} className="ni-ut-item">
-              <div className="ni-ut-item__text">
-                <span className="ni-ut-item__value" title={entry.text}>
-                  {entry.text.replace(/\s+/g, ' ')}
-                </span>
-                <span className="ni-ut-item__meta">
-                  {entry.label} · {formatter.format(entry.at)}
-                </span>
-              </div>
-              <button
-                type="button"
-                className="ni-icon-button"
-                aria-label={t('utils.clipboardHistory.copyAgain', { label: entry.label })}
-                title={t('utils.clipboardHistory.copyAgain', { label: entry.label })}
-                onClick={() => void copyText(entry.text, entry.label)}
-              >
-                <Copy size={14} aria-hidden="true" />
-              </button>
-              <button
-                type="button"
-                className="ni-icon-button"
-                aria-label={t('utils.clipboardHistory.delete', { label: entry.label })}
-                title={t('utils.clipboardHistory.delete', { label: entry.label })}
-                onClick={() => void removeEntry(entry)}
-              >
-                <Trash2 size={14} aria-hidden="true" />
-              </button>
-            </li>
-          ))}
-        </ul>
       </div>
       <p className="ni-hint">{t('utils.clipboardHistory.note')}</p>
     </>

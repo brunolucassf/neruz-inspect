@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { type HighlightItem, useHighlights, useViewportVersion } from '../../../lib/highlight';
 import { useT } from '../../../lib/i18n';
 import { OVERLAY_HOST_TAG } from '../../../lib/picker';
-import { PanelSection } from '../../../ui';
+import { Card, PanelSection } from '../../../ui';
 import type { ToolModule } from '../../types';
 import { collectPageElements } from '../shared/scan';
 import '../shared/layout-tools.css';
@@ -72,21 +72,25 @@ const OutlinesPanel = () => {
     <>
       <PanelSection title={t('layout.outlines.status.title')}>
         <p className="ni-hint">{t('layout.outlines.status.hint', { n: OUTLINE_MAX_DEPTH })}</p>
+        <Card variant="rows">
+          <label className="ni-lt-check">
+            <input
+              type="checkbox"
+              checked={showTags}
+              onChange={(event) => setShowTags(event.target.checked)}
+            />
+            {t('layout.outlines.showTags')}
+          </label>
+        </Card>
       </PanelSection>
-      <label className="ni-lt-check">
-        <input
-          type="checkbox"
-          checked={showTags}
-          onChange={(event) => setShowTags(event.target.checked)}
-        />
-        {t('layout.outlines.showTags')}
-      </label>
       {showTags ? <TagLabels /> : null}
-      <div className="ni-lt-legend">
-        <span>{t('layout.outlines.legend.shallow')}</span>
-        <span className="ni-lt-legend__bar" style={{ background: legendGradient }} />
-        <span>{t('layout.outlines.legend.deep')}</span>
-      </div>
+      <Card variant="padded">
+        <div className="ni-lt-legend">
+          <span>{t('layout.outlines.legend.shallow')}</span>
+          <span className="ni-lt-legend__bar" style={{ background: legendGradient }} />
+          <span>{t('layout.outlines.legend.deep')}</span>
+        </div>
+      </Card>
     </>
   );
 };

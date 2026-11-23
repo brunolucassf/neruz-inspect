@@ -2,7 +2,7 @@ import { ExternalLink, Replace } from 'lucide-react';
 import { useEffect, useId, useState } from 'react';
 import { useT } from '../../../lib/i18n';
 import { toast } from '../../../lib/toast';
-import { Badge, CopyRow, EmptyState, PanelSection } from '../../../ui';
+import { Badge, Card, CopyRow, EmptyState, FilterChips, PanelSection } from '../../../ui';
 import '../../color/shared/tools.css';
 import type { ToolModule } from '../../types';
 import { googleSpecimenUrl } from '../shared/fonts';
@@ -84,20 +84,12 @@ const FontSwapPanel = () => {
   return (
     <>
       <PanelSection title={t('type.fontSwap.section.scope')}>
-        <fieldset className="ni-segments">
-          <legend className="ni-visually-hidden">{t('type.fontSwap.section.scope')}</legend>
-          {SWAP_SCOPES.map((item) => (
-            <button
-              key={item}
-              type="button"
-              className="ni-segment"
-              aria-pressed={item === scope}
-              onClick={() => changeScope(item)}
-            >
-              {t(`type.fontSwap.scope.${item}`)}
-            </button>
-          ))}
-        </fieldset>
+        <FilterChips
+          label={t('type.fontSwap.section.scope')}
+          items={SWAP_SCOPES.map((id) => ({ id, label: t(`type.fontSwap.scope.${id}`) }))}
+          value={scope}
+          onChange={changeScope}
+        />
       </PanelSection>
       <PanelSection title={t('type.fontSwap.section.font')}>
         <label htmlFor={selectId} className="ni-hint">
@@ -105,7 +97,7 @@ const FontSwapPanel = () => {
         </label>
         <select
           id={selectId}
-          className="ni-field"
+          className="ni-input"
           value={curatedValue}
           onChange={(event) => {
             if (event.target.value) choose(event.target.value);
@@ -124,7 +116,7 @@ const FontSwapPanel = () => {
         <div className="ni-field-row">
           <input
             id={fieldId}
-            className="ni-field"
+            className="ni-input"
             type="text"
             value={customName}
             spellCheck={false}
@@ -139,7 +131,7 @@ const FontSwapPanel = () => {
               if (event.key === 'Enter') applyCustom();
             }}
           />
-          <button type="button" className="ni-button" onClick={applyCustom}>
+          <button type="button" className="ni-button ni-button--primary" onClick={applyCustom}>
             {t('type.fontSwap.apply')}
           </button>
         </div>
@@ -172,12 +164,14 @@ const FontSwapPanel = () => {
           title={t('type.fontSwap.section.applied')}
           actions={<Badge tone="success">{selection.family}</Badge>}
         >
-          <CopyRow
-            label="CSS"
-            value={`font-family: ${buildCssFontFamily(selection.family, getFallbackGeneric(selection.family))};`}
-          />
+          <Card variant="rows">
+            <CopyRow
+              label="CSS"
+              value={`font-family: ${buildCssFontFamily(selection.family, getFallbackGeneric(selection.family))};`}
+            />
+          </Card>
           <a
-            className="ni-button ni-link-button"
+            className="ni-button ni-button--sm ni-link-button"
             href={googleSpecimenUrl(selection.family)}
             target="_blank"
             rel="noopener noreferrer"
@@ -188,7 +182,7 @@ const FontSwapPanel = () => {
         </PanelSection>
       ) : null}
       {selection ? (
-        <div className="ni-tool-pad">
+        <div className="ni-actions">
           <button type="button" className="ni-button" onClick={restore}>
             {t('type.fontSwap.reset')}
           </button>

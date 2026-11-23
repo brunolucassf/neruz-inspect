@@ -1,14 +1,12 @@
 .ni-json-source {
   display: grid;
-  gap: 6px;
-  padding: 8px 12px;
-  border-bottom: 1px solid var(--ni-line);
+  gap: 8px;
 }
 
 .ni-json-buttons {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 6px;
 }
 
 .ni-json-buttons .ni-button:disabled {
@@ -21,7 +19,7 @@
 }
 
 .ni-json-count {
-  padding: 6px 12px 0;
+  padding: 0 2px;
 }
 
 .ni-json-tree,
@@ -32,7 +30,6 @@
 }
 
 .ni-json-tree {
-  padding: 8px 12px 12px;
   font-family: var(--ni-font-mono);
   font-size: 12px;
   line-height: 18px;
@@ -79,7 +76,7 @@
 .ni-json-toggle:focus-visible,
 .ni-json-action:focus-visible {
   outline: 2px solid var(--ni-focus);
-  outline-offset: 1px;
+  outline-offset: 2px;
 }
 
 .ni-json-key {
@@ -134,7 +131,7 @@
   }
 
   .ni-json-row:hover {
-    background: var(--ni-bg-hover);
+    background: var(--ni-surface-2);
   }
 }
 
@@ -153,8 +150,9 @@
   color: var(--ni-text-2);
   font-family: inherit;
   font-size: 10px;
-  background: var(--ni-bg-raised);
-  border: 1px solid var(--ni-line);
+  background: var(--ni-surface-well);
+  border: 0;
+  box-shadow: inset 0 0 0 1px var(--ni-line);
   border-radius: var(--ni-radius-s);
   cursor: pointer;
 }

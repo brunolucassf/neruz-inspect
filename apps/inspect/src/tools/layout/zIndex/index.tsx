@@ -8,7 +8,8 @@ import {
 } from '../../../lib/highlight';
 import { useT } from '../../../lib/i18n';
 import { getElementLabel } from '../../../lib/picker';
-import { Badge, EmptyState, PanelSection } from '../../../ui';
+import { Badge, Card, EmptyState, PanelSection } from '../../../ui';
+import { PanelActions } from '../../../ui/PanelSlots';
 import type { ToolModule } from '../../types';
 import { revealElement, SCAN_LIMIT, useElementScan } from '../shared/scan';
 import '../shared/layout-tools.css';
@@ -120,7 +121,7 @@ const ZIndexPanel = () => {
         title={t('layout.zIndex.empty.title')}
         hint={t('layout.zIndex.empty.hint')}
         action={
-          <button type="button" className="ni-button" onClick={rescan}>
+          <button type="button" className="ni-button ni-button--primary" onClick={rescan}>
             {t('layout.zIndex.rescan')}
           </button>
         }
@@ -130,39 +131,7 @@ const ZIndexPanel = () => {
 
   return (
     <>
-      <PanelSection title={t('layout.zIndex.tree.title', { n: rows.length })}>
-        <div className="ni-lt-list" role="tree" aria-label={t('layout.zIndex.tree.label')}>
-          {rows.slice(0, ROW_LIMIT).map(({ node, depth }) => (
-            <button
-              key={node.id}
-              type="button"
-              role="treeitem"
-              aria-level={depth + 1}
-              aria-selected={active?.id === node.id}
-              className="ni-lt-item"
-              style={{ paddingLeft: 8 + depth * INDENT_PX }}
-              onMouseEnter={() => setActive(node)}
-              onFocus={() => setActive(node)}
-              onClick={() => {
-                setActive(node);
-                revealElement(node.element);
-              }}
-            >
-              <span className="ni-lt-item__main">
-                {node.label}
-                <span className="ni-lt-item__reason">
-                  {t(`layout.zIndex.reason.${node.reason}`)}
-                </span>
-              </span>
-              <Badge tone={node.zText === 'auto' ? 'neutral' : 'accent'}>
-                {node.zText === 'auto' ? t('layout.zIndex.auto') : node.zText}
-              </Badge>
-            </button>
-          ))}
-        </div>
-      </PanelSection>
-      <div className="ni-lt-toolbar">
-        <span>{state.truncated ? t('layout.zIndex.truncated', { n: SCAN_LIMIT }) : ''}</span>
+      <PanelActions>
         <button
           type="button"
           className="ni-icon-button"
@@ -171,7 +140,43 @@ const ZIndexPanel = () => {
         >
           <RefreshCw size={14} aria-hidden="true" />
         </button>
-      </div>
+      </PanelActions>
+      <PanelSection title={t('layout.zIndex.tree.title', { n: rows.length })}>
+        <Card variant="rows">
+          <div className="ni-lt-list" role="tree" aria-label={t('layout.zIndex.tree.label')}>
+            {rows.slice(0, ROW_LIMIT).map(({ node, depth }) => (
+              <button
+                key={node.id}
+                type="button"
+                role="treeitem"
+                aria-level={depth + 1}
+                aria-selected={active?.id === node.id}
+                className="ni-lt-item"
+                style={{ paddingLeft: 10 + depth * INDENT_PX }}
+                onMouseEnter={() => setActive(node)}
+                onFocus={() => setActive(node)}
+                onClick={() => {
+                  setActive(node);
+                  revealElement(node.element);
+                }}
+              >
+                <span className="ni-lt-item__main">
+                  {node.label}
+                  <span className="ni-lt-item__reason">
+                    {t(`layout.zIndex.reason.${node.reason}`)}
+                  </span>
+                </span>
+                <Badge tone={node.zText === 'auto' ? 'neutral' : 'accent'}>
+                  {node.zText === 'auto' ? t('layout.zIndex.auto') : node.zText}
+                </Badge>
+              </button>
+            ))}
+          </div>
+        </Card>
+      </PanelSection>
+      {state.truncated ? (
+        <p className="ni-lt-warning">{t('layout.zIndex.truncated', { n: SCAN_LIMIT })}</p>
+      ) : null}
       <p className="ni-hint">{t('layout.zIndex.hint')}</p>
     </>
   );

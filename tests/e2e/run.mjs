@@ -247,7 +247,7 @@ if (!only) {
     const startBar = await page.locator('neruz-inspect .ni-toolbar').boundingBox();
     await page.mouse.move(gb.x + 8, gb.y + 8);
     await page.mouse.down();
-    await page.mouse.move(gb.x + 8 - 200, gb.y + 8 + 300, { steps: 8 });
+    await page.mouse.move(gb.x + 8 - 200, gb.y + 8 - 300, { steps: 8 });
     await page.mouse.up();
     await sleep(500);
     const moved = await page.locator('neruz-inspect .ni-toolbar').boundingBox();

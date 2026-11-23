@@ -6,7 +6,7 @@ import {
   toHex,
 } from '../../../lib/color';
 import { useSettingsStore } from '../../../lib/settings';
-import { CopyRow, Swatch } from '../../../ui';
+import { Card, CopyRow, Swatch } from '../../../ui';
 
 type ColorReadoutProps = { color: Color };
 
@@ -18,7 +18,7 @@ const orderFormats = (preferred: ColorFormat): ColorFormat[] => [
 export const ColorReadout = ({ color }: ColorReadoutProps) => {
   const preferred = useSettingsStore((state) => state.colorFormat);
   return (
-    <>
+    <Card variant="rows">
       {orderFormats(preferred).map((format, index) => (
         <CopyRow
           key={format}
@@ -27,6 +27,6 @@ export const ColorReadout = ({ color }: ColorReadoutProps) => {
           leading={index === 0 ? <Swatch color={toHex(color)} size={20} /> : undefined}
         />
       ))}
-    </>
+    </Card>
   );
 };

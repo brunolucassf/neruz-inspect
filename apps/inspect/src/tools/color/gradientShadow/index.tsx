@@ -8,7 +8,7 @@ import {
 } from '../../../lib/highlight';
 import { useT } from '../../../lib/i18n';
 import { getElementLabel, useElementPicker } from '../../../lib/picker';
-import { CopyRow, EmptyState, PanelSection } from '../../../ui';
+import { Card, CopyRow, EmptyState, PanelSection } from '../../../ui';
 import type { ToolModule } from '../../types';
 import '../shared/tools.css';
 import './gradient-shadow.css';
@@ -73,7 +73,7 @@ const GradientShadowPanel = () => {
       {effects.gradients.length > 0 ? (
         <PanelSection title={t('color.gradientShadow.section.gradients')}>
           {effects.gradients.map((gradient) => (
-            <div key={gradient} className="ni-effect">
+            <Card key={gradient} variant="rows">
               <Preview style={{ backgroundImage: gradient }} />
               <CopyRow
                 label="CSS"
@@ -81,13 +81,13 @@ const GradientShadowPanel = () => {
                 copyValue={`background-image: ${gradient};`}
               />
               <CopyRow label="Tailwind" value={gradientToTailwind(gradient)} />
-            </div>
+            </Card>
           ))}
         </PanelSection>
       ) : null}
       {effects.boxShadows.length > 0 ? (
         <PanelSection title={t('color.gradientShadow.section.boxShadow')}>
-          <div className="ni-effect">
+          <Card variant="rows">
             <Preview style={{ boxShadow: boxShadowText }} />
             <CopyRow
               label="CSS"
@@ -95,12 +95,12 @@ const GradientShadowPanel = () => {
               copyValue={`box-shadow: ${boxShadowText};`}
             />
             <CopyRow label="Tailwind" value={shadowToTailwind(effects.boxShadows, 'box')} />
-          </div>
+          </Card>
         </PanelSection>
       ) : null}
       {effects.textShadows.length > 0 ? (
         <PanelSection title={t('color.gradientShadow.section.textShadow')}>
-          <div className="ni-effect">
+          <Card variant="rows">
             <Preview style={{ textShadow: textShadowText }} text="Aa" />
             <CopyRow
               label="CSS"
@@ -108,34 +108,36 @@ const GradientShadowPanel = () => {
               copyValue={`text-shadow: ${textShadowText};`}
             />
             <CopyRow label="Tailwind" value={shadowToTailwind(effects.textShadows, 'text')} />
-          </div>
+          </Card>
         </PanelSection>
       ) : null}
       {effects.filter || effects.backdropFilter ? (
         <PanelSection title={t('color.gradientShadow.section.filters')}>
-          {effects.filter ? (
-            <>
-              <CopyRow
-                label="CSS"
-                value={`filter: ${effects.filter};`}
-                copyValue={`filter: ${effects.filter};`}
-              />
-              <CopyRow label="Tailwind" value={filterToTailwind(effects.filter)} />
-            </>
-          ) : null}
-          {effects.backdropFilter ? (
-            <>
-              <CopyRow
-                label="CSS"
-                value={`backdrop-filter: ${effects.backdropFilter};`}
-                copyValue={`backdrop-filter: ${effects.backdropFilter};`}
-              />
-              <CopyRow
-                label="Tailwind"
-                value={filterToTailwind(effects.backdropFilter, 'backdrop-')}
-              />
-            </>
-          ) : null}
+          <Card variant="rows">
+            {effects.filter ? (
+              <>
+                <CopyRow
+                  label="CSS"
+                  value={`filter: ${effects.filter};`}
+                  copyValue={`filter: ${effects.filter};`}
+                />
+                <CopyRow label="Tailwind" value={filterToTailwind(effects.filter)} />
+              </>
+            ) : null}
+            {effects.backdropFilter ? (
+              <>
+                <CopyRow
+                  label="CSS"
+                  value={`backdrop-filter: ${effects.backdropFilter};`}
+                  copyValue={`backdrop-filter: ${effects.backdropFilter};`}
+                />
+                <CopyRow
+                  label="Tailwind"
+                  value={filterToTailwind(effects.backdropFilter, 'backdrop-')}
+                />
+              </>
+            ) : null}
+          </Card>
         </PanelSection>
       ) : null}
       <p className="ni-hint">{t('color.gradientShadow.tailwindNote')}</p>

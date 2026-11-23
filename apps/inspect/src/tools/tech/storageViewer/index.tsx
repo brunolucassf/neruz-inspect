@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { copyText } from '../../../lib/clipboard';
 import { useT } from '../../../lib/i18n';
 import { toast } from '../../../lib/toast';
-import { Badge, EmptyState, Tabs } from '../../../ui';
+import { Badge, Card, EmptyState, Tabs } from '../../../ui';
 import type { ToolModule } from '../../types';
 import '../tech.css';
 import './storage-viewer.css';
@@ -128,10 +128,18 @@ const EntryRow = ({ area, entry, onRemoved }: RowProps) => {
         <Badge>{formatBytes(byteLength(entry.name) + byteLength(entry.value))}</Badge>
         {isConfirming ? (
           <>
-            <button type="button" className="ni-button ni-store-danger" onClick={handleRemove}>
+            <button
+              type="button"
+              className="ni-button ni-button--sm ni-store-danger"
+              onClick={handleRemove}
+            >
               {t('tech.storageViewer.confirmDelete')}
             </button>
-            <button type="button" className="ni-button" onClick={() => setIsConfirming(false)}>
+            <button
+              type="button"
+              className="ni-button ni-button--sm"
+              onClick={() => setIsConfirming(false)}
+            >
               {t('tech.storageViewer.cancel')}
             </button>
           </>
@@ -198,16 +206,18 @@ const AreaList = ({
     );
   }
   return (
-    <ul className="ni-store-list">
-      {entries.map((entry) => (
-        <EntryRow
-          key={`${area}:${entry.name}:${entry.value}`}
-          area={area}
-          entry={entry}
-          onRemoved={onChanged}
-        />
-      ))}
-    </ul>
+    <Card variant="rows">
+      <ul className="ni-store-list">
+        {entries.map((entry) => (
+          <EntryRow
+            key={`${area}:${entry.name}:${entry.value}`}
+            area={area}
+            entry={entry}
+            onRemoved={onChanged}
+          />
+        ))}
+      </ul>
+    </Card>
   );
 };
 
@@ -245,22 +255,20 @@ const StorageViewerPanel = () => {
           <RefreshCw size={14} aria-hidden="true" />
         </button>
       </div>
-      <div className="ni-store-tabs">
-        <Tabs
-          label={t('tech.storageViewer.areas')}
-          items={STORAGE_AREAS.map((id) => ({
-            id,
-            label: `${t(`tech.storageViewer.area.${id}`)} ${count(id)}`,
-          }))}
-          value={area}
-          onChange={setArea}
-        >
-          {area === 'cookies' ? (
-            <p className="ni-tech-muted ni-store-note">{t('tech.storageViewer.httpOnly')}</p>
-          ) : null}
-          <AreaList area={area} result={snapshot[area]} query={query} onChanged={refresh} />
-        </Tabs>
-      </div>
+      <Tabs
+        label={t('tech.storageViewer.areas')}
+        items={STORAGE_AREAS.map((id) => ({
+          id,
+          label: `${t(`tech.storageViewer.area.${id}`)} ${count(id)}`,
+        }))}
+        value={area}
+        onChange={setArea}
+      >
+        {area === 'cookies' ? (
+          <p className="ni-hint ni-store-note">{t('tech.storageViewer.httpOnly')}</p>
+        ) : null}
+        <AreaList area={area} result={snapshot[area]} query={query} onChanged={refresh} />
+      </Tabs>
     </>
   );
 };

@@ -8,9 +8,11 @@ import {
 } from '../../../lib/highlight';
 import { useT } from '../../../lib/i18n';
 import { getElementLabel } from '../../../lib/picker';
-import { Badge, EmptyState, PanelSection } from '../../../ui';
+import { Card, EmptyState, PanelSection, Tile, Tiles } from '../../../ui';
+import { PanelActions } from '../../../ui/PanelSlots';
 import type { ToolModule } from '../../types';
 import { isVisibleRect, revealElement, SCAN_LIMIT, useElementScan } from '../shared/scan';
+import { splitLength } from '../shared/splitLength';
 import '../shared/layout-tools.css';
 import {
   documentOverflowAmount,
@@ -121,7 +123,7 @@ const OverflowPanel = () => {
         title={t('layout.overflow.ok.title')}
         hint={t('layout.overflow.ok.hint', { n: viewportWidth })}
         action={
-          <button type="button" className="ni-button" onClick={rescan}>
+          <button type="button" className="ni-button ni-button--primary" onClick={rescan}>
             {t('layout.overflow.rescan')}
           </button>
         }
@@ -129,22 +131,39 @@ const OverflowPanel = () => {
     );
   }
 
+  const excessAmount = splitLength(formatPx(excess));
+
   return (
     <>
-      <div className="ni-lt-stat">
-        <Badge tone="danger">{t('layout.overflow.summary', { n: formatPx(excess) })}</Badge>
-        <span>
-          {t('layout.overflow.widths', {
-            viewport: viewportWidth,
-            page: document.documentElement.scrollWidth,
-          })}
-        </span>
-      </div>
+      <PanelActions>
+        <button
+          type="button"
+          className="ni-icon-button"
+          aria-label={t('layout.overflow.rescan')}
+          onClick={rescan}
+        >
+          <RefreshCw size={14} aria-hidden="true" />
+        </button>
+      </PanelActions>
+      <Tiles columns={3}>
+        <Tile
+          label={t('layout.overflow.tile.excess')}
+          value={excessAmount.value}
+          unit={excessAmount.unit}
+          tone="danger"
+        />
+        <Tile label={t('layout.overflow.tile.viewport')} value={viewportWidth} unit="px" />
+        <Tile
+          label={t('layout.overflow.tile.page')}
+          value={document.documentElement.scrollWidth}
+          unit="px"
+        />
+      </Tiles>
       {entries.length === 0 ? (
         <EmptyState title={t('layout.overflow.none.title')} hint={t('layout.overflow.none.hint')} />
       ) : (
         <PanelSection title={t('layout.overflow.culprits.title', { n: entries.length })}>
-          <div className="ni-lt-list">
+          <Card variant="rows" className="ni-lt-list">
             {entries.map(({ culprit, element }) => (
               <button
                 key={culprit.id}
@@ -165,20 +184,12 @@ const OverflowPanel = () => {
                 </span>
               </button>
             ))}
-          </div>
+          </Card>
         </PanelSection>
       )}
-      <div className="ni-lt-toolbar">
-        <span>{state.truncated ? t('layout.overflow.truncated', { n: SCAN_LIMIT }) : ''}</span>
-        <button
-          type="button"
-          className="ni-icon-button"
-          aria-label={t('layout.overflow.rescan')}
-          onClick={rescan}
-        >
-          <RefreshCw size={14} aria-hidden="true" />
-        </button>
-      </div>
+      {state.truncated ? (
+        <p className="ni-lt-warning">{t('layout.overflow.truncated', { n: SCAN_LIMIT })}</p>
+      ) : null}
     </>
   );
 };

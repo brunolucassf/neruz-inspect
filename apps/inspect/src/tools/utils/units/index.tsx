@@ -3,6 +3,7 @@ import { type ReactNode, useEffect, useMemo, useState } from 'react';
 import { copyText } from '../../../lib/clipboard';
 import { useT } from '../../../lib/i18n';
 import {
+  Card,
   CopyRow,
   ListTable,
   type ListTableColumn,
@@ -100,7 +101,7 @@ const UnitsPanel = () => {
 
   return (
     <>
-      <div className="ni-ut-body">
+      <Card variant="padded" className="ni-ut-form">
         <div className="ni-ut-grid">
           <label className="ni-ut-label">
             {t('utils.units.value')}
@@ -145,22 +146,24 @@ const UnitsPanel = () => {
           </label>
         </div>
         <div className="ni-ut-row">
-          <button type="button" className="ni-button ni-ut-button" onClick={resetBases}>
-            <RotateCcw size={13} aria-hidden="true" />
+          <button type="button" className="ni-button ni-button--sm" onClick={resetBases}>
+            <RotateCcw size={14} aria-hidden="true" />
             {t('utils.units.usePage')}
           </button>
           <span className="ni-ut-muted">
             {t('utils.units.viewport', { w: String(viewport.width), h: String(viewport.height) })}
           </span>
         </div>
-      </div>
+      </Card>
       <PanelSection title={t('utils.units.section.result')}>
         {converted === null ? (
           <p className="ni-ut-muted">{t('utils.units.invalid')}</p>
         ) : (
-          UNITS.filter((unit) => unit !== from).map((unit) => (
-            <CopyRow key={unit} label={unit} value={formatWithUnit(converted[unit], unit)} />
-          ))
+          <Card variant="rows">
+            {UNITS.filter((unit) => unit !== from).map((unit) => (
+              <CopyRow key={unit} label={unit} value={formatWithUnit(converted[unit], unit)} />
+            ))}
+          </Card>
         )}
       </PanelSection>
       <PanelSection title={t('utils.units.section.quick')}>

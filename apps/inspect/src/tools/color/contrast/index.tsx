@@ -17,7 +17,7 @@ import {
 import { useT } from '../../../lib/i18n';
 import { getElementLabel, useElementPicker } from '../../../lib/picker';
 import { useSettingsStore } from '../../../lib/settings';
-import { Badge, CopyRow, EmptyState, PanelSection, Swatch } from '../../../ui';
+import { Badge, Card, CopyRow, EmptyState, PanelSection, Swatch, Tile, Tiles } from '../../../ui';
 import type { ToolModule } from '../../types';
 import '../shared/tools.css';
 import {
@@ -92,32 +92,39 @@ const ContrastPanel = () => {
 
   return (
     <>
-      <div className="ni-tool-pad">
-        <div
-          className="ni-sample"
-          style={{ color: foregroundHex, background: backgroundHex }}
-          role="img"
-          aria-label={t('color.contrast.sample.aria')}
-        >
-          {t('color.contrast.sample')}
-        </div>
+      <div
+        className="ni-sample"
+        style={{ color: foregroundHex, background: backgroundHex }}
+        role="img"
+        aria-label={t('color.contrast.sample.aria')}
+      >
+        {t('color.contrast.sample')}
       </div>
       <PanelSection title={t('color.contrast.section.colors')}>
-        <CopyRow
-          label={t('color.contrast.text')}
-          value={formatColor(reading.foreground, colorFormat)}
-          leading={<Swatch color={foregroundHex} />}
-        />
-        <CopyRow
-          label={t('color.contrast.background')}
-          value={formatColor(reading.background, colorFormat)}
-          leading={<Swatch color={backgroundHex} />}
-        />
+        <Card variant="rows">
+          <CopyRow
+            label={t('color.contrast.text')}
+            value={formatColor(reading.foreground, colorFormat)}
+            leading={<Swatch color={foregroundHex} />}
+          />
+          <CopyRow
+            label={t('color.contrast.background')}
+            value={formatColor(reading.background, colorFormat)}
+            leading={<Swatch color={backgroundHex} />}
+          />
+        </Card>
         {reading.uncertain ? <p className="ni-notice">{t('color.contrast.uncertain')}</p> : null}
       </PanelSection>
       <PanelSection title={t('color.contrast.section.scores')}>
-        <CopyRow label="WCAG" value={`${reading.ratio.toFixed(2)}:1`} />
-        <CopyRow label="APCA" value={`Lc ${apca.toFixed(1)}`} />
+        <Tiles columns={2}>
+          <Tile
+            label="WCAG"
+            value={reading.ratio.toFixed(2)}
+            unit=":1"
+            tone={(reading.large ? verdict.aaLarge : verdict.aa) ? 'success' : 'danger'}
+          />
+          <Tile label="APCA" value={apca.toFixed(1)} unit="Lc" />
+        </Tiles>
         <div className="ni-verdicts">
           <VerdictBadge label={t('color.contrast.aaNormal')} passes={verdict.aa} />
           <VerdictBadge label={t('color.contrast.aaLarge')} passes={verdict.aaLarge} />
@@ -130,15 +137,17 @@ const ContrastPanel = () => {
       </PanelSection>
       {suggestion ? (
         <PanelSection title={t('color.contrast.section.suggestion')}>
-          <CopyRow
-            label={t('color.contrast.suggested')}
-            value={formatColor(suggestion, colorFormat)}
-            leading={<Swatch color={toHex(suggestion)} />}
-          />
-          <CopyRow
-            label={t('color.contrast.suggestedRatio')}
-            value={`${contrastWcag(suggestion, reading.background).toFixed(2)}:1`}
-          />
+          <Card variant="rows">
+            <CopyRow
+              label={t('color.contrast.suggested')}
+              value={formatColor(suggestion, colorFormat)}
+              leading={<Swatch color={toHex(suggestion)} />}
+            />
+            <CopyRow
+              label={t('color.contrast.suggestedRatio')}
+              value={`${contrastWcag(suggestion, reading.background).toFixed(2)}:1`}
+            />
+          </Card>
         </PanelSection>
       ) : null}
       <p className="ni-hint">{t(locked ? 'core.picker.locked' : 'core.picker.hint')}</p>

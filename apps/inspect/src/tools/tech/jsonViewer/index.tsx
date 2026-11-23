@@ -11,7 +11,7 @@ import { useDeferredValue, useEffect, useMemo, useState } from 'react';
 import { copyText } from '../../../lib/clipboard';
 import { downloadText } from '../../../lib/download';
 import { useT } from '../../../lib/i18n';
-import { EmptyState } from '../../../ui';
+import { Card, EmptyState } from '../../../ui';
 import type { ToolModule } from '../../types';
 import '../tech.css';
 import './json-viewer.css';
@@ -150,7 +150,7 @@ const JsonNode = ({ label, value, path, context }: JsonNodeProps) => {
           {entries.length > shown ? (
             <button
               type="button"
-              className="ni-button ni-json-more"
+              className="ni-button ni-button--sm ni-json-more"
               onClick={() => setShown(shown + CHILDREN_PAGE)}
             >
               {t('tech.jsonViewer.showMore', { n: entries.length - shown })}
@@ -219,13 +219,17 @@ const JsonViewerPanel = () => {
         />
         <div className="ni-json-buttons">
           {pageText !== null && text !== pageText ? (
-            <button type="button" className="ni-button" onClick={() => setText(pageText)}>
+            <button
+              type="button"
+              className="ni-button ni-button--sm"
+              onClick={() => setText(pageText)}
+            >
               {t('tech.jsonViewer.usePage')}
             </button>
           ) : null}
           <button
             type="button"
-            className="ni-button"
+            className="ni-button ni-button--sm"
             disabled={!isValid}
             onClick={() => setText(formatJson(value))}
           >
@@ -233,7 +237,7 @@ const JsonViewerPanel = () => {
           </button>
           <button
             type="button"
-            className="ni-button"
+            className="ni-button ni-button--sm"
             disabled={!isValid}
             onClick={() => setText(minifyJson(value))}
           >
@@ -241,7 +245,7 @@ const JsonViewerPanel = () => {
           </button>
           <button
             type="button"
-            className="ni-button ni-tech-button"
+            className="ni-button ni-button--sm ni-tech-button"
             disabled={!isValid}
             onClick={() => void copyText(formatJson(value), t('tech.jsonViewer.jsonLabel'))}
           >
@@ -250,7 +254,7 @@ const JsonViewerPanel = () => {
           </button>
           <button
             type="button"
-            className="ni-button ni-tech-button"
+            className="ni-button ni-button--sm ni-tech-button"
             disabled={!isValid}
             onClick={() => downloadText(formatJson(value), 'data.json', 'application/json')}
           >
@@ -306,9 +310,11 @@ const JsonViewerPanel = () => {
               )}
             </p>
           ) : null}
-          <ul className="ni-json-tree" aria-label={t('tech.jsonViewer.tree')}>
-            <JsonNode label={undefined} value={parsed.value} path={ROOT_PATH} context={context} />
-          </ul>
+          <Card variant="padded">
+            <ul className="ni-json-tree" aria-label={t('tech.jsonViewer.tree')}>
+              <JsonNode label={undefined} value={parsed.value} path={ROOT_PATH} context={context} />
+            </ul>
+          </Card>
         </>
       ) : (
         <EmptyState kind="error" title={t('tech.jsonViewer.invalid')} hint={parsed.message} />

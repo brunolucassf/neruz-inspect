@@ -10,7 +10,8 @@ import {
 import { useT } from '../../../lib/i18n';
 import { getElementLabel, useElementPicker } from '../../../lib/picker';
 import { toast } from '../../../lib/toast';
-import { EmptyState, PanelSection, Tabs } from '../../../ui';
+import { Card, EmptyState, PanelSection, Tabs } from '../../../ui';
+import { PanelActions } from '../../../ui/PanelSlots';
 import type { ToolModule } from '../../types';
 import { CodeBlock } from '../shared/CodeBlock';
 import {
@@ -37,19 +38,19 @@ const ColorField = ({ label, value, onCommit }: ColorFieldProps) => {
   const [draft, setDraft] = useState(value);
   useEffect(() => setDraft(value), [value]);
   return (
-    <label className="ni-field">
+    <label className="ni-cd-field">
       <span>{label}</span>
-      <span className="ni-field__controls">
+      <span className="ni-cd-field__controls">
         <input
           type="color"
-          className="ni-color-input"
+          className="ni-cd-color"
           aria-label={label}
           value={colorToInputValue(value)}
           onChange={(event) => onCommit(event.target.value)}
         />
         <input
           type="text"
-          className="ni-input"
+          className="ni-cd-input"
           spellCheck={false}
           value={draft}
           onChange={(event) => {
@@ -70,14 +71,14 @@ type PxFieldProps = {
 };
 
 const PxField = ({ label, value, mixedLabel, onCommit }: PxFieldProps) => (
-  <label className="ni-field">
+  <label className="ni-cd-field">
     <span>{label}</span>
-    <span className="ni-field__controls">
+    <span className="ni-cd-field__controls">
       <input
         type="number"
         min={0}
         step={1}
-        className="ni-input"
+        className="ni-cd-input"
         placeholder={value === null ? mixedLabel : undefined}
         value={value ?? ''}
         onChange={(event) => {
@@ -85,7 +86,9 @@ const PxField = ({ label, value, mixedLabel, onCommit }: PxFieldProps) => (
           if (parsed !== null) onCommit(parsed);
         }}
       />
-      <span aria-hidden="true">px</span>
+      <span className="ni-cd-field__unit" aria-hidden="true">
+        px
+      </span>
     </span>
   </label>
 );
@@ -96,7 +99,7 @@ const StyleControls = ({ element, session }: { element: HTMLElement; session: Ed
   const padding = readUniformPx(SIDES.map((side) => style.getPropertyValue(`padding-${side}`)));
   const margin = readUniformPx(SIDES.map((side) => style.getPropertyValue(`margin-${side}`)));
   return (
-    <div className="ni-stack">
+    <Card variant="padded" className="ni-cd-fields">
       <ColorField
         label={t('code.editLive.field.color')}
         value={style.color}
@@ -131,7 +134,7 @@ const StyleControls = ({ element, session }: { element: HTMLElement; session: Ed
         mixedLabel={t('code.editLive.mixed')}
         onCommit={(px) => session.setStyle(element, 'border-radius', `${px}px`)}
       />
-    </div>
+    </Card>
   );
 };
 
@@ -185,7 +188,7 @@ const EditLivePanel = () => {
         ]}
       >
         {tab === 'text' ? (
-          <div className="ni-stack">
+          <div className="ni-cd-stack">
             <button
               type="button"
               className={`ni-button${textEditing ? ' ni-button--toggled' : ''}`}
@@ -194,7 +197,7 @@ const EditLivePanel = () => {
             >
               {t(textEditing ? 'code.editLive.text.on' : 'code.editLive.text.off')}
             </button>
-            <p className="ni-note">{t('code.editLive.text.hint')}</p>
+            <p className="ni-cd-note">{t('code.editLive.text.hint')}</p>
           </div>
         ) : locked instanceof HTMLElement ? (
           <StyleControls element={locked} session={session} />
@@ -205,16 +208,19 @@ const EditLivePanel = () => {
           />
         )}
       </Tabs>
-      <PanelSection
-        title={t('code.editLive.section.changes')}
-        actions={
-          <button type="button" className="ni-button" disabled={!hasChanges} onClick={handleUndo}>
-            {t('code.editLive.undo')}
-          </button>
-        }
-      >
+      <PanelActions>
+        <button
+          type="button"
+          className="ni-button ni-button--sm"
+          disabled={!hasChanges}
+          onClick={handleUndo}
+        >
+          {t('code.editLive.undo')}
+        </button>
+      </PanelActions>
+      <PanelSection title={t('code.editLive.section.changes')}>
         {hasChanges ? (
-          <div className="ni-stack">
+          <div className="ni-cd-stack">
             {styleCss ? (
               <CodeBlock code={styleCss} label="CSS" filename="edited.css" mime="text/css" />
             ) : null}
@@ -227,7 +233,7 @@ const EditLivePanel = () => {
             ) : null}
           </div>
         ) : (
-          <p className="ni-note">{t('code.editLive.noChanges')}</p>
+          <p className="ni-cd-note">{t('code.editLive.noChanges')}</p>
         )}
       </PanelSection>
       <p className="ni-hint">{t('code.editLive.note')}</p>

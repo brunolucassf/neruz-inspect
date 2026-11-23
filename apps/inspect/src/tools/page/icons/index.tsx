@@ -1,7 +1,7 @@
 import { Download, Shapes } from 'lucide-react';
 import { copyText } from '../../../lib/clipboard';
 import { useT } from '../../../lib/i18n';
-import { Badge, EmptyState, PanelSection } from '../../../ui';
+import { Badge, Card, EmptyState, PanelSection, Thumb } from '../../../ui';
 import type { ToolModule } from '../../types';
 import { downloadAssetUrl, downloadInlineSvg } from '../assets/assetDownload';
 import { fileNameFromUrl, toFileSlug } from '../shared/format';
@@ -17,19 +17,14 @@ const IconTile = ({ icon, onFocus }: { icon: PageIcon; onFocus: (icon: PageIcon)
     <div className="ni-pg-tile">
       <button
         type="button"
-        className="ni-pg-tile__art ni-pg-row--button"
-        style={{
-          border: 0,
-          background: 'transparent',
-          cursor: icon.element ? 'pointer' : 'default',
-        }}
+        className="ni-pg-tile__art ni-pg-tile__button"
         aria-label={t('page.common.highlight')}
         disabled={!icon.element}
         onClick={() => onFocus(icon)}
       >
         <img src={icon.preview} alt="" width={32} height={32} />
       </button>
-      <span className="ni-pg-muted" title={icon.name}>
+      <span className="ni-pg-muted ni-pg-tile__name" title={icon.name}>
         {icon.name.length > 12 ? `${icon.name.slice(0, 11)}…` : icon.name}
       </span>
       <span className="ni-pg-tile__actions">
@@ -64,34 +59,32 @@ const IconsPanel = () => {
         <>
           <PanelSection title={t('page.icons.section.libraries')}>
             {result.libraries.length === 0 ? (
-              <p className="ni-pg-muted">{t('page.icons.noLibrary')}</p>
+              <p className="ni-hint">{t('page.icons.noLibrary')}</p>
             ) : (
-              result.libraries.map((library) => (
-                <div
-                  key={library.id}
-                  className="ni-pg-row"
-                  style={{ gridTemplateColumns: '1fr auto' }}
-                >
-                  <span className="ni-pg-row__main">
-                    <span className="ni-pg-row__title">
-                      {library.name}
-                      {library.version ? ` ${library.version}` : ''}
+              <Card variant="rows">
+                {result.libraries.map((library) => (
+                  <div key={library.id} className="ni-pg-row ni-pg-row--pair">
+                    <span className="ni-pg-row__main">
+                      <span className="ni-pg-row__title">
+                        {library.name}
+                        {library.version ? ` ${library.version}` : ''}
+                      </span>
+                      <span className="ni-pg-row__sub">{library.evidence.join(' · ')}</span>
                     </span>
-                    <span className="ni-pg-row__sub">{library.evidence.join(' · ')}</span>
-                  </span>
-                  <Badge tone={library.confidence === 'certain' ? 'success' : 'warning'}>
-                    {t(`page.icons.confidence.${library.confidence}`)}
-                  </Badge>
-                </div>
-              ))
+                    <Badge tone={library.confidence === 'certain' ? 'success' : 'warning'}>
+                      {t(`page.icons.confidence.${library.confidence}`)}
+                    </Badge>
+                  </div>
+                ))}
+              </Card>
             )}
-            {result.truncated ? <p className="ni-pg-muted">{t('page.common.limit5000')}</p> : null}
+            {result.truncated ? <p className="ni-hint">{t('page.common.limit5000')}</p> : null}
           </PanelSection>
-          <PanelSection title={t('page.icons.section.icons', { n: result.icons.length })}>
+          <PanelSection title={t('page.icons.section.icons')} count={result.icons.length}>
             {result.icons.length === 0 ? (
               <EmptyState title={t('page.icons.empty')} hint={t('page.icons.emptyHint')} />
             ) : (
-              <div className="ni-pg-grid" style={{ padding: 0 }}>
+              <div className="ni-pg-grid">
                 {result.icons.map((icon) => (
                   <IconTile
                     key={icon.id}
@@ -104,35 +97,32 @@ const IconsPanel = () => {
               </div>
             )}
           </PanelSection>
-          <PanelSection title={t('page.icons.section.favicons', { n: result.favicons.length })}>
-            {result.favicons.map((favicon) => {
-              const name = fileNameFromUrl(favicon.url, 'favicon');
-              return (
-                <div
-                  key={favicon.url}
-                  className="ni-pg-row"
-                  style={{ gridTemplateColumns: 'auto 1fr auto' }}
-                >
-                  <span className="ni-pg-thumb">
-                    <img src={favicon.url} alt="" loading="lazy" />
-                  </span>
-                  <span className="ni-pg-row__main">
-                    <span className="ni-pg-row__title">{name}</span>
-                    <span className="ni-pg-row__sub">
-                      {[favicon.kind, favicon.sizes].filter(Boolean).join(' · ')}
+          <PanelSection title={t('page.icons.section.favicons')} count={result.favicons.length}>
+            <Card variant="rows">
+              {result.favicons.map((favicon) => {
+                const name = fileNameFromUrl(favicon.url, 'favicon');
+                return (
+                  <div key={favicon.url} className="ni-pg-row ni-pg-row--thumb ni-pg-row--center">
+                    <Thumb src={favicon.url} hasTransparency />
+                    <span className="ni-pg-row__main">
+                      <span className="ni-pg-row__title">{name}</span>
+                      <span className="ni-pg-row__sub">
+                        {[favicon.kind, favicon.sizes].filter(Boolean).join(' · ')}
+                      </span>
                     </span>
-                  </span>
-                  <button
-                    type="button"
-                    className="ni-icon-button"
-                    aria-label={t('page.assets.download', { name })}
-                    onClick={() => void downloadAssetUrl(favicon.url, name)}
-                  >
-                    <Download size={14} aria-hidden="true" />
-                  </button>
-                </div>
-              );
-            })}
+                    <button
+                      type="button"
+                      className="ni-icon-button"
+                      aria-label={t('page.assets.download', { name })}
+                      title={t('page.assets.download', { name })}
+                      onClick={() => void downloadAssetUrl(favicon.url, name)}
+                    >
+                      <Download size={14} aria-hidden="true" />
+                    </button>
+                  </div>
+                );
+              })}
+            </Card>
           </PanelSection>
         </>
       )}

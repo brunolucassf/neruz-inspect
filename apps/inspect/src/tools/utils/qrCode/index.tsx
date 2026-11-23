@@ -4,7 +4,7 @@ import { contrastWcag, parseCssColor } from '../../../lib/color';
 import { downloadBlob, downloadText } from '../../../lib/download';
 import { useT } from '../../../lib/i18n';
 import { toast } from '../../../lib/toast';
-import { EmptyState, type TabItem, Tabs } from '../../../ui';
+import { Card, EmptyState, type TabItem, Tabs } from '../../../ui';
 import type { ToolModule } from '../../types';
 import '../utils.css';
 import { encodeQr, QR_QUIET_ZONE, type QrMatrix, toPathData, toSvg } from './qr';
@@ -138,7 +138,7 @@ const QrCodePanel = () => {
         />
       )}
 
-      <div className="ni-ut-grid">
+      <Card variant="padded" className="ni-ut-grid">
         <label className="ni-ut-label">
           {t('utils.qrCode.foreground')}
           <input
@@ -171,7 +171,7 @@ const QrCodePanel = () => {
             ))}
           </select>
         </label>
-      </div>
+      </Card>
 
       {lowContrast || inverted ? (
         <p className="ni-ut-muted" role="status">
@@ -179,14 +179,14 @@ const QrCodePanel = () => {
         </p>
       ) : null}
 
-      <div className="ni-ut-row">
+      <div className="ni-actions">
         <button
           type="button"
           className="ni-button ni-button--primary ni-ut-button"
           disabled={!result?.ok}
           onClick={() => result?.ok && handlePng(result.matrix)}
         >
-          <Download size={13} aria-hidden="true" />
+          <Download size={14} aria-hidden="true" />
           PNG
         </button>
         <button
@@ -195,7 +195,7 @@ const QrCodePanel = () => {
           disabled={!result?.ok}
           onClick={() => result?.ok && handleSvg(result.matrix)}
         >
-          <Download size={13} aria-hidden="true" />
+          <Download size={14} aria-hidden="true" />
           SVG
         </button>
       </div>

@@ -1,9 +1,18 @@
-import { Download, Images } from 'lucide-react';
+import { Check, Download, Images } from 'lucide-react';
 import { useEffect, useRef, useState } from 'react';
 import { useT } from '../../../lib/i18n';
-import { Badge, EmptyState, PanelSection } from '../../../ui';
+import {
+  Badge,
+  Card,
+  EmptyState,
+  FilterChips,
+  PanelSection,
+  Ratio,
+  Thumb,
+  Tile,
+  Tiles,
+} from '../../../ui';
 import type { ToolModule } from '../../types';
-import { ChipGroup } from '../shared/ChipGroup';
 import { runPool } from '../shared/concurrency';
 import { formatBytes } from '../shared/format';
 import { readContentLength, readText } from '../shared/readers';
@@ -29,6 +38,7 @@ const FILTERS: readonly AssetFilter[] = [
 ];
 const PAGE_SIZE = 80;
 const CONCURRENCY = 4;
+const TRANSPARENT_FORMATS: readonly string[] = ['png', 'svg', 'gif', 'webp', 'avif'];
 
 const AssetRow = ({
   item,
@@ -44,28 +54,24 @@ const AssetRow = ({
   const { input } = item;
   const sizeText =
     input.naturalWidth > 0
-      ? `${input.naturalWidth}×${input.naturalHeight} → ${Math.round(input.displayWidth)}×${Math.round(input.displayHeight)}`
+      ? `${input.naturalWidth}×${input.naturalHeight}`
       : input.displayWidth > 0
         ? `${Math.round(input.displayWidth)}×${Math.round(input.displayHeight)}`
         : '';
   const canDownload = item.category !== 'video' || item.url !== '';
+  const hasOversizeAlert = alerts.some((alert) => alert.id === 'oversized');
+  const renderedWidth = input.displayWidth * Math.max(input.devicePixelRatio, 1);
+  const chipAlerts = alerts.filter((alert) => alert.id !== 'oversized');
 
   return (
-    <div className="ni-pg-row" style={{ gridTemplateColumns: 'auto 1fr auto' }}>
-      <span className="ni-pg-thumb">
-        {item.thumbnail ? <img src={item.thumbnail} alt="" loading="lazy" /> : null}
-      </span>
+    <div className="ni-pg-row ni-pg-row--thumb">
+      <Thumb
+        src={item.thumbnail || undefined}
+        hasTransparency={TRANSPARENT_FORMATS.includes(item.format)}
+      />
       <button
         type="button"
-        className="ni-pg-row__main ni-pg-row--button"
-        style={{
-          border: 0,
-          background: 'transparent',
-          color: 'inherit',
-          font: 'inherit',
-          textAlign: 'left',
-          padding: 0,
-        }}
+        className="ni-pg-row__main ni-pg-row__select ni-pg-row--button"
         onClick={() => onSelect(item)}
         disabled={!item.element}
       >
@@ -73,21 +79,21 @@ const AssetRow = ({
         <span className="ni-pg-row__sub">
           {[
             t(`page.assets.filter.${item.category}`),
-            item.format !== 'unknown' ? item.format : '',
+            item.format !== 'unknown' ? item.format.toUpperCase() : '',
             sizeText,
             bytes !== null ? formatBytes(bytes) : '',
           ]
             .filter(Boolean)
             .join(' · ')}
         </span>
-        {alerts.length > 0 ? (
-          <span className="ni-pg-inline">
-            {alerts.map((alert) => (
-              <Badge key={alert.id} tone={severityTone(alert.severity)}>
-                {t(`page.assets.alert.${alert.id}`, alert.params)}
-              </Badge>
-            ))}
-          </span>
+        {hasOversizeAlert ? (
+          <Ratio
+            shown={renderedWidth}
+            actual={input.naturalWidth}
+            label={t('page.assets.ratio', {
+              n: (input.naturalWidth / Math.max(renderedWidth, 1)).toFixed(1),
+            })}
+          />
         ) : null}
       </button>
       {canDownload ? (
@@ -95,6 +101,7 @@ const AssetRow = ({
           type="button"
           className="ni-icon-button"
           aria-label={t('page.assets.download', { name: item.name })}
+          title={t('page.assets.download', { name: item.name })}
           onClick={() =>
             item.svgMarkup
               ? downloadInlineSvg(item.svgMarkup, item.name)
@@ -106,6 +113,21 @@ const AssetRow = ({
       ) : (
         <span />
       )}
+      {chipAlerts.length > 0 ? (
+        <div className="ni-pg-row__chips">
+          {chipAlerts.map((alert) => (
+            <Badge key={alert.id} tone={severityTone(alert.severity)}>
+              {t(`page.assets.alert.${alert.id}`, alert.params)}
+            </Badge>
+          ))}
+        </div>
+      ) : null}
+      {alerts.length === 0 ? (
+        <span className="ni-pg-row__ok">
+          <Check aria-hidden="true" />
+          {t('page.assets.noAlerts')}
+        </span>
+      ) : null}
     </div>
   );
 };
@@ -140,13 +162,19 @@ const AssetsView = ({ items: scanned, truncated }: { items: AssetItem[]; truncat
     item.input.bytes ?? measured.get(item.url) ?? null;
   const withAlerts = (item: AssetItem) => assessImage({ ...item.input, bytes: bytesOf(item) });
 
-  const filtered = items.filter((item) =>
-    filter === 'all'
+  const matchesFilter = (item: AssetItem, entry: AssetFilter): boolean =>
+    entry === 'all'
       ? true
-      : filter === 'alerts'
+      : entry === 'alerts'
         ? withAlerts(item).length > 0
-        : item.category === filter,
-  );
+        : item.category === entry;
+  const filtered = items.filter((item) => matchesFilter(item, filter));
+  const filterItems = FILTERS.map((entry) => ({
+    id: entry,
+    label: t(`page.assets.filter.${entry}`),
+    count: items.filter((item) => matchesFilter(item, entry)).length,
+    isWarning: entry === 'alerts',
+  })).filter((entry) => entry.id === 'all' || entry.count > 0);
   const unmeasured = items.filter(
     (item) =>
       item.url &&
@@ -156,6 +184,7 @@ const AssetsView = ({ items: scanned, truncated }: { items: AssetItem[]; truncat
   );
   const allAlerts = items.flatMap(withAlerts);
   const counts = countBySeverity(allAlerts);
+  const hasProblems = counts.warning + counts.error > 0;
   const totalBytes = items.reduce((sum, item) => sum + (bytesOf(item) ?? 0), 0);
   const inlineSvgs = items.flatMap((item) =>
     item.svgMarkup ? [{ markup: item.svgMarkup, name: item.name }] : [],
@@ -180,10 +209,31 @@ const AssetsView = ({ items: scanned, truncated }: { items: AssetItem[]; truncat
 
   return (
     <>
-      <PanelSection
-        title={t('page.assets.section.summary', { n: items.length })}
-        actions={
-          inlineSvgs.length > 0 ? (
+      <Tiles columns={3}>
+        <Tile label={t('page.assets.section.summary')} value={items.length} />
+        <Tile label={t('page.assets.weight')} value={formatBytes(totalBytes)} />
+        <Tile
+          label={t('page.assets.alerts')}
+          value={allAlerts.length}
+          tone={hasProblems ? 'warning' : 'success'}
+        />
+      </Tiles>
+      {truncated ? <p className="ni-hint">{t('page.assets.truncated')}</p> : null}
+      {unmeasured.length > 0 || inlineSvgs.length > 0 ? (
+        <div className="ni-actions">
+          {unmeasured.length > 0 ? (
+            <button
+              type="button"
+              className="ni-button"
+              disabled={measuring}
+              onClick={() => void measureMissing()}
+            >
+              {t(measuring ? 'page.assets.measuring' : 'page.assets.measure', {
+                n: unmeasured.length,
+              })}
+            </button>
+          ) : null}
+          {inlineSvgs.length > 0 ? (
             <button
               type="button"
               className="ni-button"
@@ -191,71 +241,49 @@ const AssetsView = ({ items: scanned, truncated }: { items: AssetItem[]; truncat
             >
               {t('page.assets.downloadSvgs', { n: inlineSvgs.length })}
             </button>
-          ) : undefined
-        }
-      >
-        <div className="ni-pg-inline">
-          <Badge tone="accent">{formatBytes(totalBytes)}</Badge>
-          <Badge tone={counts.warning + counts.error > 0 ? 'warning' : 'success'}>
-            {t('page.assets.alertCount', { n: allAlerts.length })}
-          </Badge>
+          ) : null}
         </div>
-        {truncated ? <p className="ni-pg-muted">{t('page.assets.truncated')}</p> : null}
-        {unmeasured.length > 0 ? (
-          <button
-            type="button"
-            className="ni-button"
-            disabled={measuring}
-            onClick={() => void measureMissing()}
-          >
-            {t(measuring ? 'page.assets.measuring' : 'page.assets.measure', {
-              n: unmeasured.length,
-            })}
-          </button>
-        ) : null}
-        <p className="ni-pg-muted">{t('page.assets.permissionNote')}</p>
-      </PanelSection>
-      <ChipGroup label={t('page.assets.filter')}>
-        {FILTERS.map((entry) => (
-          <button
-            key={entry}
-            type="button"
-            className="ni-pg-chip"
-            aria-pressed={filter === entry}
-            onClick={() => {
-              setFilter(entry);
-              setVisible(PAGE_SIZE);
-            }}
-          >
-            {t(`page.assets.filter.${entry}`)}
-          </button>
-        ))}
-      </ChipGroup>
-      <div className="ni-pg-pad">
-        {filtered.length === 0 ? (
-          <EmptyState title={t('page.assets.empty')} />
-        ) : (
-          filtered
-            .slice(0, visible)
-            .map((item) => (
-              <AssetRow
-                key={item.id}
-                item={item}
-                bytes={bytesOf(item)}
-                onSelect={(selected) => selected.element && focus(selected.element, selected.name)}
-              />
-            ))
-        )}
-        {filtered.length > visible ? (
-          <button
-            type="button"
-            className="ni-button"
-            onClick={() => setVisible((n) => n + PAGE_SIZE)}
-          >
-            {t('page.common.showMore', { n: filtered.length - visible })}
-          </button>
-        ) : null}
-      </div>
+      ) : null}
+      <p className="ni-hint">{t('page.assets.permissionNote')}</p>
+      <FilterChips
+        label={t('page.assets.filter')}
+        items={filterItems}
+        value={filter}
+        onChange={(entry) => {
+          setFilter(entry);
+          setVisible(PAGE_SIZE);
+        }}
+      />
+      {filtered.length === 0 ? (
+        <EmptyState title={t('page.assets.empty')} />
+      ) : (
+        <PanelSection title={t('page.assets.section.summary')} count={filtered.length}>
+          <Card variant="rows">
+            <ul className="ni-pg-list">
+              {filtered.slice(0, visible).map((item) => (
+                <li key={item.id}>
+                  <AssetRow
+                    item={item}
+                    bytes={bytesOf(item)}
+                    onSelect={(selected) =>
+                      selected.element && focus(selected.element, selected.name)
+                    }
+                  />
+                </li>
+              ))}
+            </ul>
+          </Card>
+          {filtered.length > visible ? (
+            <button
+              type="button"
+              className="ni-button"
+              onClick={() => setVisible((n) => n + PAGE_SIZE)}
+            >
+              {t('page.common.showMore', { n: filtered.length - visible })}
+            </button>
+          ) : null}
+        </PanelSection>
+      )}
     </>
   );
 };

@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Card } from '../../../ui';
 import type { Edges } from './boxModel';
 import './box-model.css';
 
@@ -16,24 +17,26 @@ const showEdge = (value: number): string =>
   value === 0 ? '–' : String(Math.round(value * 10) / 10);
 
 const Layer = ({ name, edges, children }: LayerProps) => (
-  <div className={`ni-bd ni-bd--${name}`}>
-    <span className="ni-bd__name">{name}</span>
-    <span className="ni-bd__top">{showEdge(edges.top)}</span>
-    <span className="ni-bd__left">{showEdge(edges.left)}</span>
-    <div className="ni-bd__inner">{children}</div>
-    <span className="ni-bd__right">{showEdge(edges.right)}</span>
-    <span className="ni-bd__bottom">{showEdge(edges.bottom)}</span>
+  <div className={`ni-bm ni-bm--${name}`}>
+    <span className="ni-bm__tag">{name}</span>
+    <span className="ni-bm__n ni-bm__n--t">{showEdge(edges.top)}</span>
+    <span className="ni-bm__n ni-bm__n--b">{showEdge(edges.bottom)}</span>
+    <span className="ni-bm__n ni-bm__n--l">{showEdge(edges.left)}</span>
+    <span className="ni-bm__n ni-bm__n--r">{showEdge(edges.right)}</span>
+    {children}
   </div>
 );
 
 export const BoxDiagram = ({ label, margin, border, padding, children }: BoxDiagramProps) => (
-  <div className="ni-boxdiagram" role="img" aria-label={label}>
-    <Layer name="margin" edges={margin}>
-      <Layer name="border" edges={border}>
-        <Layer name="padding" edges={padding}>
-          <div className="ni-bd__content">{children}</div>
+  <Card className="ni-boxmodel">
+    <div role="img" aria-label={label}>
+      <Layer name="margin" edges={margin}>
+        <Layer name="border" edges={border}>
+          <Layer name="padding" edges={padding}>
+            <div className="ni-bm ni-bm--content">{children}</div>
+          </Layer>
         </Layer>
       </Layer>
-    </Layer>
-  </div>
+    </div>
+  </Card>
 );

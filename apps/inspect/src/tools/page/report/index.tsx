@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { openReport } from '../../../lib/bridge';
 import { useT } from '../../../lib/i18n';
 import { toast } from '../../../lib/toast';
-import { Badge } from '../../../ui';
+import { Badge, ErrorState } from '../../../ui';
 import type { ToolModule } from '../../types';
 import { type CollectStep, collectReport } from './collect';
 import { DEFAULT_PREPARED_BY, loadPrefs, savePrefs } from './prefs';
@@ -92,7 +92,7 @@ const ReportPanel = () => {
     <div className="ni-rp">
       <p className="ni-hint">{t('page.report.panel.hint')}</p>
 
-      <fieldset className="ni-rp__group" disabled={running}>
+      <fieldset className="ni-rp__group ni-card ni-card--padded" disabled={running}>
         <legend className="ni-rp__legend">{t('page.report.sections')}</legend>
         {REPORT_SECTIONS.map((section) => (
           <label key={section} className="ni-rp__check">
@@ -150,7 +150,7 @@ const ReportPanel = () => {
         {running ? t('page.report.generating') : t('page.report.generate')}
       </button>
 
-      {analysisCount === 0 ? <p className="ni-pg-muted">{t('page.report.noneSelected')}</p> : null}
+      {analysisCount === 0 ? <p className="ni-hint">{t('page.report.noneSelected')}</p> : null}
 
       {run.status === 'running' ? (
         <div className="ni-rp__progress" role="status" aria-live="polite">
@@ -163,19 +163,15 @@ const ReportPanel = () => {
           >
             <div className="ni-pg-progress__bar" style={{ width: `${run.ratio * 100}%` }} />
           </div>
-          <span className="ni-pg-muted">
+          <span className="ni-hint">
             {t('page.report.progressStep', { step: stepLabel(run.step) })}
           </span>
         </div>
       ) : null}
 
-      {run.status === 'error' ? (
-        <p className="ni-rp__error" role="alert">
-          {t('page.report.error')}
-        </p>
-      ) : null}
+      {run.status === 'error' ? <ErrorState title={t('page.report.error')} /> : null}
 
-      <p className="ni-pg-muted">{t('page.report.printHint')}</p>
+      <p className="ni-hint">{t('page.report.printHint')}</p>
     </div>
   );
 };

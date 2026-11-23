@@ -10,8 +10,10 @@ import {
 import { useT } from '../../../lib/i18n';
 import { getElementLabel, useElementPicker } from '../../../lib/picker';
 import { useSettingsStore } from '../../../lib/settings';
-import { CopyRow, EmptyState, PanelSection } from '../../../ui';
+import { Card, CopyRow, EmptyState, PanelSection, Tile, Tiles } from '../../../ui';
 import type { ToolModule } from '../../types';
+import { ElementMeta } from '../shared/ElementMeta';
+import { splitLength } from '../shared/splitLength';
 import {
   type FreeMeasure,
   type Measure,
@@ -108,18 +110,22 @@ const RulerPanel = () => {
   useHighlights(items);
 
   if (free) {
+    const horizontal = splitLength(format(free.measures.find((m) => m.axis === 'x')?.length ?? 0));
+    const vertical = splitLength(format(free.measures.find((m) => m.axis === 'y')?.length ?? 0));
     return (
       <>
         <PanelSection title={t('layout.ruler.free.title')}>
-          <CopyRow
-            label={t('layout.ruler.free.dx')}
-            value={format(free.measures.find((m) => m.axis === 'x')?.length ?? 0)}
-          />
-          <CopyRow
-            label={t('layout.ruler.free.dy')}
-            value={format(free.measures.find((m) => m.axis === 'y')?.length ?? 0)}
-          />
-          <CopyRow label={t('layout.ruler.free.distance')} value={format(free.distance)} />
+          <Tiles>
+            <Tile
+              label={t('layout.ruler.free.dx')}
+              value={horizontal.value}
+              unit={horizontal.unit}
+            />
+            <Tile label={t('layout.ruler.free.dy')} value={vertical.value} unit={vertical.unit} />
+          </Tiles>
+          <Card variant="rows">
+            <CopyRow label={t('layout.ruler.free.distance')} value={format(free.distance)} />
+          </Card>
         </PanelSection>
         <p className="ni-hint">{t('layout.ruler.hint')}</p>
       </>
@@ -132,26 +138,33 @@ const RulerPanel = () => {
 
   return (
     <>
+      <ElementMeta element={hovered} isLocked={locked !== null} />
       <PanelSection title={t('layout.ruler.pair.title')}>
-        <CopyRow label={t('layout.ruler.element')} value={getElementLabel(hovered)} />
-        {reference ? (
-          <CopyRow
-            label={t(locked && locked !== hovered ? 'layout.ruler.locked' : 'layout.ruler.parent')}
-            value={getElementLabel(reference)}
-          />
-        ) : null}
+        <Card variant="rows">
+          <CopyRow label={t('layout.ruler.element')} value={getElementLabel(hovered)} />
+          {reference ? (
+            <CopyRow
+              label={t(
+                locked && locked !== hovered ? 'layout.ruler.locked' : 'layout.ruler.parent',
+              )}
+              value={getElementLabel(reference)}
+            />
+          ) : null}
+        </Card>
       </PanelSection>
-      <PanelSection title={t('layout.ruler.distances')}>
+      <PanelSection title={t('layout.ruler.distances')} count={measures.length}>
         {measures.length === 0 ? (
           <p className="ni-hint">{t('layout.ruler.none')}</p>
         ) : (
-          measures.map((measure) => (
-            <CopyRow
-              key={measure.side}
-              label={t(sideKey(measure))}
-              value={format(measure.length)}
-            />
-          ))
+          <Card variant="rows">
+            {measures.map((measure) => (
+              <CopyRow
+                key={measure.side}
+                label={t(sideKey(measure))}
+                value={format(measure.length)}
+              />
+            ))}
+          </Card>
         )}
       </PanelSection>
       <p className="ni-hint">{t('layout.ruler.hint')}</p>

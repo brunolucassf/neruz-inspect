@@ -2,6 +2,8 @@ import { AlignLeft, Copy, RefreshCw } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { copyText } from '../../../lib/clipboard';
 import { useT } from '../../../lib/i18n';
+import { Card } from '../../../ui';
+import { PanelMeta } from '../../../ui/PanelSlots';
 import type { ToolModule } from '../../types';
 import '../utils.css';
 import {
@@ -38,7 +40,10 @@ const LoremPanel = () => {
 
   return (
     <div className="ni-ut-body">
-      <div className="ni-ut-grid">
+      <PanelMeta>
+        <span aria-live="polite">{t('utils.lorem.words', { n: countWords(text) })}</span>
+      </PanelMeta>
+      <Card variant="padded" className="ni-ut-grid">
         <label className="ni-ut-label">
           {t('utils.lorem.language')}
           <select
@@ -86,29 +91,22 @@ const LoremPanel = () => {
           />
           {t('utils.lorem.classic')}
         </label>
-      </div>
-      <div className="ni-ut-row">
+      </Card>
+      <pre className="ni-ut-output">{text}</pre>
+      <div className="ni-actions">
         <button
           type="button"
-          className="ni-button ni-button--primary ni-ut-button"
+          className="ni-button ni-button--primary"
           onClick={() => void copyText(text, t('utils.lorem.copyLabel'))}
         >
-          <Copy size={13} aria-hidden="true" />
+          <Copy size={14} aria-hidden="true" />
           {t('utils.lorem.copy')}
         </button>
-        <button
-          type="button"
-          className="ni-button ni-ut-button"
-          onClick={() => setNonce(nonce + 1)}
-        >
-          <RefreshCw size={13} aria-hidden="true" />
+        <button type="button" className="ni-button" onClick={() => setNonce(nonce + 1)}>
+          <RefreshCw size={14} aria-hidden="true" />
           {t('utils.lorem.regenerate')}
         </button>
-        <span className="ni-ut-muted" aria-live="polite">
-          {t('utils.lorem.words', { n: countWords(text) })}
-        </span>
       </div>
-      <pre className="ni-ut-output">{text}</pre>
     </div>
   );
 };
