@@ -26,6 +26,7 @@ const links = [
     <nav class="site-footer__nav" aria-label={footer.navLabel}>
       <ul>
         {links.map((link) => <li><a href={link.href} rel={link.external ? 'noopener' : undefined}>{link.label}</a></li>)}
+        <li><button type="button" class="site-footer__consent" data-consent-open>{copy.consent.preferences}</button></li>
       </ul>
     </nav>
     <LanguageMenu copy={copy} opensUp kind={kind} />

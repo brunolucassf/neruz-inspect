@@ -6,6 +6,7 @@ import '../styles/theme.css';
 import '../styles/landing.css';
 import type { LandingCopy } from '../i18n';
 import { DICTIONARIES, SITE_URL } from '../i18n';
+import ConsentBanner from '../components/ConsentBanner.astro';
 
 interface Props {
   copy: LandingCopy;
@@ -25,7 +26,7 @@ const ogLocales: Record<string, string> = { 'pt-BR': 'pt_BR', en: 'en_US', es: '
 ---
 
 <!doctype html>
-<html lang={copy.htmlLang} data-locale={copy.locale}>
+<html lang={copy.htmlLang} data-locale={copy.locale} data-product="inspect">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
@@ -76,6 +77,10 @@ const ogLocales: Record<string, string> = { 'pt-BR': 'pt_BR', en: 'en_US', es: '
   </head>
   <body>
     <a class="skip-link" href="#conteudo">{copy.skipLink}</a>
+    <ConsentBanner copy={copy} />
     <slot />
+    <script>
+      import '../scripts/consent';
+    </script>
   </body>
 </html>

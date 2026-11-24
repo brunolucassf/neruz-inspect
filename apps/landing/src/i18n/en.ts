@@ -8,7 +8,7 @@ export const en: LandingCopy = {
   meta: {
     title: 'Neruz Inspect: color picker, fonts and tech stack, free',
     description:
-      'Free extension to inspect any website: color picker, fonts, design tokens, tech stack, pixels, SEO and a PDF report. Open source, no data collected.',
+      'Free extension to inspect any website: color picker, fonts, design tokens, tech stack, pixels, SEO and a PDF report. Open source, no account and no server of its own.',
     ogDescription:
       'See how any website is built: colors, fonts, spacing, motion and tech. Free and open source.',
   },
@@ -43,7 +43,7 @@ export const en: LandingCopy = {
   hero: {
     title: 'See how any website is built.',
     subtitle:
-      'Colors, fonts, spacing, motion and tech from any page, in a toolbar that opens right on top of the site. A free, open source extension that collects no data.',
+      'Colors, fonts, spacing, motion and tech from any page, in a toolbar that opens right on top of the site. A free, open source extension with no account.',
     micro: ['Free', 'Open source (MIT)', 'No account', 'Alt+Shift+I'],
     skipIntro: 'Skip animation',
   },
@@ -226,15 +226,16 @@ export const en: LandingCopy = {
   },
   privacy: {
     eyebrow: 'Privacy and open source',
-    title: 'Free, open and collects nothing.',
-    text: "Neruz Inspect has no server, needs no account and collects no data. It runs only on the tab where you click the icon, and closing the toolbar removes everything it drew on the page. The code is on GitHub under the MIT license: read every line, report a bug or suggest a tool. There's no paid version.",
+    title: 'Free, open and no account.',
+    text: "Neruz Inspect has no server of its own and needs no account. It does not send what you inspect: it only sends anonymous usage statistics (which tools get used), which you can turn off in the options. It runs only on the tab where you click the icon, and closing the toolbar removes everything it drew on the page. The code is on GitHub under the MIT license: read every line, report a bug or suggest a tool. There's no paid version.",
     ask: 'If it helps you, a star on GitHub helps others find it.',
     policy: 'Read the privacy policy',
     proofsTitle: 'What you can check',
     proofs: [
       'Free, no paid version',
       'Open source, MIT license',
-      'No server, no account, no data collection',
+      'No account and no server of its own',
+      'Anonymous usage statistics, which you can turn off',
       'Minimal permissions: only the tab you open it on',
     ],
     permsTitle: 'Permissions, one by one',
@@ -274,7 +275,7 @@ export const en: LandingCopy = {
       },
       {
         q: 'Does it read or send my data?',
-        a: "It sends nothing: there's no server. It only runs on the tab where you click the icon, and what you copy or save stays in your browser.",
+        a: "It only runs on the tab where you click the icon, and what you copy or save stays in your browser. It does not send the page address, content, captures or copied text. It sends only anonymous usage statistics to Google Analytics (a random identifier and which tools were used). You can turn that off in the options; in Firefox it only sends if you accept the optional permission.",
       },
       {
         q: 'Which browsers does it work on?',
@@ -292,9 +293,17 @@ export const en: LandingCopy = {
   },
   final: {
     title: 'Open it on the next site that catches your eye.',
-    subtitle: "Free, no sign-up, nothing collected. If it's not for you, just remove it.",
+    subtitle: "Free and no sign-up. If it's not for you, just remove it.",
   },
   trail: { label: 'Position on the page' },
+  consent: {
+    label: 'Cookies and measurement',
+    text: 'With your permission, we use Google Analytics 4 (Google) and Meta Pixel (Meta Platforms) to measure visits, install clicks and ad performance. Without your consent, none of it loads.',
+    accept: 'Accept',
+    reject: 'Decline',
+    policy: 'Privacy policy',
+    preferences: 'Cookie preferences',
+  },
   footer: {
     navLabel: 'Footer',
     privacy: 'Privacy',
@@ -306,21 +315,42 @@ export const en: LandingCopy = {
   privacyPage: {
     title: 'Privacy · Neruz Inspect',
     description:
-      'Neruz Inspect does not collect, send or sell data. Everything happens in your browser.',
+      'Neruz Inspect does not send what you inspect and does not sell data. It sends only anonymous usage statistics, which you can turn off.',
     heading: 'Privacy policy',
-    updated: 'Updated November 22, 2026',
+    updated: 'Updated November 23, 2026',
     back: 'Back to home',
     blocks: [
       {
         title: 'In one sentence',
         paragraphs: [
-          'Neruz Inspect does not collect, send or sell any data. Everything happens in your browser.',
+          'Neruz Inspect reads pages only in your browser, does not send what you inspect and does not sell data. The only thing that leaves is anonymous usage statistics, which you can turn off.',
         ],
       },
       {
         title: 'What the extension does',
         paragraphs: [
-          'When you click the icon (or press Alt+Shift+I), the toolbar opens on the current tab and reads the page itself to show colors, fonts, spacing and more. That reading happens only on your computer. Nothing is sent to any server, because there is no server. The one exception is the Font tester: when you pick a font, it is downloaded from Google Fonts.',
+          'When you click the icon (or press Alt+Shift+I), the toolbar opens on the current tab and reads the page itself to show colors, fonts, spacing and more. That reading happens only on your computer. Nothing it reads is sent to any server, because we have no server. Besides the usage statistics described below, the one exception is the Font tester: when you pick a font, it is downloaded from Google Fonts.',
+        ],
+      },
+      {
+        title: 'Anonymous usage statistics',
+        paragraphs: [
+          'The extension sends anonymous usage statistics to Google Analytics 4 (Google LLC), in a property owned by Fonte Dev. The purpose is to learn which tools are used, so improvements can be prioritized. The data goes straight from the extension to Google: it uses no cookies and no remote script, and it does not pass through a server of ours. Nothing is sold or used for advertising.',
+          'What is sent:',
+        ],
+        items: [
+          'a random identifier, generated at installation and stored only in your browser',
+          'a session identifier',
+          'the extension name and version',
+          'usage events: installation or update, opening the toolbar, popup, panel or options, and which tool or action was used, by category (for example, the export format)',
+        ],
+      },
+      {
+        title: 'What the statistics leave out, and how to turn them off',
+        paragraphs: [
+          'Not sent: the address or domain of the pages you inspect, their content, captures, copied text, your name or your email. Google Analytics 4 does not log or store IP addresses. Google handles the data under its own policy.',
+          'Chrome, Edge, Opera and Brave: sending is on by default, and you turn it off in the extension options, under "Send anonymous usage statistics". Firefox: the extension only sends if you accept the optional permission for technical and interaction data, and you can turn that on or off in the options.',
+          'Legal basis, where data protection law applies: the legitimate interest of Fonte Dev in understanding and improving the extension, with the option to turn it off.',
         ],
       },
       {
@@ -341,7 +371,9 @@ export const en: LandingCopy = {
       {
         title: 'This website',
         paragraphs: [
-          'This page uses no cookies, no analytics and loads no third-party resources. We only keep, in your browser, a session flag so the intro animation does not repeat.',
+          'Without your consent, this site sets no measurement cookies and loads no third-party resources: the consent banner shows and nothing is sent. We only keep, in your browser, a session flag so the intro animation does not repeat and your cookie choice (key neruz.consent).',
+          'If you accept, we load Google Analytics 4 (Google LLC) and Meta Pixel (Meta Platforms, Inc.). They use cookies and identifiers to measure visits, install button clicks and ad performance. These providers handle data under their own policies. We sell nothing.',
+          'To change your choice, use "Cookie preferences" in the footer. If you decline, measurement cookies are deleted and no event is sent. This section covers the website only; the extension follows the rules described above.',
         ],
       },
       {

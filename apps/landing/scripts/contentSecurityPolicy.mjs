@@ -20,6 +20,21 @@ const EXECUTABLE_SCRIPT_TYPES = new Set([
   'module',
 ]);
 
+const TRACKING_SCRIPT_SOURCES = ['https://www.googletagmanager.com', 'https://connect.facebook.net'];
+const TRACKING_CONNECT_SOURCES = [
+  'https://www.google-analytics.com',
+  'https://*.google-analytics.com',
+  'https://*.analytics.google.com',
+  'https://www.googletagmanager.com',
+  'https://www.facebook.com',
+];
+const TRACKING_IMAGE_SOURCES = [
+  'https://www.google-analytics.com',
+  'https://*.google-analytics.com',
+  'https://www.googletagmanager.com',
+  'https://www.facebook.com',
+];
+
 const hashOf = (content) =>
   `'sha256-${createHash('sha256').update(content, 'utf8').digest('base64')}'`;
 
@@ -73,11 +88,11 @@ export const buildContentSecurityPolicy = (htmlDocuments) => {
   const styleSources = ["'self'", ...(hasStyleAttributes ? ["'unsafe-hashes'"] : []), ...styles];
   return [
     "default-src 'self'",
-    `script-src ${["'self'", ...scripts].join(' ')}`,
+    `script-src ${["'self'", ...scripts, ...TRACKING_SCRIPT_SOURCES].join(' ')}`,
     `style-src ${styleSources.join(' ')}`,
-    "img-src 'self' data:",
+    `img-src ${["'self'", 'data:', ...TRACKING_IMAGE_SOURCES].join(' ')}`,
     "font-src 'self'",
-    "connect-src 'self'",
+    `connect-src ${["'self'", ...TRACKING_CONNECT_SOURCES].join(' ')}`,
     "frame-ancestors 'self' https://fontedev.com https://*.fontedev.com",
     "base-uri 'none'",
     "form-action 'none'",

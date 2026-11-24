@@ -8,7 +8,7 @@ export const es: LandingCopy = {
   meta: {
     title: 'Neruz Inspect: cuentagotas, fuentes y tecnologías gratis',
     description:
-      'Extensión gratis para inspeccionar cualquier sitio: cuentagotas, fuentes, design system, tecnologías, píxeles, SEO e informe en PDF. Sin recopilar datos.',
+      'Extensión gratis para inspeccionar cualquier sitio: cuentagotas, fuentes, design system, tecnologías, píxeles, SEO e informe en PDF. Código abierto, sin cuenta y sin servidor propio.',
     ogDescription:
       'Mira cómo está hecho cualquier sitio: colores, fuentes, medidas, animaciones y tecnologías. Gratis y de código abierto.',
   },
@@ -43,7 +43,7 @@ export const es: LandingCopy = {
   hero: {
     title: 'Mira cómo está hecho cualquier sitio.',
     subtitle:
-      'Colores, fuentes, medidas, animaciones y tecnologías de cualquier página, en una barra que se abre encima del sitio. Extensión gratis, de código abierto y sin recopilar datos.',
+      'Colores, fuentes, medidas, animaciones y tecnologías de cualquier página, en una barra que se abre encima del sitio. Extensión gratis, de código abierto y sin cuenta.',
     micro: ['Gratis', 'Código abierto (MIT)', 'Sin cuenta', 'Alt+Shift+I'],
     skipIntro: 'Saltar animación',
   },
@@ -238,15 +238,16 @@ export const es: LandingCopy = {
   },
   privacy: {
     eyebrow: 'Privacidad y código abierto',
-    title: 'Gratis, abierta y sin recopilar nada.',
-    text: 'Neruz Inspect no tiene servidor, no pide cuenta y no recopila datos. Solo funciona en la pestaña donde haces clic en el ícono, y al cerrar la barra se quita todo lo que mostró en la página. El código está en GitHub con licencia MIT: puedes leer cada línea, reportar un error o sugerir una herramienta. No hay versión de pago.',
+    title: 'Gratis, abierta y sin cuenta.',
+    text: 'Neruz Inspect no tiene servidor propio y no pide cuenta. No envía lo que inspeccionas: solo manda estadísticas anónimas de uso (qué herramientas se usan), que puedes desactivar en las opciones. Solo funciona en la pestaña donde haces clic en el ícono, y al cerrar la barra se quita todo lo que mostró en la página. El código está en GitHub con licencia MIT: puedes leer cada línea, reportar un error o sugerir una herramienta. No hay versión de pago.',
     ask: 'Si te sirve, una estrella en GitHub ayuda a que más personas la encuentren.',
     policy: 'Leer la política de privacidad',
     proofsTitle: 'Lo que puedes comprobar',
     proofs: [
       'Gratis, sin versión de pago',
       'Código abierto, licencia MIT',
-      'Sin servidor, sin cuenta, sin recopilar datos',
+      'Sin cuenta y sin servidor propio',
+      'Estadísticas anónimas de uso, que puedes desactivar',
       'Permisos mínimos: solo la pestaña donde la abres',
     ],
     permsTitle: 'Permisos, uno por uno',
@@ -294,7 +295,7 @@ export const es: LandingCopy = {
       },
       {
         q: '¿La extensión lee o envía mis datos?',
-        a: 'No envía nada: no hay servidor. Solo funciona en la pestaña donde haces clic en el ícono, y lo que copias o guardas se queda en tu navegador.',
+        a: 'Solo funciona en la pestaña donde haces clic en el ícono, y lo que copias o guardas se queda en tu navegador. No envía la dirección de la página, el contenido, capturas ni textos copiados. Solo envía estadísticas anónimas de uso a Google Analytics (un identificador aleatorio y qué herramientas se usaron). Puedes desactivarlo en las opciones; en Firefox solo envía si aceptas el permiso opcional.',
       },
       {
         q: '¿En qué navegadores funciona?',
@@ -312,9 +313,17 @@ export const es: LandingCopy = {
   },
   final: {
     title: 'Ábrela en el próximo sitio que te llame la atención.',
-    subtitle: 'Gratis, sin registro y sin recopilar datos. Si no te sirve, la quitas y listo.',
+    subtitle: 'Gratis y sin registro. Si no te sirve, la quitas y listo.',
   },
   trail: { label: 'Posición en la página' },
+  consent: {
+    label: 'Cookies y medición',
+    text: 'Con tu permiso, usamos Google Analytics 4 (Google) y Meta Pixel (Meta Platforms) para medir visitas, clics de instalación y el rendimiento de anuncios. Sin tu aceptación, nada de esto se carga.',
+    accept: 'Aceptar',
+    reject: 'Rechazar',
+    policy: 'Política de privacidad',
+    preferences: 'Preferencias de cookies',
+  },
   footer: {
     navLabel: 'Pie de página',
     privacy: 'Privacidad',
@@ -326,21 +335,42 @@ export const es: LandingCopy = {
   privacyPage: {
     title: 'Privacidad · Neruz Inspect',
     description:
-      'Neruz Inspect no recopila, no envía y no vende datos. Todo ocurre en tu navegador.',
+      'Neruz Inspect no envía lo que inspeccionas y no vende datos. Solo envía estadísticas anónimas de uso, que puedes desactivar.',
     heading: 'Política de privacidad',
-    updated: 'Actualizada el 22 de noviembre de 2026',
+    updated: 'Actualizada el 23 de noviembre de 2026',
     back: 'Volver al inicio',
     blocks: [
       {
         title: 'En una frase',
         paragraphs: [
-          'Neruz Inspect no recopila, no envía y no vende ningún dato. Todo ocurre en tu navegador.',
+          'Neruz Inspect lee las páginas solo en tu navegador, no envía lo que inspeccionas y no vende datos. Lo único que sale son estadísticas anónimas de uso, que puedes desactivar.',
         ],
       },
       {
         title: 'Qué hace la extensión',
         paragraphs: [
-          'Cuando haces clic en el ícono (o usas Alt+Shift+I), la barra se abre en la pestaña actual y lee la propia página para mostrar colores, fuentes, medidas y más. Esa lectura ocurre solo en tu computadora. Nada se envía a ningún servidor, porque no hay servidor. La única excepción es la herramienta Probar fuente: cuando eliges una fuente, se descarga de Google Fonts.',
+          'Cuando haces clic en el ícono (o usas Alt+Shift+I), la barra se abre en la pestaña actual y lee la propia página para mostrar colores, fuentes, medidas y más. Esa lectura ocurre solo en tu computadora. Nada de lo que lee se envía a ningún servidor, porque no tenemos servidor. Además de las estadísticas de uso descritas abajo, la única excepción es la herramienta Probar fuente: cuando eliges una fuente, se descarga de Google Fonts.',
+        ],
+      },
+      {
+        title: 'Estadísticas anónimas de uso',
+        paragraphs: [
+          'La extensión envía estadísticas anónimas de uso a Google Analytics 4 (Google LLC), en una propiedad de Fonte Dev. La finalidad es saber qué herramientas se usan, para priorizar mejoras. El envío va directo de la extensión a Google: no usa cookies ni scripts remotos, y no pasa por un servidor nuestro. No se vende nada ni se usa para publicidad.',
+          'Qué se envía:',
+        ],
+        items: [
+          'un identificador aleatorio, generado al instalar y guardado solo en tu navegador',
+          'un identificador de sesión',
+          'el nombre y la versión de la extensión',
+          'eventos de uso: instalación o actualización, apertura de la barra, del popup, del panel o de las opciones, y qué herramienta o acción se usó, por categoría (por ejemplo, el formato de exportación)',
+        ],
+      },
+      {
+        title: 'Qué no incluyen las estadísticas y cómo desactivarlas',
+        paragraphs: [
+          'No se envía la dirección ni el dominio de las páginas que inspeccionas, su contenido, capturas, textos copiados, nombre o correo. Google Analytics 4 no registra ni almacena direcciones IP. Google trata los datos según su propia política.',
+          'Chrome, Edge, Opera y Brave: el envío viene activado y lo desactivas en las opciones de la extensión, en "Enviar estadísticas anónimas de uso". Firefox: la extensión solo envía si aceptas el permiso opcional de datos técnicos y de interacción, y puedes activarlo o desactivarlo en las opciones.',
+          'Base legal: interés legítimo de Fonte Dev en entender y mejorar la extensión, con la opción de desactivarlo.',
         ],
       },
       {
@@ -361,7 +391,9 @@ export const es: LandingCopy = {
       {
         title: 'Este sitio web',
         paragraphs: [
-          'Esta página no usa cookies, no usa analytics y no carga recursos de terceros. Solo guardamos, en tu navegador, una marca de sesión para no repetir la animación de entrada.',
+          'Sin tu aceptación, este sitio no usa cookies de medición ni carga recursos de terceros: aparece el banner de consentimiento y no se envía nada. Solo guardamos, en tu navegador, una marca de sesión para no repetir la animación de entrada y tu elección de cookies (clave neruz.consent).',
+          'Si aceptas, cargamos Google Analytics 4 (Google LLC) y Meta Pixel (Meta Platforms, Inc.). Usan cookies e identificadores para medir visitas, clics en los botones de instalación y el rendimiento de anuncios. Estos proveedores tratan los datos según sus propias políticas. No vendemos nada.',
+          'Para cambiar tu elección, usa "Preferencias de cookies" en el pie de página. Si rechazas, se borran las cookies de medición y no se envía ningún evento. Esta sección trata solo del sitio; la extensión sigue las reglas descritas arriba.',
         ],
       },
       {

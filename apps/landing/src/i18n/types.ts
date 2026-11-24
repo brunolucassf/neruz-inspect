@@ -156,6 +156,14 @@ export interface LandingCopy {
   faq: { title: string; items: { q: string; a: string }[] };
   final: { title: string; subtitle: string };
   trail: { label: string };
+  consent: {
+    label: string;
+    text: string;
+    accept: string;
+    reject: string;
+    policy: string;
+    preferences: string;
+  };
   footer: {
     navLabel: string;
     privacy: string;

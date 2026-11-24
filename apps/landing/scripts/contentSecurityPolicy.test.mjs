@@ -28,7 +28,12 @@ describe('buildContentSecurityPolicy', () => {
       '<script>x()</script><style>a{}</style>',
     ]);
     expect(policy.split(sha('x()'))).toHaveLength(2);
-    expect(policy).toContain(`script-src 'self' ${sha('x()')}`);
+    expect(policy).toContain(
+      `script-src 'self' ${sha('x()')} https://www.googletagmanager.com https://connect.facebook.net`,
+    );
+    expect(policy).toContain(
+      "connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com https://www.facebook.com",
+    );
     expect(policy).toContain(`style-src 'self' ${sha('a{}')}`);
     expect(policy).not.toContain('unsafe-inline');
     expect(policy).toContain(

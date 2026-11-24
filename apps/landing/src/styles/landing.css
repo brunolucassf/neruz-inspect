@@ -1105,6 +1105,20 @@ main:focus {
   list-style: none;
 }
 
+.site-footer__consent {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--pv-text-2);
+  font-size: var(--pv-fs-small);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  cursor: pointer;
+}
+
 .site-footer__nav a {
   display: inline-flex;
   align-items: center;

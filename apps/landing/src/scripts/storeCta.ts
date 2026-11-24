@@ -42,6 +42,7 @@ function setupDesktopCta(container: HTMLElement, browser: BrowserId | null): voi
 
   label.textContent = data.addTo[browser];
   primary.href = data.links[browser];
+  primary.dataset.installStore = browser;
   const browserNote = data.notes[browser];
   if (note && browserNote) {
     note.textContent = browserNote;
