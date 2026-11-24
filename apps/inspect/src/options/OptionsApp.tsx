@@ -1,5 +1,12 @@
 import { LOCALE_NATIVE_NAMES, LOCALE_PREFERENCES, type LocalePreference } from '@neruz/i18n';
 import { useCallback, useEffect, useId, useState } from 'react';
+import {
+  hasFirefoxDataPermission,
+  isFirefoxBuild,
+  removeFirefoxDataPermission,
+  requestFirefoxDataPermission,
+  trackPageView,
+} from '../lib/analytics';
 import { clearClipboardHistory, getClipboardHistory } from '../lib/clipboard';
 import { COLOR_FORMATS, type ColorFormat } from '../lib/color';
 import { useLocale, useT } from '../lib/i18n';
@@ -63,17 +70,41 @@ const useHistoryCount = (): { count: number; clear: () => Promise<void> } => {
   return { count, clear };
 };
 
+const useAnalyticsConsent = (
+  isSettingEnabled: boolean,
+): { isOn: boolean; change: (isOn: boolean) => Promise<void> } => {
+  const [hasPermission, setHasPermission] = useState(!isFirefoxBuild);
+  useEffect(() => {
+    if (isFirefoxBuild) void hasFirefoxDataPermission().then(setHasPermission);
+  }, []);
+  const change = useCallback(async (isOn: boolean) => {
+    if (isFirefoxBuild) {
+      const isGranted = isOn
+        ? await requestFirefoxDataPermission()
+        : !(await removeFirefoxDataPermission());
+      setHasPermission(isGranted);
+    }
+    await updateSettings({ analytics: isOn });
+  }, []);
+  return { isOn: isSettingEnabled && hasPermission, change };
+};
+
 export const OptionsApp = () => {
   const t = useT();
   const locale = useLocale();
   const settings = useSettingsStore((state) => state);
   const history = useHistoryCount();
+  const analytics = useAnalyticsConsent(settings.analytics);
   const [statusMessage, setStatusMessage] = useState('');
 
   useEffect(() => {
     document.documentElement.lang = locale;
     document.title = t('core.options.title');
   }, [locale, t]);
+
+  useEffect(() => {
+    void trackPageView('options');
+  }, []);
 
   const save = useCallback((patch: Partial<Settings>) => void updateSettings(patch), []);
 
@@ -121,6 +152,18 @@ export const OptionsApp = () => {
         ]}
         onChange={(dock) => save({ dock })}
       />
+
+      <div className="ni-field">
+        <label className="ni-field__row">
+          <input
+            type="checkbox"
+            checked={analytics.isOn}
+            onChange={(event) => void analytics.change(event.target.checked)}
+          />
+          <span className="ni-field__label">{t('core.options.analytics')}</span>
+        </label>
+        <p className="ni-field__hint">{t('core.options.analytics.hint')}</p>
+      </div>
 
       <div className="ni-field">
         <span className="ni-field__label">{t('core.options.history')}</span>

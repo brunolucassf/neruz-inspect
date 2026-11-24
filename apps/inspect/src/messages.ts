@@ -1,6 +1,6 @@
 import { defineEvent, defineRequest, EmptySchema } from '@neruz/core';
 import * as v from 'valibot';
-import { PROBE_NAMES } from './tools/types';
+import { PROBE_NAMES, TOOL_IDS } from './tools/types';
 
 export const MAX_FETCH_BYTES = 2 * 1024 * 1024;
 export const MAX_REPORT_BYTES = 2 * 1024 * 1024;
@@ -55,3 +55,8 @@ export const openReportRequest = defineRequest(
 );
 
 export const overlayStateEvent = defineEvent('ni.overlayState', v.object({ open: v.boolean() }));
+
+export const toolOpenedEvent = defineEvent(
+  'ni.toolOpened',
+  v.object({ toolId: v.picklist(TOOL_IDS) }),
+);

@@ -14,6 +14,7 @@ import {
   withTimeout,
 } from '@neruz/core';
 import { type Browser, browser } from 'wxt/browser';
+import { track } from '../lib/analytics';
 import { STORAGE_KEYS } from '../lib/storage-keys';
 import {
   captureRequest,
@@ -22,6 +23,7 @@ import {
   openReportRequest,
   overlayStateEvent,
   probeRequest,
+  toolOpenedEvent,
 } from '../messages';
 import { isOverlayActive, setOverlayActive } from './activeTabs';
 import { isFetchAllowed } from './networkGuard';
@@ -161,11 +163,18 @@ const openReportRoute = defineRoute(openReportRequest, true, async ({ data }) =>
     [STORAGE_KEYS.report]: { data, openedAt: Date.now() },
   });
   await browser.tabs.create({ url: browser.runtime.getURL('/report.html') });
+  void track('report_open');
   return { opened: true };
+});
+
+const toolOpenedRoute = defineRoute(toolOpenedEvent, true, async ({ toolId }) => {
+  void track('tool_open', { tool_id: toolId });
+  return {};
 });
 
 const overlayStateRoute = defineRoute(overlayStateEvent, false, async ({ open }, { tabId }) => {
   await setOverlayActive(tabId, open);
+  if (open) void track('overlay_open');
   if (open) await showActiveBadge(tabId);
   else await clearBadge(tabId);
   return {};
@@ -177,6 +186,7 @@ const ROUTES: readonly Route[] = [
   fetchRoute,
   openReportRoute,
   overlayStateRoute,
+  toolOpenedRoute,
 ];
 
 const toSenderContext = (sender: Browser.runtime.MessageSender): SenderContext | null => {

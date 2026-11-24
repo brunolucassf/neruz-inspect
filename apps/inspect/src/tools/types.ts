@@ -15,48 +15,51 @@ export const TOOL_GROUPS = [
 
 export type ToolGroup = (typeof TOOL_GROUPS)[number];
 
-export type ToolId =
-  | 'eyedropper'
-  | 'palette'
-  | 'contrast'
-  | 'colorTools'
-  | 'gradientShadow'
-  | 'colorblind'
-  | 'fontHover'
-  | 'fontList'
-  | 'fontSwap'
-  | 'typeScale'
-  | 'ruler'
-  | 'boxModel'
-  | 'gridFlex'
-  | 'overflow'
-  | 'zIndex'
-  | 'breakpoints'
-  | 'outlines'
-  | 'copyStyles'
-  | 'copyComponent'
-  | 'designTokens'
-  | 'editLive'
-  | 'motionInspector'
-  | 'pageToggles'
-  | 'techStack'
-  | 'tagsPixels'
-  | 'storageViewer'
-  | 'jsonViewer'
-  | 'seoMeta'
-  | 'structuredData'
-  | 'robotsSitemap'
-  | 'links'
-  | 'assets'
-  | 'icons'
-  | 'vitals'
-  | 'a11y'
-  | 'report'
-  | 'units'
-  | 'lorem'
-  | 'formFill'
-  | 'qrCode'
-  | 'clipboardHistory';
+export const TOOL_IDS = [
+  'eyedropper',
+  'palette',
+  'contrast',
+  'colorTools',
+  'gradientShadow',
+  'colorblind',
+  'fontHover',
+  'fontList',
+  'fontSwap',
+  'typeScale',
+  'ruler',
+  'boxModel',
+  'gridFlex',
+  'overflow',
+  'zIndex',
+  'breakpoints',
+  'outlines',
+  'copyStyles',
+  'copyComponent',
+  'designTokens',
+  'editLive',
+  'motionInspector',
+  'pageToggles',
+  'techStack',
+  'tagsPixels',
+  'storageViewer',
+  'jsonViewer',
+  'seoMeta',
+  'structuredData',
+  'robotsSitemap',
+  'links',
+  'assets',
+  'icons',
+  'vitals',
+  'a11y',
+  'report',
+  'units',
+  'lorem',
+  'formFill',
+  'qrCode',
+  'clipboardHistory',
+] as const;
+
+export type ToolId = (typeof TOOL_IDS)[number];
 
 export const PROBE_NAMES = ['tech', 'tags', 'motion', 'vitals'] as const;
 export type ProbeName = (typeof PROBE_NAMES)[number];

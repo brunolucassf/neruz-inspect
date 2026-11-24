@@ -17,7 +17,7 @@ export default defineConfig({
       name: '__MSG_extName__',
       description: '__MSG_extDescription__',
       default_locale: 'en',
-      version: '0.1.0',
+      version: '0.2.0',
       action: { default_title: '__MSG_extName__' },
       commands: {
         _execute_action: {
@@ -44,7 +44,10 @@ export default defineConfig({
               gecko: {
                 id: GECKO_ID,
                 strict_min_version: '128.0',
-                data_collection_permissions: { required: ['none'] },
+                data_collection_permissions: {
+                  required: ['none'],
+                  optional: ['technicalAndInteraction'],
+                },
               },
             },
           }

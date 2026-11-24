@@ -1,4 +1,5 @@
 import { create } from 'zustand';
+import { notifyToolOpened } from '../lib/bridge';
 import type { ToolGroup, ToolId } from '../tools/types';
 
 type OverlayState = {
@@ -16,7 +17,10 @@ export const useOverlayStore = create<OverlayState>((set) => ({
   activeTool: null,
   menuGroup: null,
   searchQuery: '',
-  selectTool: (tool) => set({ activeTool: tool, menuGroup: null, searchQuery: '' }),
+  selectTool: (tool) => {
+    void notifyToolOpened(tool);
+    set({ activeTool: tool, menuGroup: null, searchQuery: '' });
+  },
   clearTool: (reopenGroup) => set({ activeTool: null, menuGroup: reopenGroup ?? null }),
   toggleMenu: (group) =>
     set((state) => ({

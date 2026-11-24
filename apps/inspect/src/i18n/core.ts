@@ -68,7 +68,11 @@ export default {
     'core.options.history.cleared': 'Histórico limpo.',
     'core.options.shortcut':
       'Atalho para abrir e fechar: Alt+Shift+I. Para mudar, abra o gerenciador de atalhos do navegador.',
-    'core.options.privacy': 'Tudo fica no seu navegador. Sem telemetria e sem servidor.',
+    'core.options.privacy':
+      'Sem dados pessoais: o que você inspeciona fica no seu navegador. Só estatística anônima de uso, que você pode desligar.',
+    'core.options.analytics': 'Enviar estatísticas anônimas de uso',
+    'core.options.analytics.hint':
+      'Envia só quais ferramentas você abre e a versão da extensão. Nunca a URL nem o conteúdo das páginas.',
     'core.report.title': 'Relatório',
     'core.report.print': 'Imprimir ou salvar em PDF',
     'core.report.generatedAt': 'Gerado em {date}',
@@ -151,7 +155,11 @@ export default {
     'core.options.history.cleared': 'History cleared.',
     'core.options.shortcut':
       'Shortcut to open and close: Alt+Shift+I. To change it, open your browser shortcut manager.',
-    'core.options.privacy': 'Everything stays in your browser. No telemetry, no server.',
+    'core.options.privacy':
+      'No personal data: what you inspect stays in your browser. Only anonymous usage statistics, which you can turn off.',
+    'core.options.analytics': 'Send anonymous usage statistics',
+    'core.options.analytics.hint':
+      'Sends only which tools you open and the extension version. Never page URLs or page content.',
     'core.report.title': 'Report',
     'core.report.print': 'Print or save as PDF',
     'core.report.generatedAt': 'Generated on {date}',
@@ -233,7 +241,11 @@ export default {
     'core.options.history.cleared': 'Historial borrado.',
     'core.options.shortcut':
       'Atajo para abrir y cerrar: Alt+Shift+I. Para cambiarlo, abre el gestor de atajos del navegador.',
-    'core.options.privacy': 'Todo se queda en tu navegador. Sin telemetría y sin servidor.',
+    'core.options.privacy':
+      'Sin datos personales: lo que inspeccionas se queda en tu navegador. Solo estadísticas anónimas de uso, que puedes desactivar.',
+    'core.options.analytics': 'Enviar estadísticas anónimas de uso',
+    'core.options.analytics.hint':
+      'Envía solo qué herramientas abres y la versión de la extensión. Nunca la URL ni el contenido de las páginas.',
     'core.report.title': 'Informe',
     'core.report.print': 'Imprimir o guardar como PDF',
     'core.report.generatedAt': 'Generado el {date}',

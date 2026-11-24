@@ -18,6 +18,7 @@ const SettingsSchema = v.object({
   unit: v.fallback(v.picklist(LENGTH_UNITS), 'px'),
   dock: v.fallback(v.picklist(DOCK_SIDES), 'right'),
   toolbarPosition: v.fallback(v.nullable(PositionSchema), null),
+  analytics: v.fallback(v.boolean(), true),
 });
 
 export type Settings = v.InferOutput<typeof SettingsSchema>;

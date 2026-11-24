@@ -14,8 +14,9 @@ import {
   openReportRequest,
   overlayStateEvent,
   probeRequest,
+  toolOpenedEvent,
 } from '../messages';
-import type { ProbeName } from '../tools/types';
+import type { ProbeName, ToolId } from '../tools/types';
 
 const nextSeq = createSeqCounter();
 
@@ -57,5 +58,11 @@ export const openReport = async (data: Record<string, unknown>): Promise<void> =
 export const notifyOverlayState = async (open: boolean): Promise<void> => {
   await browser.runtime
     .sendMessage(createEnvelope(overlayStateEvent, { open }, nextSeq()))
+    .catch(() => undefined);
+};
+
+export const notifyToolOpened = async (toolId: ToolId): Promise<void> => {
+  await browser.runtime
+    .sendMessage(createEnvelope(toolOpenedEvent, { toolId }, nextSeq()))
     .catch(() => undefined);
 };
