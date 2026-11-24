@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  MIT License · Manifest V3 · Chrome, Edge, Opera, Brave and Firefox 128+ · No data collected
+  MIT License · Manifest V3 · Chrome, Edge, Opera, Brave and Firefox 128+ · Anonymous usage stats only
 </p>
 
 <p align="center">
@@ -44,13 +44,13 @@ Each group has an icon on the toolbar. Click it to see its tools, or press `/` a
 - **One toolbar.** Color, font, measurement, animation, tech and analysis in one place, without an extension for each.
 - **Runs only when you open it.** The toolbar exists only on the tab where you opened it. Closing it removes what it drew on the page.
 - **Nothing changes on the real site.** Edits, swapped fonts and outlines show only on your screen. Reloading the page undoes everything.
-- **No AI and no telemetry.** No data about you is sent outside your browser.
+- **No AI and no tracking of what you inspect.** Only anonymous usage statistics leave, and you can turn them off.
 - **Honest about its limits.** Generated Tailwind is an approximation. Performance is measured on your machine and connection, not Google's field data. `HttpOnly` cookies don't show up, because the browser doesn't expose them to the page.
 - **Native pt-BR, en and es.** The texts were written in each language, not translated word by word.
 
 ## Privacy and permissions
 
-Nothing leaves your browser. The extension has no server of its own, asks for no account, uses no analytics and collects no data. Preferences and copy history stay in the browser's local storage. All the code ships in the package: there is no remote code.
+What you inspect stays in your browser. The extension has no server of its own and asks for no account. It sends anonymous usage statistics to Google Analytics 4: a random identifier generated at installation, the version and which tools were used, with no page address, content, captures or copied text, and no cookies. It is on by default in Chrome, Edge, Opera and Brave and you turn it off in the extension options; in Firefox it only sends if you accept the optional permission for technical and interaction data. Preferences and copy history stay in the browser's local storage. All the code ships in the package: there is no remote code.
 
 The only connections are the ones you ask for: checking links or downloading files from other sites, and loading a Google font when you pick one in "Font tester".
 

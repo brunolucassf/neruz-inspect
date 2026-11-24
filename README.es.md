@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  Licencia MIT · Manifest V3 · Chrome, Edge, Opera, Brave y Firefox 128+ · Sin recopilar datos
+  Licencia MIT · Manifest V3 · Chrome, Edge, Opera, Brave y Firefox 128+ · Solo estadísticas anónimas de uso
 </p>
 
 <p align="center">
@@ -44,13 +44,13 @@ Cada grupo tiene un ícono en la barra. Haz clic para ver sus herramientas, o pr
 - **Una sola barra.** Color, fuente, medida, animación, tecnología y análisis en un mismo lugar, sin una extensión para cada cosa.
 - **Solo funciona cuando la abres.** La barra existe en la pestaña donde la abriste. Al cerrarla se quita lo que mostró en la página.
 - **Nada cambia en el sitio de verdad.** Las ediciones, las fuentes cambiadas y los contornos se ven solo en tu pantalla. Recargar la página deshace todo.
-- **Sin IA y sin telemetría.** Ningún dato tuyo sale de tu navegador.
+- **Sin IA y sin rastreo de lo que inspeccionas.** Solo salen estadísticas anónimas de uso, que puedes desactivar.
 - **Honesta sobre sus límites.** El Tailwind generado es una aproximación. El rendimiento se mide en tu equipo y tu conexión, no son los datos de campo de Google. Las cookies `HttpOnly` no aparecen, porque el navegador no se las muestra a la página.
 - **pt-BR, en y es nativos.** Los textos se escribieron en cada idioma, no se tradujeron palabra por palabra.
 
 ## Privacidad y permisos
 
-Nada sale de tu navegador. La extensión no tiene servidor propio, no pide cuenta, no usa analytics y no recopila datos. Las preferencias y el historial de copias quedan en el almacenamiento local del navegador. Todo el código va en el paquete: no hay código remoto.
+Lo que inspeccionas se queda en tu navegador. La extensión no tiene servidor propio y no pide cuenta. Envía estadísticas anónimas de uso a Google Analytics 4: un identificador aleatorio generado al instalar, la versión y qué herramientas se usaron, sin dirección de página, contenido, capturas ni textos copiados, y sin cookies. Viene activado en Chrome, Edge, Opera y Brave y se desactiva en las opciones de la extensión; en Firefox, solo envía si aceptas el permiso opcional de datos técnicos y de interacción. Las preferencias y el historial de copias quedan en el almacenamiento local del navegador. Todo el código va en el paquete: no hay código remoto.
 
 Las únicas conexiones son las que tú pides: revisar enlaces o descargar archivos de otros sitios, y cargar una fuente de Google cuando eliges una en "Probar fuente".
 

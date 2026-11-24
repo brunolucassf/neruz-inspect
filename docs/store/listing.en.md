@@ -15,7 +15,7 @@ See how any page is built and copy what you need, from a toolbar right on top of
 
 ## AMO summary (≤250, approx. 150)
 ```
-Study how any page is built from a toolbar on top of it, and copy what you need as code ready to paste. Free, open source, with no data collected.
+Study how any page is built from a toolbar on top of it, and copy what you need as code ready to paste. Free, open source, no account. It sends only anonymous usage statistics, which you can turn off.
 ```
 
 ## Long description (plain text; Chrome ≤16000, approx. 1,650)
@@ -32,9 +32,12 @@ Copy the styles of an element, or a whole block, as code ready to paste. The Tai
 
 Slow down animations to study their timing and find out what the page is built with. You can also check how fast it loads in your tab and spot common accessibility issues. When you're done, export a report to share with your team or client.
 
-YOUR DATA STAYS IN YOUR BROWSER
-• No server, no account and nothing collected
+PRIVACY
+• No account and no server of its own
 • Runs only on the tab where you click the icon
+• What you inspect and copy stays in your browser
+• Sends anonymous usage statistics to Google Analytics: a random identifier and which tools were used, with no page address, content or captures
+• You can turn it off in the options; in Firefox it only sends if you accept the optional permission
 • Edits show only on your screen; reloading undoes them
 • Access to other sites is optional and only requested to check links or download files
 • Open source: every line of code is public

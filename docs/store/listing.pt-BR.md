@@ -15,7 +15,7 @@ Veja como qualquer página foi feita e copie o que precisar, numa barra por cima
 
 ## Resumo AMO (≤250, aprox. 160)
 ```
-Estude como qualquer página foi feita numa barra por cima dela e copie o que precisar como código pronto para colar. Grátis, código aberto e sem coleta de dados.
+Estude como qualquer página foi feita numa barra por cima dela e copie o que precisar como código pronto para colar. Grátis, código aberto e sem conta. Envia só estatística anônima de uso, que dá para desligar.
 ```
 
 ## Descrição longa (texto puro; Chrome ≤16000, aprox. 1.750)
@@ -32,9 +32,12 @@ Copie os estilos de um elemento, ou de um bloco inteiro, como código pronto par
 
 Veja animações em câmera lenta e descubra com que tecnologia a página foi feita. Também dá para medir a velocidade de carregamento na sua aba e achar problemas comuns de acessibilidade. No fim, gere um relatório para enviar à equipe ou ao cliente.
 
-SEUS DADOS FICAM NO SEU NAVEGADOR
-• Sem servidor, sem conta e nada coletado
+PRIVACIDADE
+• Sem conta e sem servidor próprio
 • Só roda na aba em que você clica no ícone
+• O que você inspeciona e copia fica no navegador
+• Envia estatística anônima de uso ao Google Analytics: um identificador aleatório e quais ferramentas foram usadas, sem endereço de página, conteúdo ou capturas
+• Dá para desligar nas opções; no Firefox, só envia se você aceitar a permissão opcional
 • As mudanças aparecem só na sua tela; recarregar desfaz tudo
 • Acesso a outros sites é opcional e só é pedido para checar links ou baixar arquivos
 • Código aberto: cada linha é pública

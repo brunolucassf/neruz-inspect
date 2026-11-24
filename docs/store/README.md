@@ -42,7 +42,8 @@ Capturas: site real como protagonista, barra e painel por cima, sem dados pessoa
 - [ ] Finalidade única
 - [ ] Justificativa: activeTab, scripting, storage, clipboardWrite, permissões de host
 - [ ] Código remoto: Não
-- [ ] Uso de dados: nenhuma categoria marcada + 3 certificações
+- [ ] Uso de dados: marcar só "User activity" (estatística anônima de uso) + 3 certificações de uso limitado
+- [ ] Política publicada com a seção de estatística anônima (conferir `/en/privacy/` no ar antes de enviar)
 - [ ] URL da política: https://inspect.neruz.tech/en/privacy/
 
 **Aba Distribuição**
@@ -54,7 +55,7 @@ Capturas: site real como protagonista, barra e painel por cima, sem dados pessoa
 - [ ] E-mail de contato verificado no painel do desenvolvedor (pendente com Bruno)
 
 ## Firefox AMO
-**Pacote:** zip do build Firefox + código-fonte gerado com git archive e BUILD-FIREFOX.md (o sources.zip do WXT omite packages/ e o lockfile; não usar) (ID `neruz-inspect@fontedev.com`, Firefox 128+, `data_collection_permissions: none` já no manifest).
+**Pacote:** zip do build Firefox + código-fonte gerado com git archive e BUILD-FIREFOX.md (o sources.zip do WXT omite packages/ e o lockfile; não usar) (ID `neruz-inspect@fontedev.com`, Firefox 128+, `data_collection_permissions`: `required: none` e `optional: technicalAndInteraction` no manifest, por causa da estatística anônima de uso).
 
 - [ ] Distribuição: no site (listado)
 - [ ] Código-fonte: enviar zip do código, porque o build é empacotado pelo WXT. Incluir no README do zip: versão do Node e do pnpm, `pnpm install` e o comando de build do Firefox
@@ -65,7 +66,8 @@ Capturas: site real como protagonista, barra e painel por cima, sem dados pessoa
 - [ ] Categoria: Web Development
 - [ ] Tags: escolher na lista fixa do AMO as que baterem com a sugestão das fichas
 - [ ] Licença: MIT
-- [ ] Política de privacidade: opcional quando não há coleta; se preencher, colar o texto da página `/en/privacy/`
+- [ ] Política de privacidade: agora há envio de estatística (opcional no Firefox), então preencher com a URL ou o texto da página `/en/privacy/`
+- [ ] Ficha do AMO: informar que o complemento pede a permissão opcional de dados técnicos e de interação
 - [ ] E-mail e site de suporte: https://github.com/brunolucassf/neruz-inspect/issues e https://inspect.neruz.tech
 - [ ] Página inicial: https://inspect.neruz.tech
 - [ ] Notas ao revisor: bloco "Firefox AMO · notes to reviewer" de `justificativas.md`

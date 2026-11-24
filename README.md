@@ -7,7 +7,7 @@
 </p>
 
 <p align="center">
-  Licença MIT · Manifest V3 · Chrome, Edge, Opera, Brave e Firefox 128+ · Nenhum dado coletado
+  Licença MIT · Manifest V3 · Chrome, Edge, Opera, Brave e Firefox 128+ · Só estatística anônima de uso
 </p>
 
 <p align="center">
@@ -44,13 +44,13 @@ Cada grupo tem um ícone na barra. Clique nele para ver as ferramentas, ou press
 - **Uma barra só.** Cor, fonte, medida, animação, tecnologia e análise no mesmo lugar, sem uma extensão para cada coisa.
 - **Só roda quando você abre.** A barra existe na aba em que você a abriu. Fechar desfaz o que ela mostrou na página.
 - **Nada muda no site de verdade.** Edições, fontes trocadas e contornos aparecem só na sua tela. Recarregar a página desfaz tudo.
-- **Sem IA e sem telemetria.** Nenhum dado seu é enviado para fora do navegador.
+- **Sem IA e sem rastreio do que você inspeciona.** Só sai estatística anônima de uso, que você pode desligar.
 - **Honesta sobre os limites.** O Tailwind gerado é uma aproximação. O desempenho é medido na sua máquina e conexão, não são os dados de campo do Google. Cookies `HttpOnly` não aparecem, porque o navegador não os mostra para a página.
 - **pt-BR, en e es nativos.** Os textos foram escritos em cada idioma, não traduzidos palavra por palavra.
 
 ## Privacidade e permissões
 
-Nada sai do seu navegador. A extensão não tem servidor próprio, não pede conta, não usa analytics e não coleta dados. As preferências e o histórico de cópias ficam no armazenamento local do navegador. Todo o código vai no pacote: não há código remoto. As únicas conexões são as que você pede: checar links ou baixar arquivos de outros sites, e carregar uma fonte do Google quando você a escolhe em "Testar fonte".
+O que você inspeciona não sai do seu navegador. A extensão não tem servidor próprio e não pede conta. Ela envia estatística anônima de uso ao Google Analytics 4: um identificador aleatório gerado na instalação, a versão e quais ferramentas foram usadas, sem endereço de página, conteúdo, capturas nem textos copiados, e sem cookies. Vem ligada no Chrome, Edge, Opera e Brave e se desliga nas opções da extensão; no Firefox, só envia se você aceitar a permissão opcional de dados técnicos e de interação. As preferências e o histórico de cópias ficam no armazenamento local do navegador. Todo o código vai no pacote: não há código remoto. As únicas conexões são as que você pede: checar links ou baixar arquivos de outros sites, e carregar uma fonte do Google quando você a escolhe em "Testar fonte".
 
 | Permissão                                        | Por quê                                                                                                      |
 | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------ |
